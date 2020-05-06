@@ -21,17 +21,22 @@
         <materialDesign:ColorZone Grid.Row="0"
                                   Mode="PrimaryMid"
                                   HorizontalAlignment="Stretch"
-                                  Padding="12"
+                                  Padding="10"
                                   CornerRadius="3"
                                   materialDesign:ShadowAssist.ShadowDepth="Depth3"
                                   Margin="2">
             
             <StackPanel Orientation ="Horizontal">
                 <ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}"/>
-                <TextBlock Text="WO work organizer" 
+                <TextBlock Text="WO" 
                            VerticalAlignment="Center"
-                           Margin="5 0 0 0"/>
+                           Margin="5 0 0 0"
+                           FontSize="18"/>
             </StackPanel>   
         </materialDesign:ColorZone>
+        <ContentControl Grid.Row="1"
+                        VerticalAlignment="Center"
+                        Content="{Binding CurrentVm}"/>
+
     </Grid>
 </Window>

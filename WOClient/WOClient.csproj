@@ -14,8 +14,6 @@
   <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="Enums\" />
-    <Folder Include="Resources\Dictionary\" />
-    <Folder Include="Validations\" />
   </ItemGroup>
 
   <ItemGroup>

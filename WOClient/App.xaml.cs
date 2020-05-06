@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WOClient.Components.Login;
 using WOClient.Components.Main;
 
 namespace WOClient
@@ -23,7 +24,8 @@ namespace WOClient
         }
         private static void ComposeObjects()
         {
-            var mainWindowVm = new MainWindowViewModel();
+            var loginVm        = new LoginViewModel();
+            var mainWindowVm   = new MainWindowViewModel(loginVm);
             Current.MainWindow = new MainWindow(mainWindowVm);
         }
 
