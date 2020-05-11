@@ -21,6 +21,26 @@ namespace WOClient.Components.Login
         public LoginView()
         {
             InitializeComponent();
+            PassErrTextBlock.Text = " ";
+        }
+
+        private void PassBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if(PassBox.SecurePassword.Length == 0)
+            {
+                PassErrTextBlock.Text = " ";
+            }
+            else if (PassBox.SecurePassword.Length < 6 || PassBox.SecurePassword.Length > 20)
+            {
+                PassErrTextBlock.Text = "Illegal length for password.";
+            }
+            else
+            {
+                PassErrTextBlock.Text = "";
+                var loginVm =(LoginViewModel) DataContext;
+                loginVm.Password = PassBox.SecurePassword.Copy();
+            }
+
         }
     }
 }
