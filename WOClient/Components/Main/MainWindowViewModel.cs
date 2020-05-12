@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using WOClient.Components.Base;
+using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
+using WOClient.Enums;
 
 namespace WOClient.Components.Main
 {
     public class MainWindowViewModel : BaseViewModel, IMainWindowViewModel
     {
-        public MainWindowViewModel(ILoginViewModel loginVm)
+        public MainWindowViewModel(ILoginViewModel loginVm ,IForgetPasswordViewModel forgetPassword)
         {
-            _currentVm = loginVm;
-            _loginVm   = loginVm;
+            _currentVm        = loginVm;
+            _loginVm          = loginVm;
+            _forgetPasswordVm = forgetPassword;
+
+            SubscribeToSwitchViewRequested();
         }
 
         private IBaseViewModel _currentVm;
@@ -26,7 +31,7 @@ namespace WOClient.Components.Main
             }
         }
         private ILoginViewModel _loginVm;
-        public ILoginViewModel LoginVm
+        public ILoginViewModel   LoginVm
         {
             get => _loginVm;
             set
@@ -37,7 +42,31 @@ namespace WOClient.Components.Main
             }
         }
 
+        private IForgetPasswordViewModel _forgetPasswordVm;
+        public IForgetPasswordViewModel   ForgetPasswordVm
+        {
+            get => _forgetPasswordVm;
+            set
+            {
+                if (_forgetPasswordVm == value) return;
+                _forgetPasswordVm = value;
+                NotifyPropertyChanged("ForgetPasswordVm");
+            }
+        }
 
+        private void SubscribeToSwitchViewRequested()
+        {
+            LoginVm.SwitchViewRequested += SwitchToView;
+        }
 
+        private void SwitchToView(object sender, ViewsEnum args)
+        {
+            switch (args)
+            {
+                case ViewsEnum.ForgetPassword:
+                    CurrentVm = ForgetPasswordVm;
+                    break;
+            }
+        }
     }
 }

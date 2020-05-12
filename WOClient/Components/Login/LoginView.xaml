@@ -133,7 +133,8 @@
                         Grid.Column="2"
                         Content="Forget Password?"
                         Width="150"
-                        Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+                        Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                        Command="{Binding SwitchToForgetPasswordCommand}"/>
             </Grid>
             
         </GroupBox>

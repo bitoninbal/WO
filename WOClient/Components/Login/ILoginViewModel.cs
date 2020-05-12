@@ -5,7 +5,7 @@ using WOClient.Components.Base;
 
 namespace WOClient.Components.Login
 {
-    public interface ILoginViewModel: IBaseViewModel
+    public interface ILoginViewModel: IBaseViewModel ,IRequestViewChange
     {
     }
 }
