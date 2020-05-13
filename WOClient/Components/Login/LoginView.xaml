@@ -6,7 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:StringToIsErrorConverter x:Key="StringToIsErrorConverter"/>
+            <converters:StringToIsErrorConverter x:Key="StringToIsErrorConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -19,15 +19,15 @@
                   materialDesign:ColorZoneAssist.Mode="PrimaryDark">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="180" />
                 </Grid.ColumnDefinitions>
 
                 <materialDesign:PackIcon Grid.Row="0" 
@@ -35,11 +35,11 @@
                                          Kind="Account"
                                          VerticalAlignment="Center"
                                          Foreground="{Binding ElementName=UserNameTextBox,
-                                                              Path=BorderBrush}"/>
+                                                              Path=BorderBrush}" />
                 <TextBlock Grid.Row="0"
                            Grid.Column="1"
                            VerticalAlignment="Center"
-                           Text="User Name"/>
+                           Text="User Name" />
                 <TextBox x:Name="UserNameTextBox" 
                          Grid.Row="0"
                          Grid.Column="2"
@@ -50,23 +50,23 @@
                             <Binding.ValidationRules>
                                 <validations:LengthValidationRule Min="4"
                                                                   Max="20"
-                                                                  ValidatesOnTargetUpdated="True"/>
-                                <validations:LegalCharactersValidationRule ValidatesOnTargetUpdated="True"/>
+                                                                  ValidatesOnTargetUpdated="True" />
+                                <validations:LegalCharactersValidationRule ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                
+
                 <materialDesign:PackIcon Grid.Row="1" 
                                          Grid.Column="0"
                                          Kind="Key"
                                          VerticalAlignment="Center"
                                          Foreground="{Binding ElementName=PassBox,
-                                                              Path=BorderBrush}"/>
+                                                              Path=BorderBrush}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
                            VerticalAlignment="Center"
-                           Text="Password"/>
+                           Text="Password" />
                 <StackPanel Grid.Row="1"
                             Grid.Column="2">
                     <PasswordBox x:Name="PassBox"
@@ -76,27 +76,28 @@
                         <PasswordBox.Style>
                             <Style TargetType="PasswordBox" 
                                    BasedOn="{StaticResource MaterialDesignPasswordBox}">
-                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center" />
+
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=PassErrTextBlock,
                                                                    Path=Text,
                                                                    Converter={StaticResource StringToIsErrorConverter}}" 
                                                  Value="True">
                                         <Setter Property="BorderBrush" 
-                                                Value="{StaticResource ValidationErrorBrush}"/>
+                                                Value="{StaticResource ValidationErrorBrush}" />
                                         <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" 
-                                                Value="{StaticResource ValidationErrorBrush}"/>
+                                                Value="{StaticResource ValidationErrorBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </PasswordBox.Style>
                     </PasswordBox>
-                             
+
                     <TextBlock x:Name="PassErrTextBlock"
                                FontSize="10"
                                Foreground="{StaticResource ValidationErrorBrush}"
                                TextWrapping="Wrap"
-                               HorizontalAlignment="Left"/>
+                               HorizontalAlignment="Left" />
                 </StackPanel>
 
                 <Button x:Name="LoginButton"
@@ -108,20 +109,21 @@
                     <Button.Style>
                         <Style TargetType="Button" 
                                     BasedOn="{StaticResource  MaterialDesignRaisedDarkButton}">
-                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="IsEnabled" Value="False" />
                             <Style.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding ElementName=UserNameTextBox, 
                                                                      Path=(Validation.HasError)}"
-                                                   Value="False"/>
+                                                   Value="False" />
                                         <Condition Binding="{Binding ElementName=PassErrTextBlock,
                                                                      Path=Text, 
                                                                      Converter={StaticResource StringToIsErrorConverter}}"
-                                                   Value="False"/>
+                                                   Value="False" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter Property="IsEnabled" Value="True"/>
-                                </MultiDataTrigger> 
+
+                                    <Setter Property="IsEnabled" Value="True" />
+                                </MultiDataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
@@ -133,9 +135,8 @@
                         Content="Forget Password?"
                         Width="150"
                         Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                        Command="{Binding SwitchToForgetPasswordCommand}"/>
+                        Command="{Binding SwitchToForgetPasswordCommand}" />
             </Grid>
-            
         </GroupBox>
     </Grid>
 </UserControl>

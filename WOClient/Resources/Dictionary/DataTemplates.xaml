@@ -10,5 +10,4 @@
     <DataTemplate DataType="{x:Type forgetPassword:ForgetPasswordViewModel}">
         <forgetPassword:ForgetPasswordView/>
     </DataTemplate>
-    
 </ResourceDictionary>

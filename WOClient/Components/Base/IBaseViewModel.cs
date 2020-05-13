@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace WOClient.Components.Base
 {
-    public interface IBaseViewModel : INotifyPropertyChanged
-    {
-
-    }
+    public interface IBaseViewModel: INotifyPropertyChanged {}
 }

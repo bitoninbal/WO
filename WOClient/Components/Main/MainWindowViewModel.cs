@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WOClient.Components.Base;
+﻿using WOClient.Components.Base;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Enums;
@@ -10,11 +7,11 @@ namespace WOClient.Components.Main
 {
     public class MainWindowViewModel : BaseViewModel, IMainWindowViewModel
     {
-        public MainWindowViewModel(ILoginViewModel loginVm ,IForgetPasswordViewModel forgetPassword)
+        public MainWindowViewModel(ILoginViewModel loginVm ,IForgetPasswordViewModel forgetPasswordVm)
         {
             _currentVm        = loginVm;
             _loginVm          = loginVm;
-            _forgetPasswordVm = forgetPassword;
+            _forgetPasswordVm = forgetPasswordVm;
 
             SubscribeToSwitchViewRequested();
         }
@@ -43,7 +40,7 @@ namespace WOClient.Components.Main
         }
 
         private IForgetPasswordViewModel _forgetPasswordVm;
-        public IForgetPasswordViewModel   ForgetPasswordVm
+        public IForgetPasswordViewModel ForgetPasswordVm
         {
             get => _forgetPasswordVm;
             set
@@ -56,7 +53,7 @@ namespace WOClient.Components.Main
 
         private void SubscribeToSwitchViewRequested()
         {
-            LoginVm.SwitchViewRequested += SwitchToView;
+            LoginVm.SwitchViewRequested          += SwitchToView;
             ForgetPasswordVm.SwitchViewRequested += SwitchToView;
         }
 

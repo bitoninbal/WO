@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using WOClient.Components.Base;
-using WOClient.Components.Login;
 using WOClient.Enums;
 using WOClient.Resources.Commands;
 
@@ -41,7 +38,7 @@ namespace WOClient.Components.ForgetPassword
         public ICommand SwitchToLoginCommand { get; }
         #endregion
 
-        #region Methods
+        #region Private Methods
         private void SwitchToLogin()
         {
             OnSwitchToLogin();

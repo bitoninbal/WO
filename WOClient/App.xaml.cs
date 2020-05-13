@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.Main;
@@ -25,9 +19,10 @@ namespace WOClient
         }
         private static void ComposeObjects()
         {
-            var loginVm        = new LoginViewModel();
-            var forgetPasswod  = new ForgetPasswordViewModel();
-            var mainWindowVm   = new MainWindowViewModel(loginVm, forgetPasswod);
+            var loginVm          = new LoginViewModel();
+            var forgetPasswodVm  = new ForgetPasswordViewModel();
+            var mainWindowVm     = new MainWindowViewModel(loginVm, forgetPasswodVm);
+
             Current.MainWindow = new MainWindow(mainWindowVm);
         }
 
