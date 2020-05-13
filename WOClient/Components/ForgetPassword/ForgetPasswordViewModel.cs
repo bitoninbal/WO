@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.Login;
 using WOClient.Enums;
+using WOClient.Resources.Commands;
 
 namespace WOClient.Components.ForgetPassword
 {
     public class ForgetPasswordViewModel : BaseViewModel, IForgetPasswordViewModel
     {
+        public ForgetPasswordViewModel()
+        {
+            SwitchToLoginCommand = new RelayCommand(SwitchToLogin);
+        }
+
+        #region Events
         public event EventHandler<ViewsEnum> SwitchViewRequested;
+        #endregion
 
         #region Fields
         private string _email;
@@ -28,5 +37,19 @@ namespace WOClient.Components.ForgetPassword
         }
         #endregion
 
+        #region Commands
+        public ICommand SwitchToLoginCommand { get; }
+        #endregion
+
+        #region Methods
+        private void SwitchToLogin()
+        {
+            OnSwitchToLogin();
+        }
+        private void OnSwitchToLogin()
+        {
+            SwitchViewRequested?.Invoke(this, ViewsEnum.Login);
+        }
+        #endregion
     }
 }

@@ -57,6 +57,7 @@ namespace WOClient.Components.Main
         private void SubscribeToSwitchViewRequested()
         {
             LoginVm.SwitchViewRequested += SwitchToView;
+            ForgetPasswordVm.SwitchViewRequested += SwitchToView;
         }
 
         private void SwitchToView(object sender, ViewsEnum args)
@@ -65,6 +66,9 @@ namespace WOClient.Components.Main
             {
                 case ViewsEnum.ForgetPassword:
                     CurrentVm = ForgetPasswordVm;
+                    break;
+                case ViewsEnum.Login:
+                    CurrentVm = LoginVm;
                     break;
             }
         }

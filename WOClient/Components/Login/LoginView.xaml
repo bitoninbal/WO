@@ -99,7 +99,6 @@
                                HorizontalAlignment="Left"/>
                 </StackPanel>
 
-
                 <Button x:Name="LoginButton"
                         Grid.Row="3"
                         Grid.Column="1"
