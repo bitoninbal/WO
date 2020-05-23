@@ -9,7 +9,7 @@
             <converters:StringToIsErrorConverter x:Key="StringToIsErrorConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid VerticalAlignment="Center">
         <GroupBox Header="Login"
                   Width="336"
                   Style="{DynamicResource MaterialDesignGroupBox}"
@@ -105,7 +105,8 @@
                         Grid.Column="1"
                         Content="Login"
                         HorizontalAlignment="Left"
-                        Width="100">
+                        Width="100"
+                        Command="{Binding LoginCommand}">
                     <Button.Style>
                         <Style TargetType="Button" 
                                     BasedOn="{StaticResource  MaterialDesignRaisedDarkButton}">

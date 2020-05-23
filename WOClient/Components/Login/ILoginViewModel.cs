@@ -7,12 +7,13 @@ namespace WOClient.Components.Login
     public interface ILoginViewModel: IBaseViewModel ,IRequestViewChange
     {
         #region Properties
-        public string UserName { get; set; }
-        public SecureString Password { get; set; }
+        string UserName { get; set; }
+        SecureString Password { get; set; }
         #endregion
 
         #region Commands
-        public ICommand SwitchToForgetPasswordCommand { get; }
+        ICommand LoginCommand { get; }
+        ICommand SwitchToForgetPasswordCommand { get; }
         #endregion
     }
 }

@@ -6,6 +6,7 @@ namespace WOClient.Components.ForgetPassword
     public interface IForgetPasswordViewModel : IBaseViewModel, IRequestViewChange
     {
         #region Commands
+        ICommand SendEmailCommand { get; }
         ICommand SwitchToLoginCommand { get; }
         #endregion
 

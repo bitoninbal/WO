@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="WOClient.Components.MyTasks.MyTasksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel VerticalAlignment="Top"
+                HorizontalAlignment="Center">
+        <TextBlock Text="Tasks"
+                   Margin="0, 20"
+                   HorizontalAlignment="Center"
+                   FontFamily="Tahoma"
+                   FontSize="30" />
+
+        <ListBox ItemsSource="{Binding Tasks}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}"
+                       BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                    <Setter Property="Background" Value="#b39ddb" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+    </StackPanel>
+</UserControl>

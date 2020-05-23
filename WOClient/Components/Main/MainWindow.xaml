@@ -8,34 +8,129 @@
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
         Title="MainWindow">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <materialDesign:DrawerHost HorizontalAlignment="Stretch"
+                               BorderBrush="{DynamicResource MaterialDesignDivider}"
+                               IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton,
+                                                          Path=IsChecked}">
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <Grid Margin="0, 16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-        <materialDesign:ColorZone Grid.Row="0"
-                                  Mode="PrimaryMid"
-                                  HorizontalAlignment="Stretch"
-                                  Padding="10"
-                                  CornerRadius="3"
-                                  materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                                  Margin="2">
+                <materialDesign:PackIcon Grid.Row="0"
+                                         Grid.Column="0"
+                                         VerticalAlignment="Center"
+                                         Kind="ClipboardListOutline" />
+                <Button Grid.Row="0"
+                        Grid.Column="1"
+                        Content="My Tasks"
+                        Margin="0, 5"
+                        Foreground="White"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+
+                <materialDesign:PackIcon Grid.Row="1"
+                                         Grid.Column="0"
+                                         VerticalAlignment="Center"
+                                         Kind="FormatListBulletedSquare" />
+                <Button Grid.Row="1"
+                        Grid.Column="1"
+                        Content="Tracking tasks"
+                        Margin="0, 5"
+                        Foreground="White"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+
+                <materialDesign:PackIcon Grid.Row="2"
+                                         Grid.Column="0"
+                                         VerticalAlignment="Center"
+                                         Kind="PencilOutline" />
+                <Button Grid.Row="2"
+                        Grid.Column="1"
+                        Content="Create new Task"
+                        Margin="0, 5"
+                        FontSize="16"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+
+                <materialDesign:PackIcon Grid.Row="3"
+                                         Grid.Column="0"
+                                         VerticalAlignment="Center"
+                                         Kind="CommentTextMultipleOutline" />
+                <Button Grid.Row="3"
+                        Grid.Column="1"
+                        Content="Comments"
+                        Margin="0, 5"
+                        FontSize="16"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+
+                <materialDesign:PackIcon Grid.Row="4"
+                                         Grid.Column="0"
+                                         VerticalAlignment="Center"
+                                         Kind="AccountPlus" />
+                <Button Grid.Row="4"
+                        Grid.Column="1"
+                        Content="Add new account"
+                        Margin="0, 5"
+                        FontSize="16"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+
+                <materialDesign:PackIcon Grid.Row="5"
+                                         Grid.Column="0"
+                                         VerticalAlignment="Center"
+                                         Kind="Bookshelf" />
+                <Button Grid.Row="5"
+                        Grid.Column="1"
+                        Content="Reports"
+                        Margin="0, 5"
+                        FontSize="16"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFlatButton}" />
+            </Grid>
+        </materialDesign:DrawerHost.LeftDrawerContent>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+        
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <materialDesign:ColorZone Grid.Row="0"
+                                      Mode="PrimaryMid"
+                                      HorizontalAlignment="Stretch"
+                                      Padding="10"
+                                      CornerRadius="3"
+                                      materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                      Margin="2">
             
-            <StackPanel Orientation ="Horizontal">
-                <ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
-                <TextBlock Text="WO" 
-                           VerticalAlignment="Center"
-                           Margin="5 0 0 0"
-                           FontSize="18" />
-            </StackPanel>   
-        </materialDesign:ColorZone>
-        <ContentControl Grid.Row="1"
-                        VerticalAlignment="Center"
-                        Content="{Binding CurrentVm}" />
-    </Grid>
+                <StackPanel Orientation ="Horizontal">
+                    <ToggleButton x:Name="MenuToggleButton"
+                                  Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+                    <TextBlock Text="WO" 
+                               VerticalAlignment="Center"
+                               Margin="5 0 0 0"
+                               FontSize="18" />
+                </StackPanel>   
+            </materialDesign:ColorZone>
+        
+            <ContentControl Grid.Row="1"
+                            Content="{Binding CurrentVm}" />
+        </Grid>
+    </materialDesign:DrawerHost>
 </Window>

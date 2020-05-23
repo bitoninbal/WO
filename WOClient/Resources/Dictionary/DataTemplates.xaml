@@ -1,13 +1,100 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:login="clr-namespace:WOClient.Components.Login"
-                    xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword">
+                    xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword"
+                    xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:models="clr-namespace:WOClient.Models">
 
     <DataTemplate DataType="{x:Type login:LoginViewModel}">
         <login:LoginView/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type forgetPassword:ForgetPasswordViewModel}">
-        <forgetPassword:ForgetPasswordView/>
+        <forgetPassword:ForgetPasswordView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type myTasks:MyTasksViewModel}">
+        <myTasks:MyTasksView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type models:MyTask}">
+        <Expander Width="500"
+                  Foreground="Black"
+                  Background="#b39ddb">
+            <Expander.Header>
+                <TextBlock Text="{Binding TaskName}"
+                           FontSize="16"
+                           HorizontalAlignment="Center" />
+            </Expander.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           Text="{Binding FinalDate}" />
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           Margin="0, 0, 20, 0"
+                           HorizontalAlignment="Right"
+                           Text=":תאריך סיום" />
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           Text="{Binding Priority}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Margin="0, 0, 20, 0"
+                           HorizontalAlignment="Right"
+                           Text=":עדיפות" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           Text="{Binding Description}" />
+                <TextBlock Grid.Row="2"
+                           Grid.Column="1"
+                           Margin="0, 0, 20, 0"
+                           HorizontalAlignment="Right"
+                           Text=":תיאור" />
+
+                <StackPanel Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="0, 5"
+                            Orientation="Horizontal">
+                    <ToggleButton Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
+                                  ToolTip="Lock/Unlock">
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}"
+                                   BasedOn="{StaticResource MaterialDesignSwitchToggleButton}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=LockOutline}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+
+                    <Button Content="{materialDesign:PackIcon Kind=CommentOutline}"
+                            Margin="5"
+                            ToolTip="Write comment" />
+                    <Button Content="{materialDesign:PackIcon Kind=FileUploadOutline}"
+                            ToolTip="Upload files" />
+                </StackPanel>
+            </Grid>
+        </Expander>
     </DataTemplate>
 </ResourceDictionary>
