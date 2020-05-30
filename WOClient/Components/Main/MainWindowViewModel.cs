@@ -1,17 +1,14 @@
-﻿using System.ComponentModel.Design.Serialization;
-using System.Windows.Input;
-using WOClient.Components.Base;
+﻿using WOClient.Components.Base;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.MyTasks;
 using WOClient.Components.NewTask;
 using WOClient.Components.Reports;
 using WOClient.Enums;
-using WOClient.Resources.Commands;
 
 namespace WOClient.Components.Main
 {
-    public class MainWindowViewModel : BaseViewModel, IMainWindowViewModel
+    public class MainWindowViewModel: BaseViewModel, IMainWindowViewModel
     {
         public MainWindowViewModel(ILoginViewModel loginVm ,
                                    IForgetPasswordViewModel forgetPasswordVm,
@@ -28,6 +25,7 @@ namespace WOClient.Components.Main
 
             SubscribeToSwitchViewRequested();
         }
+
         #region Fields
         private IForgetPasswordViewModel _forgetPasswordVm;
         private IMyTasksViewModel        _myTasksVm;
@@ -38,16 +36,6 @@ namespace WOClient.Components.Main
         #endregion
 
         #region Properties
-        public IReportsViewModel ReportsVm
-        {
-            get => _reportsVm;
-            set
-            {
-                if (_currentVm == value) return;
-                _currentVm = value;
-                NotifyPropertyChanged("ReportsVm");
-            }
-        }
         public IBaseViewModel CurrentVm
         {
             get => _currentVm;
@@ -58,7 +46,6 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("CurrentVm");
             }
         }
-
         public ILoginViewModel   LoginVm
         {
             get => _loginVm;
@@ -79,7 +66,6 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("ForgetPasswordVm");
             }
         }
-
         public IMyTasksViewModel MyTasksVm
         {
             get => _myTasksVm;
@@ -91,7 +77,6 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("MyTasksVm");
             }
         }
-
         public INewTaskViewModel NewTaskVm
         {
             get => _newTaskVm;
@@ -103,14 +88,24 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("NewTaskVm");
             }
         }
+        public IReportsViewModel ReportsVm
+        {
+            get => _reportsVm;
+            set
+            {
+                if (_currentVm == value) return;
+                _currentVm = value;
+                NotifyPropertyChanged("ReportsVm");
+            }
+        }
         #endregion
 
+        #region Private Methods
         private void SubscribeToSwitchViewRequested()
         {
-            LoginVm.SwitchViewRequested          += SwitchToView;
+            LoginVm.SwitchViewRequested += SwitchToView;
             ForgetPasswordVm.SwitchViewRequested += SwitchToView;
         }
-
         private void SwitchToView(object sender, ViewsEnum args)
         {
             switch (args)
@@ -128,6 +123,7 @@ namespace WOClient.Components.Main
                     CurrentVm = NewTaskVm;
                     break;
             }
-        }
+        } 
+        #endregion
     }
 }

@@ -13,20 +13,20 @@
             <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
         
-        <TextBlock FontSize="20"
-                   Grid.Row="0"
+        <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
                    HorizontalAlignment="Center"
+                   FontSize="20"
                    Text="Reports" />
+        
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
-                   Margin="0,30,0,0"
+                   Margin="0 30 0 0"
                    VerticalAlignment="Center"
                    Text="Select Report:" />
         <ComboBox Grid.Row="1"
                   Grid.Column="1"
-                  Margin="0,30,0,0"/>
-
+                  Margin="0 30 0 0" />
     </Grid>
 </UserControl>

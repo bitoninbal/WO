@@ -7,12 +7,12 @@ using WOClient.Resources.Commands;
 
 namespace WOClient.Components.Login
 {
-    public class LoginViewModel: BaseViewModel , ILoginViewModel 
+    public class LoginViewModel: BaseViewModel, ILoginViewModel 
     {
         public LoginViewModel()
         {
             SwitchToForgetPasswordCommand = new RelayCommand(SwitchToForgetPassword);
-            LoginCommand = new RelayCommand(Login);
+            LoginCommand                  = new RelayCommand(Login);
         }
 
         #region Commands

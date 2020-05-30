@@ -2,7 +2,7 @@
 
 namespace WOClient.Components.NewTask
 {
-    public interface INewTaskViewModel : IBaseViewModel, IRequestViewChange
+    public interface INewTaskViewModel: IBaseViewModel, IRequestViewChange
     {
     }
 }

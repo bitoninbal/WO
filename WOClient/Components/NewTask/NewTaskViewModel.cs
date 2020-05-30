@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using WOClient.Components.Base;
 using WOClient.Enums;
 
 namespace WOClient.Components.NewTask
 {
-    public class NewTaskViewModel : BaseViewModel, INewTaskViewModel
+    public class NewTaskViewModel: BaseViewModel, INewTaskViewModel
     {
+        #region Events
         public event EventHandler<ViewsEnum> SwitchViewRequested;
+        #endregion
     }
 }

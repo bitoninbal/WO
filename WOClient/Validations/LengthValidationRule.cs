@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace WOClient.Validations
 {
-    public class LengthValidationRule : ValidationRule
+    public class LengthValidationRule: ValidationRule
     {
         public int Min { get; set; }
         public int Max { get; set; }

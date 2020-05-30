@@ -4,13 +4,15 @@
              xmlns:enums="clr-namespace:WOClient.Enums"
              xmlns:system="clr-namespace:System;assembly=mscorlib">
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="PriorityEnum" MethodName="GetValues"
+        <ObjectDataProvider x:Key="PriorityEnum"
+                            MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enums:PriorityEnum"/>
+                <x:Type TypeName="enums:PriorityEnum" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
+    
     <Grid HorizontalAlignment="Center"
           Margin="0,10,0,0">
         <Grid.RowDefinitions>
@@ -27,79 +29,73 @@
             <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="20"
-                   Grid.Row="0"
+        <TextBlock Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
+                   FontSize="20"
                    HorizontalAlignment="Center"
                    Text="New Task" />
 
         <TextBlock Grid.Row="1"
                    Grid.Column="0"
                    VerticalAlignment="Center"
-                   Margin="0,30,0,10"
+                   Margin="0 30 0 10"
                    Text="Subject:" />
-
-        <TextBox   Grid.Row="1"
-                   Grid.Column="1"
-                   Margin="0,10,0,10" 
-                   VerticalAlignment="Bottom"/>
-
-
-        <DatePicker Grid.Row="2"
-                    Grid.Column="1"
-                    Margin="0,10,0,10"
-                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                    Width="300" />
+        <TextBox Grid.Row="1"
+                 Grid.Column="1"
+                 Margin="0 10 0 10" 
+                 VerticalAlignment="Bottom" />
 
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    VerticalAlignment="Center"
-                   Margin="0,10,0,10"
+                   Margin="0 10 0 10"
                    Text="Final Date:" />
-        
+        <DatePicker Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0 10 0 10"
+                    Width="300"
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    VerticalAlignment="Center"
-                   Margin="0,10,0,10"
+                   Margin="0 10 0 10"
                    Text="Employee Name:" />
-        
-        <ComboBox  Grid.Row="3"
-                   Grid.Column="1"
-                   Margin="0,10,0,10"
-                   ItemsSource="{Binding Source={StaticResource PriorityEnum}}"/>
+        <ComboBox Grid.Row="3"
+                  Grid.Column="1"
+                  Margin="0 10 0 10"
+                  ItemsSource="{Binding Source={StaticResource PriorityEnum}}" />
 
         <TextBlock Grid.Row="4"
                    Grid.Column="0"
                    VerticalAlignment="Center"
-                   Margin="0,10,0,10"
+                   Margin="0 10 0 10"
                    Text="Priority:" />
-
-        <ComboBox  Grid.Row="4"
-                   Grid.Column="1"
-                   Margin="0,10,0,10"
-                   ItemsSource="{Binding Source={StaticResource PriorityEnum}}"/>
-
-        <TextBox Grid.Row="5"
-                 Grid.Column="1" 
-                 Margin="0,10,0,10"
-                 MaxLines="4"
-                 MinLines="4"
-                 TextWrapping="Wrap"
-                 AcceptsReturn="True"
-                 Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"/>
+        <ComboBox Grid.Row="4"
+                  Grid.Column="1"
+                  Margin="0 10 0 10"
+                  ItemsSource="{Binding Source={StaticResource PriorityEnum}}" />
 
         <TextBlock Grid.Row="5"
                    Grid.Column="0"
                    VerticalAlignment="Center"
-                   Margin="0,10,0,10"
+                   Margin="0 10 0 10"
                    Text="Description:" />
+        <TextBox Grid.Row="5"
+                 Grid.Column="1"
+                 AcceptsReturn="True"
+                 Margin="0 10 0 10"
+                 MaxLines="4"
+                 MinLines="4"
+                 TextWrapping="Wrap"
+                 Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"/>
 
         <Button Grid.Row="6"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="100,10,0,0"
+                Margin="100 10 0 0"
                 Content="Send" 
-                Width="100"/>
+                Width="100" />
     </Grid>
 </UserControl>

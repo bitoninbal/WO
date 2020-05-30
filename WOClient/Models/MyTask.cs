@@ -8,23 +8,34 @@ namespace WOClient.Models
     public class MyTask: INotifyPropertyChanged
     {
         #region Fields
-        private string       _taskName;
-        private DateTime     _finalDate;
-        private PriorityEnum _priority;
         private string       _description;
         private Color        _bgColor;
+        private DateTime     _finalDate;
+        private string       _taskName;
+        private PriorityEnum _priority;
         #endregion
 
         #region Properties
-        public string TaskName
+        public Color BgColor
         {
-            get => _taskName;
+            get => _bgColor;
             set
             {
-                if (value == _taskName) return;
+                if (_bgColor == value) return;
 
-                _taskName = value;
-                NotifyPropertyChanged("TaskName");
+                _bgColor = value;
+                NotifyPropertyChanged("BgColor");
+            }
+        }
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (_description == value) return;
+
+                _description = value;
+                NotifyPropertyChanged("Description");
             }
         }
         public DateTime FinalDate
@@ -32,7 +43,7 @@ namespace WOClient.Models
             get => _finalDate;
             set
             {
-                if (value == _finalDate) return;
+                if (_finalDate == value) return;
 
                 _finalDate = value;
                 NotifyPropertyChanged("FinalDate");
@@ -43,32 +54,21 @@ namespace WOClient.Models
             get => _priority;
             set
             {
-                if (value == _priority) return;
+                if (_priority == value) return;
 
                 _priority = value;
                 NotifyPropertyChanged("Priority");
             }
         }
-        public string Description
+        public string TaskName
         {
-            get => _description;
+            get => _taskName;
             set
             {
-                if (value == _description) return;
+                if (_taskName == value) return;
 
-                _description = value;
-                NotifyPropertyChanged("Description");
-            }
-        }
-        public Color BgColor
-        {
-            get => _bgColor;
-            set
-            {
-                if (value == _bgColor) return;
-
-                _bgColor = value;
-                NotifyPropertyChanged("BgColor");
+                _taskName = value;
+                NotifyPropertyChanged("TaskName");
             }
         }
         #endregion

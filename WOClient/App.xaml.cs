@@ -11,7 +11,7 @@ namespace WOClient
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App: Application
     {
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -22,16 +22,16 @@ namespace WOClient
         }
         private static void ComposeObjects()
         {
-            var loginVm          = new LoginViewModel();
-            var forgetPasswodVm  = new ForgetPasswordViewModel();
-            var myTasksVm        = new MyTasksViewModel();
-            var newTaskVm        = new NewTaskViewModel();
-            var reportsVm        = new ReportsViewModel();
-            var mainWindowVm     = new MainWindowViewModel(loginVm,
-                                                           forgetPasswodVm,
-                                                           myTasksVm, 
-                                                           newTaskVm, 
-                                                           reportsVm);
+            var loginVm         = new LoginViewModel();
+            var forgetPasswodVm = new ForgetPasswordViewModel();
+            var myTasksVm       = new MyTasksViewModel();
+            var newTaskVm       = new NewTaskViewModel();
+            var reportsVm       = new ReportsViewModel();
+            var mainWindowVm    = new MainWindowViewModel(loginVm,
+                                                          forgetPasswodVm,
+                                                          myTasksVm,
+                                                          newTaskVm,
+                                                          reportsVm);
 
             Current.MainWindow = new MainWindow(mainWindowVm);
         }

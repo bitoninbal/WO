@@ -6,7 +6,7 @@ using WOClient.Resources.Commands;
 
 namespace WOClient.Components.ForgetPassword
 {
-    public class ForgetPasswordViewModel : BaseViewModel, IForgetPasswordViewModel
+    public class ForgetPasswordViewModel: BaseViewModel, IForgetPasswordViewModel
     {
         public ForgetPasswordViewModel()
         {
@@ -29,6 +29,7 @@ namespace WOClient.Components.ForgetPassword
             set
             {
                 if (_email == value) return;
+
                 _email = value;
                 NotifyPropertyChanged("Email");
             }

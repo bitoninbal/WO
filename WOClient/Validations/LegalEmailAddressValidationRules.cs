@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace WOClient.Validations
 {
-    class LegalEmailAddressValidationRules : ValidationRule
+    class LegalEmailAddressValidationRules: ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

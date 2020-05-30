@@ -2,7 +2,7 @@
 
 namespace WOClient.Components.Base
 {
-    public abstract class BaseViewModel : IBaseViewModel
+    public abstract class BaseViewModel: IBaseViewModel
     {
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
