@@ -86,11 +86,11 @@
                 <materialDesign:PackIcon Grid.Row="4"
                                          Grid.Column="0"
                                          VerticalAlignment="Center"
-                                         Kind="AccountPlus" />
-                <Button x:Name="AddNewAccountButton"
+                                         Kind="AccountGroupOutline" />
+                <Button x:Name="EmployeesButton"
                         Grid.Row="4"
                         Grid.Column="1"
-                        Content="Add new account"
+                        Content="Employees"
                         Margin="0, 5"
                         FontSize="16"
                         Foreground="White"

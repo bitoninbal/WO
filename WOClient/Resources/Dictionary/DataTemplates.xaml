@@ -5,12 +5,17 @@
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
                     xmlns:newTask="clr-namespace:WOClient.Components.NewTask"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    xmlns:models="clr-namespace:WOClient.Models">
+                    xmlns:models="clr-namespace:WOClient.Models"
+                    xmlns:reports="clr-namespace:WOClient.Components.Reports">
 
     <DataTemplate DataType="{x:Type login:LoginViewModel}">
         <login:LoginView/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type reports:ReportsViewModel}">
+        <reports:ReportsView/>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type forgetPassword:ForgetPasswordViewModel}">
         <forgetPassword:ForgetPasswordView />
     </DataTemplate>

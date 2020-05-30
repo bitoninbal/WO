@@ -1,9 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel.Design.Serialization;
+using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.MyTasks;
 using WOClient.Components.NewTask;
+using WOClient.Components.Reports;
 using WOClient.Enums;
 using WOClient.Resources.Commands;
 
@@ -14,25 +16,38 @@ namespace WOClient.Components.Main
         public MainWindowViewModel(ILoginViewModel loginVm ,
                                    IForgetPasswordViewModel forgetPasswordVm,
                                    IMyTasksViewModel myTasksVm,
-                                   INewTaskViewModel newTaskVm)
+                                   INewTaskViewModel newTaskVm,
+                                   IReportsViewModel reportsVm)
         {
             _currentVm        = loginVm;
             _loginVm          = loginVm;
             _forgetPasswordVm = forgetPasswordVm;
             _myTasksVm        = myTasksVm;
             _newTaskVm        = newTaskVm;
+            _reportsVm        = reportsVm;
 
             SubscribeToSwitchViewRequested();
         }
         #region Fields
         private IForgetPasswordViewModel _forgetPasswordVm;
-        private IMyTasksViewModel _myTasksVm;
-        private INewTaskViewModel _newTaskVm;
-        private ILoginViewModel _loginVm;
-        private IBaseViewModel _currentVm;
+        private IMyTasksViewModel        _myTasksVm;
+        private INewTaskViewModel        _newTaskVm;
+        private ILoginViewModel          _loginVm;
+        private IReportsViewModel        _reportsVm;       
+        private IBaseViewModel           _currentVm;
         #endregion
 
         #region Properties
+        public IReportsViewModel ReportsVm
+        {
+            get => _reportsVm;
+            set
+            {
+                if (_currentVm == value) return;
+                _currentVm = value;
+                NotifyPropertyChanged("ReportsVm");
+            }
+        }
         public IBaseViewModel CurrentVm
         {
             get => _currentVm;
