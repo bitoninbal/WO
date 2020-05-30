@@ -3,6 +3,7 @@ using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.Main;
 using WOClient.Components.MyTasks;
+using WOClient.Components.NewTask;
 
 namespace WOClient
 {
@@ -23,7 +24,8 @@ namespace WOClient
             var loginVm          = new LoginViewModel();
             var forgetPasswodVm  = new ForgetPasswordViewModel();
             var myTasksVm        = new MyTasksViewModel();
-            var mainWindowVm     = new MainWindowViewModel(loginVm, forgetPasswodVm, myTasksVm);
+            var newTaskVm        = new NewTaskViewModel();
+            var mainWindowVm     = new MainWindowViewModel(loginVm, forgetPasswodVm, myTasksVm, newTaskVm);
 
             Current.MainWindow = new MainWindow(mainWindowVm);
         }

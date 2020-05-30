@@ -3,6 +3,7 @@
                     xmlns:login="clr-namespace:WOClient.Components.Login"
                     xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword"
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
+                    xmlns:newTask="clr-namespace:WOClient.Components.NewTask"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:models="clr-namespace:WOClient.Models">
 
@@ -16,6 +17,10 @@
 
     <DataTemplate DataType="{x:Type myTasks:MyTasksViewModel}">
         <myTasks:MyTasksView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type newTask:NewTaskViewModel}">
+        <newTask:NewTaskView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type models:MyTask}">
@@ -35,44 +40,38 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="400" />
                     <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="400" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           HorizontalAlignment="Right"
+                           Grid.Column="1"
                            Text="{Binding FinalDate}" />
                 <TextBlock Grid.Row="0"
-                           Grid.Column="1"
+                           Grid.Column="0"
                            Margin="0, 0, 20, 0"
-                           HorizontalAlignment="Right"
-                           Text=":תאריך סיום" />
+                           Text="Final Date:" />
 
                 <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           HorizontalAlignment="Right"
+                           Grid.Column="1"
                            Text="{Binding Priority}" />
                 <TextBlock Grid.Row="1"
-                           Grid.Column="1"
+                           Grid.Column="0"
                            Margin="0, 0, 20, 0"
-                           HorizontalAlignment="Right"
-                           Text=":עדיפות" />
+                           Text="Priority:" />
 
                 <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           HorizontalAlignment="Right"
+                           Grid.Column="1"
                            Text="{Binding Description}" />
                 <TextBlock Grid.Row="2"
-                           Grid.Column="1"
+                           Grid.Column="0"
                            Margin="0, 0, 20, 0"
-                           HorizontalAlignment="Right"
-                           Text=":תיאור" />
+                           Text="Description:" />
 
                 <StackPanel Grid.Row="3"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
+                            Grid.Column="1"
                             Margin="0, 5"
+                            HorizontalAlignment="Right"
                             Orientation="Horizontal">
                     <ToggleButton Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
                                   ToolTip="Lock/Unlock">

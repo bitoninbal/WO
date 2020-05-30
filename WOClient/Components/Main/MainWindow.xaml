@@ -31,73 +31,85 @@
                                          Grid.Column="0"
                                          VerticalAlignment="Center"
                                          Kind="ClipboardListOutline" />
-                <Button Grid.Row="0"
+                <Button x:Name="MyTasksButton"
+                        Grid.Row="0"
                         Grid.Column="1"
                         Content="My Tasks"
                         Margin="0, 5"
                         Foreground="White"
                         FontSize="16"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        Click="SwitchViewClick" />
 
                 <materialDesign:PackIcon Grid.Row="1"
                                          Grid.Column="0"
                                          VerticalAlignment="Center"
                                          Kind="FormatListBulletedSquare" />
-                <Button Grid.Row="1"
+                <Button x:Name="TrackingTasksButton"
+                        Grid.Row="1"
                         Grid.Column="1"
                         Content="Tracking tasks"
                         Margin="0, 5"
                         Foreground="White"
                         FontSize="16"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Click="SwitchViewClick" />
 
                 <materialDesign:PackIcon Grid.Row="2"
                                          Grid.Column="0"
                                          VerticalAlignment="Center"
                                          Kind="PencilOutline" />
-                <Button Grid.Row="2"
+                <Button x:Name="CreateNewTaskButton"
+                        Grid.Row="2"
                         Grid.Column="1"
                         Content="Create new Task"
                         Margin="0, 5"
                         FontSize="16"
                         Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Click="SwitchViewClick" />
 
                 <materialDesign:PackIcon Grid.Row="3"
                                          Grid.Column="0"
                                          VerticalAlignment="Center"
                                          Kind="CommentTextMultipleOutline" />
-                <Button Grid.Row="3"
+                <Button x:Name="CommentsButton"
+                        Grid.Row="3"
                         Grid.Column="1"
                         Content="Comments"
                         Margin="0, 5"
                         FontSize="16"
                         Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Click="SwitchViewClick"/>
 
                 <materialDesign:PackIcon Grid.Row="4"
                                          Grid.Column="0"
                                          VerticalAlignment="Center"
                                          Kind="AccountPlus" />
-                <Button Grid.Row="4"
+                <Button x:Name="AddNewAccountButton"
+                        Grid.Row="4"
                         Grid.Column="1"
                         Content="Add new account"
                         Margin="0, 5"
                         FontSize="16"
                         Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Click="SwitchViewClick"/>
 
                 <materialDesign:PackIcon Grid.Row="5"
                                          Grid.Column="0"
                                          VerticalAlignment="Center"
                                          Kind="Bookshelf" />
-                <Button Grid.Row="5"
+                <Button x:Name="ReportsButton"
+                        Grid.Row="5"
                         Grid.Column="1"
                         Content="Reports"
                         Margin="0, 5"
                         FontSize="16"
                         Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}" />
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Click="SwitchViewClick"/>
             </Grid>
         </materialDesign:DrawerHost.LeftDrawerContent>
 

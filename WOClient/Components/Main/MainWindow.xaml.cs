@@ -25,5 +25,27 @@ namespace WOClient.Components.Main
             InitializeComponent();
             DataContext = mainWindowVm;
         }
+        private void SwitchViewClick(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (MainWindowViewModel)DataContext;
+            var button = (Button)sender;
+            switch (button.Name)
+            {
+                case "MyTasksButton":
+                    viewModel.CurrentVm = viewModel.MyTasksVm;
+                    break;
+                case "TrackingTasksButton":
+                    break;
+                case "CreateNewTaskButton":
+                    viewModel.CurrentVm = viewModel.NewTaskVm;
+                    break;
+                case "CommentsButton":
+                    break;
+                case "AddNewAccountButton":
+                    break;
+                case "ReportsButton":
+                    break;
+            }
+        }
     }
 }

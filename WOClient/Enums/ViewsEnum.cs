@@ -4,6 +4,7 @@
     {
         Login,
         ForgetPassword,
-        MyTasks
+        MyTasks,
+        NewTask
     }
 }
