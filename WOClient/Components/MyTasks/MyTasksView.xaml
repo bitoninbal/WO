@@ -4,7 +4,7 @@
     <StackPanel VerticalAlignment="Top"
                 HorizontalAlignment="Center">
         <TextBlock Text="Tasks"
-                   Margin="0, 20"
+                   Margin="0 20"
                    HorizontalAlignment="Center"
                    FontFamily="Segoe UI Light"
                    FontSize="30" />

@@ -105,4 +105,74 @@
             </Grid>
         </Expander>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type models:Comment}">
+        <StackPanel Orientation="Horizontal">
+            <Expander Width="500"
+                  Foreground="Black"
+                  Background="#b39ddb">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding TaskName}"
+                               FontSize="16" />
+                        <TextBlock Text="-"
+                               FontSize="16"
+                               Margin="5 0 5 0" />
+                        <TextBlock Text="{Binding EmployeeName}"
+                               FontSize="16" />
+                    </StackPanel>
+                </Expander.Header>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="400" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Comment:" />
+                    <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           TextWrapping="Wrap"
+                           Text="{Binding EmployeeComment}" />
+                    <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="Reply:" />
+                    <TextBox Grid.Row="1"
+                         Grid.Column="1"
+                         AcceptsReturn="True"
+                         Margin="0 10 0 10"
+                         MaxLines="4"
+                         MinLines="4"
+                         TextWrapping="Wrap"
+                         Text="{Binding Reply}"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" />
+                    
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="2"
+                                Grid.Column="1">
+                        <Button ToolTip="Send"
+                            Content="Send" />
+                        <Button HorizontalAlignment="Left"
+                            Content="Show Task"
+                            ToolTip="Show Task"
+                            Margin="70 0"
+                            Width="100" />
+                        <Button Margin="10 0"
+                                ToolTip="Delete"
+                                Content="{materialDesign:PackIcon Kind=Delete}"
+                                Style="{StaticResource MaterialDesignIconButton}" />
+                    </StackPanel>
+                </Grid>
+            </Expander>
+        </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>
