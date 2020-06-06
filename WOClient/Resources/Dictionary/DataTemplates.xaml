@@ -1,18 +1,23 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:comments="clr-namespace:WOClient.Components.Comments"
                     xmlns:login="clr-namespace:WOClient.Components.Login"
                     xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword"
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
-                    xmlns:newTask="clr-namespace:WOClient.Components.NewTask"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:models="clr-namespace:WOClient.Models"
+                    xmlns:trackingTasks="clr-namespace:WOClient.Components.TrackingTasks"
                     xmlns:reports="clr-namespace:WOClient.Components.Reports">
+    <DataTemplate DataType="{x:Type comments:CommentsViewModel}">
+        <comments:CommentsView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type login:LoginViewModel}">
-        <login:LoginView/>
+        <login:LoginView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type reports:ReportsViewModel}">
-        <reports:ReportsView/>
+        <reports:ReportsView />
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type forgetPassword:ForgetPasswordViewModel}">
@@ -23,8 +28,8 @@
         <myTasks:MyTasksView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type newTask:NewTaskViewModel}">
-        <newTask:NewTaskView />
+    <DataTemplate DataType="{x:Type trackingTasks:TrackingTasksViewModel}">
+        <trackingTasks:TrackingTasksView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type models:MyTask}">

@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WOClient", "WOClient\WOClient.csproj", "{E9523CB5-88B9-4BF4-828B-87D1BC6FFD73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WOServer", "WOServer\WOServer.csproj", "{829689A5-552A-4AB1-BF46-616A0E03FF08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WOServer", "WOServer\WOServer.csproj", "{829689A5-552A-4AB1-BF46-616A0E03FF08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WOProxy", "WOProxy\WOProxy.csproj", "{BE613370-0934-4EAA-9CFD-C03D70165937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WOProxy", "WOProxy\WOProxy.csproj", "{BE613370-0934-4EAA-9CFD-C03D70165937}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WOCommon", "WOCommon\WOCommon.csproj", "{DC13829B-108A-43D3-A66E-E6EFD3582F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WOCommon", "WOCommon\WOCommon.csproj", "{DC13829B-108A-43D3-A66E-E6EFD3582F86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

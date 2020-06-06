@@ -6,143 +6,137 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        FontFamily="{materialDesign:MaterialDesignFont}"
+        FontFamily="Segoe UI"
         Title="MainWindow">
-    <materialDesign:DrawerHost HorizontalAlignment="Stretch"
+
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <materialDesign:DrawerHost HorizontalAlignment="Stretch"
                                BorderBrush="{DynamicResource MaterialDesignDivider}"
                                IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton,
                                                           Path=IsChecked}">
-        <materialDesign:DrawerHost.LeftDrawerContent>
-            <Grid Margin="0, 16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <Grid Margin="0, 16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon Grid.Row="0"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             Kind="ClipboardListOutline" />
+                    <Button x:Name="MyTasksButton"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Content="My Tasks"
+                            Margin="0, 5"
+                            Foreground="White"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Click="SwitchViewClick" />
+
+                    <materialDesign:PackIcon Grid.Row="1"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             Kind="FormatListBulletedSquare" />
+                    <Button x:Name="TrackingTasksButton"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Content="Tracking tasks"
+                            Margin="0, 5"
+                            Foreground="White"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="SwitchViewClick" />
+
+                    <materialDesign:PackIcon Grid.Row="2"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             Kind="CommentTextMultipleOutline" />
+                    <Button x:Name="CommentsButton"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Content="Comments"
+                            Margin="0, 5"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="SwitchViewClick"/>
+
+                    <materialDesign:PackIcon Grid.Row="3"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             Kind="AccountGroupOutline" />
+                    <Button x:Name="EmployeesButton"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Content="Employees"
+                            Margin="0, 5"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="SwitchViewClick"/>
+
+                    <materialDesign:PackIcon Grid.Row="4"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             Kind="Bookshelf" />
+                    <Button x:Name="ReportsButton"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Content="Reports"
+                            Margin="0, 5"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="SwitchViewClick"/>
+                </Grid>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <materialDesign:PackIcon Grid.Row="0"
-                                         Grid.Column="0"
-                                         VerticalAlignment="Center"
-                                         Kind="ClipboardListOutline" />
-                <Button x:Name="MyTasksButton"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Content="My Tasks"
-                        Margin="0, 5"
-                        Foreground="White"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesignFlatButton}" 
-                        Click="SwitchViewClick" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                <materialDesign:PackIcon Grid.Row="1"
-                                         Grid.Column="0"
-                                         VerticalAlignment="Center"
-                                         Kind="FormatListBulletedSquare" />
-                <Button x:Name="TrackingTasksButton"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Content="Tracking tasks"
-                        Margin="0, 5"
-                        Foreground="White"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Click="SwitchViewClick" />
+                <materialDesign:ColorZone Grid.Row="0"
+                                          Mode="PrimaryMid"
+                                          HorizontalAlignment="Stretch"
+                                          Padding="10"
+                                          CornerRadius="3"
+                                          materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                          Margin="2">
 
-                <materialDesign:PackIcon Grid.Row="2"
-                                         Grid.Column="0"
-                                         VerticalAlignment="Center"
-                                         Kind="PencilOutline" />
-                <Button x:Name="CreateNewTaskButton"
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Content="Create new Task"
-                        Margin="0, 5"
-                        FontSize="16"
-                        Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Click="SwitchViewClick" />
+                    <StackPanel Orientation ="Horizontal">
+                        <ToggleButton x:Name="MenuToggleButton"
+                                      Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+                        <TextBlock Text="WO" 
+                                   VerticalAlignment="Center"
+                                   Margin="5 0 0 0"
+                                   FontFamily="Segoe UI Light"
+                                   FontSize="18" />
+                    </StackPanel>
+                </materialDesign:ColorZone>
 
-                <materialDesign:PackIcon Grid.Row="3"
-                                         Grid.Column="0"
-                                         VerticalAlignment="Center"
-                                         Kind="CommentTextMultipleOutline" />
-                <Button x:Name="CommentsButton"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Content="Comments"
-                        Margin="0, 5"
-                        FontSize="16"
-                        Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Click="SwitchViewClick"/>
-
-                <materialDesign:PackIcon Grid.Row="4"
-                                         Grid.Column="0"
-                                         VerticalAlignment="Center"
-                                         Kind="AccountGroupOutline" />
-                <Button x:Name="EmployeesButton"
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Content="Employees"
-                        Margin="0, 5"
-                        FontSize="16"
-                        Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Click="SwitchViewClick"/>
-
-                <materialDesign:PackIcon Grid.Row="5"
-                                         Grid.Column="0"
-                                         VerticalAlignment="Center"
-                                         Kind="Bookshelf" />
-                <Button x:Name="ReportsButton"
-                        Grid.Row="5"
-                        Grid.Column="1"
-                        Content="Reports"
-                        Margin="0, 5"
-                        FontSize="16"
-                        Foreground="White"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Click="SwitchViewClick"/>
+                <ContentControl Grid.Row="1"
+                                Content="{Binding CurrentVm}" />
             </Grid>
-        </materialDesign:DrawerHost.LeftDrawerContent>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-        
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <materialDesign:ColorZone Grid.Row="0"
-                                      Mode="PrimaryMid"
-                                      HorizontalAlignment="Stretch"
-                                      Padding="10"
-                                      CornerRadius="3"
-                                      materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                                      Margin="2">
-            
-                <StackPanel Orientation ="Horizontal">
-                    <ToggleButton x:Name="MenuToggleButton"
-                                  Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
-                    <TextBlock Text="WO" 
-                               VerticalAlignment="Center"
-                               Margin="5 0 0 0"
-                               FontSize="18" />
-                </StackPanel>   
-            </materialDesign:ColorZone>
-        
-            <ContentControl Grid.Row="1"
-                            Content="{Binding CurrentVm}" />
-        </Grid>
-    </materialDesign:DrawerHost>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
 </Window>

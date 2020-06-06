@@ -1,37 +1,41 @@
 ﻿using WOClient.Components.Base;
+using WOClient.Components.Comments;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.MyTasks;
-using WOClient.Components.NewTask;
 using WOClient.Components.Reports;
+using WOClient.Components.TrackingTasks;
 using WOClient.Enums;
 
 namespace WOClient.Components.Main
 {
     public class MainWindowViewModel: BaseViewModel, IMainWindowViewModel
     {
-        public MainWindowViewModel(ILoginViewModel loginVm ,
+        public MainWindowViewModel(ICommentsViewModel commentsVm,
+                                   ILoginViewModel loginVm,
                                    IForgetPasswordViewModel forgetPasswordVm,
                                    IMyTasksViewModel myTasksVm,
-                                   INewTaskViewModel newTaskVm,
-                                   IReportsViewModel reportsVm)
+                                   IReportsViewModel reportsVm,
+                                   ITrackingTasksViewModel trackingTasksVm)
         {
             _currentVm        = loginVm;
+            _commentsVm       = commentsVm;
             _loginVm          = loginVm;
             _forgetPasswordVm = forgetPasswordVm;
             _myTasksVm        = myTasksVm;
-            _newTaskVm        = newTaskVm;
             _reportsVm        = reportsVm;
+            _trackingTasksVm  = trackingTasksVm;
 
             SubscribeToSwitchViewRequested();
         }
 
         #region Fields
+        private ICommentsViewModel       _commentsVm;
         private IForgetPasswordViewModel _forgetPasswordVm;
         private IMyTasksViewModel        _myTasksVm;
-        private INewTaskViewModel        _newTaskVm;
         private ILoginViewModel          _loginVm;
-        private IReportsViewModel        _reportsVm;       
+        private IReportsViewModel        _reportsVm;
+        private ITrackingTasksViewModel  _trackingTasksVm;
         private IBaseViewModel           _currentVm;
         #endregion
 
@@ -42,16 +46,29 @@ namespace WOClient.Components.Main
             set
             {
                 if (_currentVm == value) return;
+
                 _currentVm = value;
                 NotifyPropertyChanged("CurrentVm");
             }
         }
-        public ILoginViewModel   LoginVm
+        public ICommentsViewModel CommentsVm
+        {
+            get => _commentsVm;
+            set
+            {
+                if (_commentsVm == value) return;
+
+                _commentsVm = value;
+                NotifyPropertyChanged("CommentsVm");
+            }
+        }
+        public ILoginViewModel LoginVm
         {
             get => _loginVm;
             set
             {
                 if (_loginVm == value) return;
+
                 _loginVm = value;
                 NotifyPropertyChanged("LoginVm");
             }
@@ -62,6 +79,7 @@ namespace WOClient.Components.Main
             set
             {
                 if (_forgetPasswordVm == value) return;
+
                 _forgetPasswordVm = value;
                 NotifyPropertyChanged("ForgetPasswordVm");
             }
@@ -71,21 +89,10 @@ namespace WOClient.Components.Main
             get => _myTasksVm;
             set
             {
-                if (_forgetPasswordVm == value) return;
+                if (_myTasksVm == value) return;
 
                 _myTasksVm = value;
                 NotifyPropertyChanged("MyTasksVm");
-            }
-        }
-        public INewTaskViewModel NewTaskVm
-        {
-            get => _newTaskVm;
-            set
-            {
-                if (_forgetPasswordVm == value) return;
-
-                _newTaskVm = value;
-                NotifyPropertyChanged("NewTaskVm");
             }
         }
         public IReportsViewModel ReportsVm
@@ -93,9 +100,21 @@ namespace WOClient.Components.Main
             get => _reportsVm;
             set
             {
-                if (_currentVm == value) return;
-                _currentVm = value;
+                if (_reportsVm == value) return;
+
+                _reportsVm = value;
                 NotifyPropertyChanged("ReportsVm");
+            }
+        }
+        public ITrackingTasksViewModel TrackingTasksVm
+        {
+            get => _trackingTasksVm;
+            set
+            {
+                if (_trackingTasksVm == value) return;
+
+                _trackingTasksVm = value;
+                NotifyPropertyChanged("TrackingTasksVm");
             }
         }
         #endregion
@@ -118,9 +137,6 @@ namespace WOClient.Components.Main
                     break;
                 case ViewsEnum.MyTasks:
                     CurrentVm = MyTasksVm;
-                    break;
-                case ViewsEnum.NewTask:
-                    CurrentVm = NewTaskVm;
                     break;
             }
         } 

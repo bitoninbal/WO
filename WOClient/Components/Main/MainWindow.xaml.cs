@@ -27,13 +27,11 @@ namespace WOClient.Components.Main
 
                     break;
                 case "TrackingTasksButton":
-
-                    break;
-                case "CreateNewTaskButton":
-                    viewModel.CurrentVm = viewModel.NewTaskVm;
+                    viewModel.CurrentVm = viewModel.TrackingTasksVm;
 
                     break;
                 case "CommentsButton":
+                    viewModel.CurrentVm = viewModel.CommentsVm;
 
                     break;
                 case "EmployeesButton":

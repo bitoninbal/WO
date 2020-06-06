@@ -1,10 +1,12 @@
 ﻿using System.Windows;
+using WOClient.Components.Comments;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.Main;
 using WOClient.Components.MyTasks;
 using WOClient.Components.NewTask;
 using WOClient.Components.Reports;
+using WOClient.Components.TrackingTasks;
 
 namespace WOClient
 {
@@ -22,16 +24,19 @@ namespace WOClient
         }
         private static void ComposeObjects()
         {
+            var commentsVm      = new CommentsViewModel();
             var loginVm         = new LoginViewModel();
             var forgetPasswodVm = new ForgetPasswordViewModel();
             var myTasksVm       = new MyTasksViewModel();
             var newTaskVm       = new NewTaskViewModel();
+            var trackingTasksVm = new TrackingTasksViewModel(newTaskVm);
             var reportsVm       = new ReportsViewModel();
-            var mainWindowVm    = new MainWindowViewModel(loginVm,
+            var mainWindowVm    = new MainWindowViewModel(commentsVm,
+                                                          loginVm,
                                                           forgetPasswodVm,
                                                           myTasksVm,
-                                                          newTaskVm,
-                                                          reportsVm);
+                                                          reportsVm,
+                                                          trackingTasksVm);
 
             Current.MainWindow = new MainWindow(mainWindowVm);
         }
