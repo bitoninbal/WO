@@ -10,7 +10,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -30,9 +30,42 @@
                 Style="{StaticResource MaterialDesignFloatingActionLightButton}"
                 ToolTip="Add new task" />
 
+        <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Center"
+                   Text="You have no tasks to follow.">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Tasks.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
         <ListBox Grid.Row="1"
                  Grid.Column="0"
-                 Grid.ColumnSpan="2">
+                 Grid.ColumnSpan="2"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 VirtualizingPanel.IsVirtualizing="True">
+            <ListBox.Style>
+                <Style TargetType="{x:Type ListBox}"
+                       BasedOn="{StaticResource MaterialDesignListBox}">
+                    <Setter Property="Visibility" Value="Visible" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Tasks.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
+            
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}"
                        BasedOn="{StaticResource MaterialDesignListBoxItem}">

@@ -1,7 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.NewTask;
+using WOClient.Models;
 using WOClient.Resources.Commands;
 
 namespace WOClient.Components.TrackingTasks
@@ -11,6 +13,7 @@ namespace WOClient.Components.TrackingTasks
         public TrackingTasksViewModel(INewTaskViewModel newTaskVm)
         {
             OpenNewTaskCommand = new RelayCommand(OpenNewTask);
+            Tasks              = new ObservableCollection<MyTask>();
             _newTaskVm         = newTaskVm;
         }
 
@@ -34,6 +37,8 @@ namespace WOClient.Components.TrackingTasks
                 NotifyPropertyChanged("NewTaskVm");
             }
         }
+
+        public ObservableCollection<MyTask> Tasks { get; set; }
         #endregion
 
         #region Private Methods
