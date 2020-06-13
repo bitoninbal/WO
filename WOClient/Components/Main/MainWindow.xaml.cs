@@ -35,6 +35,7 @@ namespace WOClient.Components.Main
 
                     break;
                 case "EmployeesButton":
+                    viewModel.CurrentVm = viewModel.EmplyeesVm;
 
                     break;
                 case "ReportsButton":

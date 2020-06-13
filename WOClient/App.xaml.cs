@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using WOClient.Components.Comments;
+using WOClient.Components.Employees;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.Main;
@@ -25,6 +26,7 @@ namespace WOClient
         private static void ComposeObjects()
         {
             var commentsVm      = new CommentsViewModel();
+            var employyesVm     = new EmployeesViewModel();
             var loginVm         = new LoginViewModel();
             var forgetPasswodVm = new ForgetPasswordViewModel();
             var myTasksVm       = new MyTasksViewModel();
@@ -32,6 +34,7 @@ namespace WOClient
             var trackingTasksVm = new TrackingTasksViewModel(newTaskVm);
             var reportsVm       = new ReportsViewModel();
             var mainWindowVm    = new MainWindowViewModel(commentsVm,
+                                                          employyesVm,
                                                           loginVm,
                                                           forgetPasswodVm,
                                                           myTasksVm,

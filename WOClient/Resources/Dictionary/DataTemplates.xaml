@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:comments="clr-namespace:WOClient.Components.Comments"
+                    xmlns:emplyees="clr-namespace:WOClient.Components.Employees"
                     xmlns:login="clr-namespace:WOClient.Components.Login"
                     xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword"
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
@@ -11,7 +12,11 @@
     <DataTemplate DataType="{x:Type comments:CommentsViewModel}">
         <comments:CommentsView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type emplyees:EmployeesViewModel}">
+        <emplyees:EmployeesView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type login:LoginViewModel}">
         <login:LoginView />
     </DataTemplate>

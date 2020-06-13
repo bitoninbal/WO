@@ -1,5 +1,6 @@
 ﻿using WOClient.Components.Base;
 using WOClient.Components.Comments;
+using WOClient.Components.Employees;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.MyTasks;
@@ -12,6 +13,7 @@ namespace WOClient.Components.Main
     public class MainWindowViewModel: BaseViewModel, IMainWindowViewModel
     {
         public MainWindowViewModel(ICommentsViewModel commentsVm,
+                                   IEmplyeesViewModel emplyeesVm,
                                    ILoginViewModel loginVm,
                                    IForgetPasswordViewModel forgetPasswordVm,
                                    IMyTasksViewModel myTasksVm,
@@ -20,6 +22,7 @@ namespace WOClient.Components.Main
         {
             _currentVm        = loginVm;
             _commentsVm       = commentsVm;
+            _emplyeesVm       = emplyeesVm;
             _loginVm          = loginVm;
             _forgetPasswordVm = forgetPasswordVm;
             _myTasksVm        = myTasksVm;
@@ -31,6 +34,7 @@ namespace WOClient.Components.Main
 
         #region Fields
         private ICommentsViewModel       _commentsVm;
+        private IEmplyeesViewModel       _emplyeesVm;
         private IForgetPasswordViewModel _forgetPasswordVm;
         private IMyTasksViewModel        _myTasksVm;
         private ILoginViewModel          _loginVm;
@@ -60,6 +64,17 @@ namespace WOClient.Components.Main
 
                 _commentsVm = value;
                 NotifyPropertyChanged("CommentsVm");
+            }
+        }
+        public IEmplyeesViewModel EmplyeesVm
+        {
+            get => _emplyeesVm;
+            set
+            {
+                if (_emplyeesVm == value) return;
+
+                _emplyeesVm = value;
+                NotifyPropertyChanged("EmplyeesVm");
             }
         }
         public ILoginViewModel LoginVm
