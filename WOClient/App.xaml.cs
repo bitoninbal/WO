@@ -5,6 +5,7 @@ using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.Main;
 using WOClient.Components.MyTasks;
+using WOClient.Components.NewEmployee;
 using WOClient.Components.NewTask;
 using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;
@@ -26,7 +27,8 @@ namespace WOClient
         private static void ComposeObjects()
         {
             var commentsVm      = new CommentsViewModel();
-            var employyesVm     = new EmployeesViewModel();
+            var newEmployeeVm   = new NewEmployeeViewModel();
+            var employyesVm     = new EmployeesViewModel(newEmployeeVm);
             var loginVm         = new LoginViewModel();
             var forgetPasswodVm = new ForgetPasswordViewModel();
             var myTasksVm       = new MyTasksViewModel();

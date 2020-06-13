@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using MaterialDesignThemes.Wpf;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WOClient.Components.Base;
+using WOClient.Components.NewEmployee;
 using WOClient.Enums;
 using WOClient.Models;
 using WOClient.Resources.Commands;
@@ -9,10 +11,12 @@ namespace WOClient.Components.Employees
 {
     public class EmployeesViewModel: BaseViewModel, IEmplyeesViewModel
     {
-        public EmployeesViewModel()
+        public EmployeesViewModel(INewEmployeeViewModel newEmployeeVm)
         {
+            OpenNewEmployeeCommand = new RelayCommand(OpenNewEmployee);
             DeleteEmployeeCommand = new RelayCommand(DeleteEmployee);
             Employees = new ObservableCollection<Employee>();
+            _newEmployeeVm = newEmployeeVm;
 
             var emplyee1 = new Employee
             {
@@ -38,10 +42,12 @@ namespace WOClient.Components.Employees
 
         #region Fields
         private Employee _employee;
+        private INewEmployeeViewModel _newEmployeeVm;
         #endregion
 
         #region ICommands
         public ICommand DeleteEmployeeCommand { get; }
+        public ICommand OpenNewEmployeeCommand { get; }
         #endregion
 
         #region Properties
@@ -56,6 +62,18 @@ namespace WOClient.Components.Employees
                 NotifyPropertyChanged("Employee");
             }
         }
+
+        public INewEmployeeViewModel NewEmployeeVm
+        {
+            get => _newEmployeeVm;
+            set
+            {
+                if (_newEmployeeVm == value) return;
+
+                _newEmployeeVm = value;
+                NotifyPropertyChanged("NewEmployeeVm");
+            }
+        }
         public ObservableCollection<Employee> Employees { get; set; }
         #endregion
 
@@ -63,6 +81,15 @@ namespace WOClient.Components.Employees
         private void DeleteEmployee()
         {
             Employees.Remove(Employee);
+        }
+        private async void OpenNewEmployee()
+        {
+            var view = new NewEmployeeView
+            {
+                DataContext = _newEmployeeVm
+            };
+
+            await DialogHost.Show(view, "RootDialog");
         }
         #endregion
     }
