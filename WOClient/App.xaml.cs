@@ -9,6 +9,7 @@ using WOClient.Components.NewEmployee;
 using WOClient.Components.NewTask;
 using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;
+using WOClient.Library.Api;
 
 namespace WOClient
 {
@@ -26,17 +27,18 @@ namespace WOClient
         }
         private static void ComposeObjects()
         {
+            var api             = new ClientApi();
             var commentsVm      = new CommentsViewModel();
-            var newEmployeeVm   = new NewEmployeeViewModel();
-            var employyesVm     = new EmployeesViewModel(newEmployeeVm);
-            var loginVm         = new LoginViewModel();
+            var newEmployeeVm   = new NewEmployeeViewModel(api);
+            var employeesVm     = new EmployeesViewModel(newEmployeeVm);
+            var loginVm         = new LoginViewModel(api);
             var forgetPasswodVm = new ForgetPasswordViewModel();
             var myTasksVm       = new MyTasksViewModel();
             var newTaskVm       = new NewTaskViewModel();
             var trackingTasksVm = new TrackingTasksViewModel(newTaskVm);
             var reportsVm       = new ReportsViewModel();
             var mainWindowVm    = new MainWindowViewModel(commentsVm,
-                                                          employyesVm,
+                                                          employeesVm,
                                                           loginVm,
                                                           forgetPasswodVm,
                                                           myTasksVm,

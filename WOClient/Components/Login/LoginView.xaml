@@ -9,6 +9,7 @@
             <converters:StringToIsErrorConverter x:Key="StringToIsErrorConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
+    
     <Grid VerticalAlignment="Center">
         <GroupBox Header="Login"
                   Width="336"
@@ -48,10 +49,7 @@
                         <Binding Path="UserName"
                                  UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <validations:LengthValidationRule Min="4"
-                                                                  Max="20"
-                                                                  ValidatesOnTargetUpdated="True" />
-                                <validations:LegalCharactersValidationRule ValidatesOnTargetUpdated="True" />
+                                <validations:LegalEmailAddressValidationRules ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -106,7 +104,7 @@
                         Content="Login"
                         HorizontalAlignment="Left"
                         Width="100"
-                        Command="{Binding LoginCommand}">
+                        Click="LoginButton_Click">
                     <Button.Style>
                         <Style TargetType="Button" 
                                     BasedOn="{StaticResource  MaterialDesignRaisedDarkButton}">

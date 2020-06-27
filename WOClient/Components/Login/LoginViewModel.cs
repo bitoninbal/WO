@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Security;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using WOClient.Components.Base;
+using WOClient.Components.Main;
 using WOClient.Enums;
+using WOClient.Library.Api;
+using WOClient.Library.Models;
 using WOClient.Resources.Commands;
 
 namespace WOClient.Components.Login
 {
     public class LoginViewModel: BaseViewModel, ILoginViewModel 
     {
-        public LoginViewModel()
+        public LoginViewModel(IClientApi api)
         {
             SwitchToForgetPasswordCommand = new RelayCommand(SwitchToForgetPassword);
-            LoginCommand                  = new RelayCommand(Login);
+
+            _api = api;
         }
 
         #region Commands
-        public ICommand LoginCommand { get; }
         public ICommand SwitchToForgetPasswordCommand { get; }
         #endregion
 
@@ -25,6 +29,7 @@ namespace WOClient.Components.Login
         #endregion
 
         #region Fields
+        private IClientApi _api;
         private string _userName;
         #endregion
 
@@ -43,10 +48,6 @@ namespace WOClient.Components.Login
         #endregion
 
         #region Private Methods
-        private void Login()
-        {
-            OnSwitchToMyTasks();
-        }
         private void SwitchToForgetPassword()
         {
             OnSwitchToForgerPassword();
@@ -58,6 +59,29 @@ namespace WOClient.Components.Login
         private void OnSwitchToForgerPassword()
         {
             SwitchViewRequested?.Invoke(this, ViewsEnum.ForgetPassword);
+        }
+        #endregion
+
+        #region Public Methods
+        public async Task LoginAsync()
+        {
+            try
+            {
+                await _api.LoginAsync(UserName, Password.Copy());
+
+                if (UserInfo.Instance.Id == 0)
+                {
+                    MainWindowViewModel.MessageQueue.Enqueue("User name or password is incorrect.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
+                }
+                else
+                {
+                    OnSwitchToMyTasks();
+                }
+            }
+            catch (Exception)
+            {
+                MainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object (), false, true, TimeSpan.FromSeconds(6));
+            }
         }
         #endregion
     }

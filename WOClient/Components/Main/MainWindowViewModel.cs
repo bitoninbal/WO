@@ -1,4 +1,5 @@
-﻿using WOClient.Components.Base;
+﻿using MaterialDesignThemes.Wpf;
+using WOClient.Components.Base;
 using WOClient.Components.Comments;
 using WOClient.Components.Employees;
 using WOClient.Components.ForgetPassword;
@@ -20,6 +21,8 @@ namespace WOClient.Components.Main
                                    IReportsViewModel reportsVm,
                                    ITrackingTasksViewModel trackingTasksVm)
         {
+            MessageQueue = new SnackbarMessageQueue();
+
             _currentVm        = loginVm;
             _commentsVm       = commentsVm;
             _emplyeesVm       = emplyeesVm;
@@ -132,6 +135,8 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("TrackingTasksVm");
             }
         }
+
+        public static SnackbarMessageQueue MessageQueue { get; private set; }
         #endregion
 
         #region Private Methods

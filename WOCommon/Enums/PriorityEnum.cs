@@ -1,4 +1,4 @@
-﻿namespace WOClient.Enums
+﻿namespace WOCommon.Enums
 {
     public enum PriorityEnum
     {

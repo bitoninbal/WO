@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.NewEmployee;
-using WOClient.Enums;
 using WOClient.Models;
 using WOClient.Resources.Commands;
 
@@ -14,30 +13,11 @@ namespace WOClient.Components.Employees
         public EmployeesViewModel(INewEmployeeViewModel newEmployeeVm)
         {
             OpenNewEmployeeCommand = new RelayCommand(OpenNewEmployee);
-            DeleteEmployeeCommand = new RelayCommand(DeleteEmployee);
+            DeleteEmployeeCommand  = new RelayCommand(DeleteEmployee);
+
             Employees = new ObservableCollection<Employee>();
+
             _newEmployeeVm = newEmployeeVm;
-
-            var emplyee1 = new Employee
-            {
-                FirstName = "Inbal",
-                LastName = "Biton",
-                Email = "iaf106@walla.com",
-                Premission = PremissionsEnum.Manager,
-                Phone = "+972529876543"
-            };
-
-            var emplyee2 = new Employee
-            {
-                FirstName = "Amir",
-                LastName = "Liberzon",
-                Email = "iaf105@walla.com",
-                Premission = PremissionsEnum.Manager,
-                Phone = "+972501234567"
-            };
-
-            Employees.Add(emplyee1);
-            Employees.Add(emplyee2);
         }
 
         #region Fields

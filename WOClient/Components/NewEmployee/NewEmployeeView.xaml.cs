@@ -1,25 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WOClient.Components.NewEmployee
 {
-
     public partial class NewEmployeeView : UserControl
     {
         public NewEmployeeView()
         {
             InitializeComponent();
+
+            PassErrTextBlock.Text = " ";
         }
 
+        private async void NewEmplyee_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = (NewEmployeeViewModel)DataContext;
+
+            await vm.EmployeeRegisterAsync();
+        }
+
+        private void PassBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (PassBox.SecurePassword.Length == 0)
+            {
+                PassErrTextBlock.Text = " ";
+            }
+            else if (PassBox.SecurePassword.Length < 6 || PassBox.SecurePassword.Length > 20)
+            {
+                PassErrTextBlock.Text = "Illegal length for password.";
+            }
+            else
+            {
+                PassErrTextBlock.Text = "";
+
+                var newEmplyeeVm = (NewEmployeeViewModel)DataContext;
+
+                newEmplyeeVm.Password = PassBox.SecurePassword.Copy();
+            }
+        }
     }
 }

@@ -5,10 +5,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-
+  
   <ItemGroup>
+    <ProjectReference Include="..\WOClient.Library\WOClient.Library.csproj" />
     <ProjectReference Include="..\WOCommon\WOCommon.csproj" />
-    <ProjectReference Include="..\WOProxy\WOProxy.csproj" />
   </ItemGroup>
 
   <ItemGroup>

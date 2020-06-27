@@ -1,32 +1,32 @@
-﻿using System;
-using System.Security;
-using System.Threading.Tasks;
-using WOClient.Components.Base;
-using WOClient.Components.Main;
-using WOClient.Library.Api;
-using WOCommon.Enums;
+﻿using System.ComponentModel;
 
-namespace WOClient.Components.NewEmployee
+namespace WOClient.Library.Models
 {
-    public class NewEmployeeViewModel : BaseViewModel, INewEmployeeViewModel
+    public class UserInfo: INotifyPropertyChanged
     {
-        public NewEmployeeViewModel(IClientApi api)
-        {
-            _api = api;
-
-            Permission = PermissionsEnum.Employee;
-        }
-
         #region Fields
-        private IClientApi _api;
+        private int _id;
         private string _email;
         private string _firstName;
         private string _lastName;
-        private PermissionsEnum _permission;
+        private string _permission;
         private int _directManager;
         #endregion
 
         #region Properties
+        public static UserInfo Instance { get; } = new UserInfo();
+
+        public int Id
+        {
+            get => _id;
+            set
+            {
+                if (_id == value) return;
+
+                _id = value;
+                NotifyPropertyChanged("Id");
+            }
+        }
         public string Email
         {
             get => _email;
@@ -38,7 +38,6 @@ namespace WOClient.Components.NewEmployee
                 NotifyPropertyChanged("Email");
             }
         }
-        public SecureString Password { get; set; }
         public string FirstName
         {
             get => _firstName;
@@ -61,7 +60,7 @@ namespace WOClient.Components.NewEmployee
                 NotifyPropertyChanged("LastName");
             }
         }
-        public PermissionsEnum Permission
+        public string Permission
         {
             get => _permission;
             set
@@ -85,22 +84,12 @@ namespace WOClient.Components.NewEmployee
         }
         #endregion
 
-        #region Public Methods
-        public void EmployeeRegister()
-        {
-            EmployeeRegisterAsync();
-        }
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public async Task EmployeeRegisterAsync()
+        protected void NotifyPropertyChanged(string propertyName = null)
         {
-            try
-            {
-                await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, DirectManager);
-            }
-            catch (Exception)
-            {
-                MainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using System.Security;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using WOClient.Components.Base;
 
@@ -11,8 +12,9 @@ namespace WOClient.Components.Login
         SecureString Password { get; set; }
         #endregion
 
+        Task LoginAsync();
+
         #region Commands
-        ICommand LoginCommand { get; }
         ICommand SwitchToForgetPasswordCommand { get; }
         #endregion
     }

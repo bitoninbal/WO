@@ -113,6 +113,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <materialDesign:ColorZone Grid.Row="0"
@@ -136,6 +137,11 @@
 
                 <ContentControl Grid.Row="1"
                                 Content="{Binding CurrentVm}" />
+
+                <materialDesign:Snackbar Grid.Row="2"
+                                         MessageQueue="{Binding MessageQueue}"
+                                         ActionButtonPlacement="Inline"
+                                         ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionLightButton}" />
             </Grid>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

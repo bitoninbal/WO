@@ -101,11 +101,14 @@
                         </ToggleButton.Style>
                     </ToggleButton>
 
+                    <!-- Amir - Refuse to implement files manager 
+                         Inbal - Decided to be smart ass -->
+                    
                     <Button Content="{materialDesign:PackIcon Kind=CommentOutline}"
                             Margin="5"
                             ToolTip="Write comment" />
                     <Button Content="{materialDesign:PackIcon Kind=FileUploadOutline}"
-                            ToolTip="Upload files" />
+                    ToolTip="Upload files" />
                 </StackPanel>
             </Grid>
         </Expander>

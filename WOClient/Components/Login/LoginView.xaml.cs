@@ -15,6 +15,12 @@ namespace WOClient.Components.Login
         }
 
         #region Private Methods
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = (LoginViewModel)DataContext;
+
+            await vm.LoginAsync();
+        }
         private void PassBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (PassBox.SecurePassword.Length == 0)
@@ -28,10 +34,12 @@ namespace WOClient.Components.Login
             else
             {
                 PassErrTextBlock.Text = "";
+
                 var loginVm = (LoginViewModel)DataContext;
+
                 loginVm.Password = PassBox.SecurePassword.Copy();
             }
-        } 
+        }
         #endregion
     }
 }

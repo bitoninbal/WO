@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using WOClient.Enums;
+using WOCommon.Enums;
 
 namespace WOClient.Models
 {
@@ -9,7 +9,7 @@ namespace WOClient.Models
         private string _firstName;
         private string _lastName;
         private string _email;
-        private PremissionsEnum _premission;
+        private PermissionsEnum _premission;
         private string _phone;
         #endregion
 
@@ -47,7 +47,7 @@ namespace WOClient.Models
                 NotifyPropertyChanged("Email");
             }
         }
-        public PremissionsEnum Premission
+        public PermissionsEnum Premission
         {
             get => _premission;
             set
