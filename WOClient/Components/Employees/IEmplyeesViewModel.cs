@@ -7,7 +7,7 @@ namespace WOClient.Components.Employees
     public interface IEmplyeesViewModel: IBaseViewModel
     {
         #region Properties
-        ObservableCollection<Employee> Employees { get; set; } 
+        ObservableCollection<IPerson> Employees { get; set; } 
         #endregion
     }
 }

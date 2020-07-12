@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
 using WOClient.Library.Api;
+using WOClient.Models;
 using WOCommon.Enums;
 
 namespace WOClient.Components.NewEmployee
@@ -23,7 +24,6 @@ namespace WOClient.Components.NewEmployee
         private string _firstName;
         private string _lastName;
         private PermissionsEnum _permission;
-        private int _directManager;
         #endregion
 
         #region Properties
@@ -72,30 +72,14 @@ namespace WOClient.Components.NewEmployee
                 NotifyPropertyChanged("Permission");
             }
         }
-        public int DirectManager
-        {
-            get => _directManager;
-            set
-            {
-                if (_directManager == value) return;
-
-                _directManager = value;
-                NotifyPropertyChanged("DirectManager");
-            }
-        }
         #endregion
 
         #region Public Methods
-        public void EmployeeRegister()
-        {
-            EmployeeRegisterAsync();
-        }
-
         public async Task EmployeeRegisterAsync()
         {
             try
             {
-                await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, DirectManager);
+                await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, Person.Instance.PersonId);
             }
             catch (Exception)
             {

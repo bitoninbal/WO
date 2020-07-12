@@ -45,5 +45,32 @@ namespace WOServer.Services
                 DirectManager = result.DirectManager,
             };
         }
+
+        public override async Task GetEmployees(ManagerIdInput request, IServerStreamWriter<UserData> responseStream, ServerCallContext context)
+        {
+            var result = await _dataAccess.GetEmployeesDataAccessAsync(request.ManagerId);
+
+            if (result is null)
+            {
+                await responseStream.WriteAsync(null);
+
+                return;
+            }
+
+            foreach (var person in result)
+            {
+                var user = new UserData
+                {
+                    Id            = person.Id,
+                    FirstName     = person.FirstName,
+                    LastName      = person.LastName,
+                    Email         = person.Email,
+                    Permission    = person.Permission,
+                    DirectManager = person.DirectManager,
+                };
+
+                await responseStream.WriteAsync(user);
+            }
+        }
     }
 }

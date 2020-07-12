@@ -15,13 +15,13 @@ namespace WOClient.Components.Employees
             OpenNewEmployeeCommand = new RelayCommand(OpenNewEmployee);
             DeleteEmployeeCommand  = new RelayCommand(DeleteEmployee);
 
-            Employees = new ObservableCollection<Employee>();
+            Employees = new ObservableCollection<IPerson>();
 
             _newEmployeeVm = newEmployeeVm;
         }
 
         #region Fields
-        private Employee _employee;
+        private IPerson _employee;
         private INewEmployeeViewModel _newEmployeeVm;
         #endregion
 
@@ -31,7 +31,7 @@ namespace WOClient.Components.Employees
         #endregion
 
         #region Properties
-        public Employee Employee
+        public IPerson Employee
         {
             get => _employee;
             set
@@ -54,7 +54,7 @@ namespace WOClient.Components.Employees
                 NotifyPropertyChanged("NewEmployeeVm");
             }
         }
-        public ObservableCollection<Employee> Employees { get; set; }
+        public ObservableCollection<IPerson> Employees { get; set; }
         #endregion
 
         #region Private Methods

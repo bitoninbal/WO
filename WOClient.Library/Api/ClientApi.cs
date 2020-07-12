@@ -1,7 +1,9 @@
 ﻿using Grpc.Net.Client;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Security;
 using System.Threading.Tasks;
+using WOClient.Library.Api.Protos;
 using WOClient.Library.Api.User;
 using WOCommon.Enums;
 using WOCommon.Extensions;
@@ -41,6 +43,15 @@ namespace WOClient.Library.Api
             await _usersApi.LoginAsync(channel, userName, hashedPassword);
             await channel.ShutdownAsync();
         }
+        public async Task<ObservableCollection<UserData>> GetEmployeesAsync(int managerId)
+        {
+            var channel = GetChannel();
+            var result = await _usersApi.GetEmployeesAsync(channel, managerId);
+
+            await channel.ShutdownAsync();
+
+            return result;
+        }
         #endregion
 
         #region Private Methods
@@ -53,7 +64,7 @@ namespace WOClient.Library.Api
             var httpClient = new HttpClient(httpClientHandler);
             var options = new GrpcChannelOptions { HttpClient = httpClient };
 
-            return GrpcChannel.ForAddress("https://192.168.1.103:5001", options);
+            return GrpcChannel.ForAddress("https://192.168.1.234:5001", options);
         }
         #endregion
     }

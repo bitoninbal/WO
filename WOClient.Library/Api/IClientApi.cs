@@ -1,5 +1,7 @@
-﻿using System.Security;
+﻿using System.Collections.ObjectModel;
+using System.Security;
 using System.Threading.Tasks;
+using WOClient.Library.Api.Protos;
 using WOCommon.Enums;
 
 namespace WOClient.Library.Api
@@ -14,7 +16,9 @@ namespace WOClient.Library.Api
                                    string email,
                                    SecureString password,
                                    PermissionsEnum permission,
-                                   int directManager); 
+                                   int directManager);
+
+        Task<ObservableCollection<UserData>> GetEmployeesAsync(int managerId);
         #endregion
     }
 }

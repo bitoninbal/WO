@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WODataAccess.Models;
@@ -77,6 +78,52 @@ namespace WODataAccess.User
                         Permission    = await reader.GetFieldValueAsync<string>(4),
                         DirectManager = await reader.GetFieldValueAsync<int>(5),
                     };
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            finally
+            {
+                await cmd.DisposeAsync();
+                await cnn.CloseAsync();
+            }
+        }
+
+        public async Task<IEnumerable<UserModel>> GetEmployeesDataAccessAsync(int managerId)
+        {
+            var cnn = new SqlConnection(ConnectionString);
+            var query = "SELECT Id, Email, FirstName, LastName, Permission, DirectManager FROM Users WHERE DirectManager = @DirectManager";
+            var cmd = new SqlCommand(query, cnn);
+
+            cmd.Parameters.AddWithValue("@DirectManager", managerId);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                await cnn.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (!reader.HasRows) return null;
+
+                    var employees = new List<UserModel>();
+
+                    while (await reader.ReadAsync())
+                    {
+                        employees.Add(new UserModel
+                        {
+                            Id            = await reader.GetFieldValueAsync<int>(0),
+                            Email         = await reader.GetFieldValueAsync<string>(1),
+                            FirstName     = await reader.GetFieldValueAsync<string>(2),
+                            LastName      = await reader.GetFieldValueAsync<string>(3),
+                            Permission    = await reader.GetFieldValueAsync<string>(4),
+                            DirectManager = await reader.GetFieldValueAsync<int>(5),
+                        });
+                    }
+
+                    return employees;
                 }
             }
             catch (Exception)

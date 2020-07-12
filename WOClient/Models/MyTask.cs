@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Media;
 using WOCommon.Enums;
@@ -7,6 +8,11 @@ namespace WOClient.Models
 {
     public class MyTask: INotifyPropertyChanged
     {
+        public MyTask()
+        {
+            Comments = new ObservableCollection<Comment>();
+        }
+
         #region Fields
         private string       _description;
         private Color        _bgColor;
@@ -71,6 +77,7 @@ namespace WOClient.Models
                 NotifyPropertyChanged("TaskName");
             }
         }
+        public ObservableCollection<Comment> Comments { get; }
         #endregion
 
         #region INotifyPropertyChanged

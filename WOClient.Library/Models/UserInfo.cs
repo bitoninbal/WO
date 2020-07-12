@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
@@ -9,7 +10,7 @@ namespace WOClient.Library.Models
         private string _email;
         private string _firstName;
         private string _lastName;
-        private string _permission;
+        private PermissionsEnum _permission;
         private int _directManager;
         #endregion
 
@@ -24,7 +25,7 @@ namespace WOClient.Library.Models
                 if (_id == value) return;
 
                 _id = value;
-                NotifyPropertyChanged("Id");
+                NotifyPropertyChanged(nameof(Id));
             }
         }
         public string Email
@@ -35,7 +36,7 @@ namespace WOClient.Library.Models
                 if (_email == value) return;
 
                 _email = value;
-                NotifyPropertyChanged("Email");
+                NotifyPropertyChanged(nameof(Email));
             }
         }
         public string FirstName
@@ -46,7 +47,7 @@ namespace WOClient.Library.Models
                 if (_firstName == value) return;
 
                 _firstName = value;
-                NotifyPropertyChanged("FirstName");
+                NotifyPropertyChanged(nameof(FirstName));
             }
         }
         public string LastName
@@ -57,10 +58,10 @@ namespace WOClient.Library.Models
                 if (_lastName == value) return;
 
                 _lastName = value;
-                NotifyPropertyChanged("LastName");
+                NotifyPropertyChanged(nameof(LastName));
             }
         }
-        public string Permission
+        public PermissionsEnum Permission
         {
             get => _permission;
             set
@@ -68,7 +69,7 @@ namespace WOClient.Library.Models
                 if (_permission == value) return;
 
                 _permission = value;
-                NotifyPropertyChanged("Permission");
+                NotifyPropertyChanged(nameof(Permission));
             }
         }
         public int DirectManager
@@ -79,7 +80,7 @@ namespace WOClient.Library.Models
                 if (_directManager == value) return;
 
                 _directManager = value;
-                NotifyPropertyChanged("DirectManager");
+                NotifyPropertyChanged(nameof(DirectManager));
             }
         }
         #endregion

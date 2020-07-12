@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WODataAccess.Models;
 
 namespace WODataAccess.User
@@ -16,6 +17,7 @@ namespace WODataAccess.User
                                      string Password,
                                      string Permission,
                                      int DirectManager);
+        Task<IEnumerable<UserModel>> GetEmployeesDataAccessAsync(int managerId);
         #endregion
     }
 }

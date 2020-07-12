@@ -1,59 +1,36 @@
 ﻿using System.ComponentModel;
+using WOCommon.Enums;
 
 namespace WOClient.Models
 {
     public class Comment: INotifyPropertyChanged
     {
         #region Fields
-        private string _taskName;
-        private string _employeeName;
-        private string _employeeComment;
-        private string _reply;
+        private PermissionsEnum _sender;
+        private string _message;
         #endregion
 
         #region Properties
-        public string TaskName
+        public PermissionsEnum Sender
         {
-            get => _taskName;
+            get => _sender;
             set
             {
-                if (_taskName == value) return;
+                if (_sender == value) return;
 
-                _taskName = value;
-                NotifyPropertyChanged("TaskName");
+                _sender = value;
+                NotifyPropertyChanged(nameof(Sender));
             }
         }
-        public string EmployeeName
+        public string Message
         {
-            get => _employeeName;
+            get => _message;
             set
             {
-                if (_employeeName == value) return;
+                if (_message == value) return;
 
-                _employeeName = value;
-                NotifyPropertyChanged("EmployeeName");
-            }
-        }
-        public string EmployeeComment
-        {
-            get => _employeeComment;
-            set
-            {
-                if (_employeeComment == value) return;
-
-                _employeeComment = value;
-                NotifyPropertyChanged("EmployeeComment");
-            }
-        }
-        public string Reply
-        {
-            get => _reply;
-            set
-            {
-                if (_reply == value) return;
-
-                _reply = value;
-                NotifyPropertyChanged("Reply");
+                _message = value;
+                NotifyPropertyChanged(nameof(Message));
             }
         }
         #endregion

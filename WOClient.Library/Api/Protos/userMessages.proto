@@ -6,6 +6,11 @@ import "google/protobuf/empty.proto";
 service Users {
 	rpc Register (RegisterInput) returns (google.protobuf.Empty);
 	rpc LoginRequset (LoginInput) returns (UserData);
+	rpc GetEmployees (ManagerIdInput) returns (stream UserData);
+}
+
+message ManagerIdInput {
+	int32 managerId = 1;
 }
 
 message LoginInput {

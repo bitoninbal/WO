@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System;
 using WOClient.Components.Base;
 using WOClient.Components.Comments;
 using WOClient.Components.Employees;
@@ -8,6 +9,8 @@ using WOClient.Components.MyTasks;
 using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;
 using WOClient.Enums;
+using WOClient.Library.Models;
+using WOClient.Models;
 
 namespace WOClient.Components.Main
 {
@@ -143,7 +146,28 @@ namespace WOClient.Components.Main
         private void SubscribeToSwitchViewRequested()
         {
             LoginVm.SwitchViewRequested += SwitchToView;
+            LoginVm.UserLoggedIn += InitUser;
             ForgetPasswordVm.SwitchViewRequested += SwitchToView;
+        }
+        private void InitUser(object sender, EventArgs args)
+        {
+            switch (UserInfo.Instance.Permission)
+            {
+                case WOCommon.Enums.PermissionsEnum.Manager:
+                    Person.Instance = new Manager(UserInfo.Instance.Id,
+                                                  UserInfo.Instance.DirectManager,
+                                                  UserInfo.Instance.FirstName,
+                                                  UserInfo.Instance.LastName,
+                                                  UserInfo.Instance.Email);
+                    break;
+                case WOCommon.Enums.PermissionsEnum.Employee:
+                    Person.Instance = new Employee(UserInfo.Instance.Id,
+                                                   UserInfo.Instance.DirectManager,
+                                                   UserInfo.Instance.FirstName,
+                                                   UserInfo.Instance.LastName,
+                                                   UserInfo.Instance.Email);
+                    break;
+            }
         }
         private void SwitchToView(object sender, ViewsEnum args)
         {
@@ -159,7 +183,7 @@ namespace WOClient.Components.Main
                     CurrentVm = MyTasksVm;
                     break;
             }
-        } 
+        }
         #endregion
     }
 }

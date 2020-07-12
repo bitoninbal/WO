@@ -26,6 +26,7 @@ namespace WOClient.Components.Login
 
         #region Events
         public event EventHandler<ViewsEnum> SwitchViewRequested;
+        public event EventHandler UserLoggedIn;
         #endregion
 
         #region Fields
@@ -60,6 +61,10 @@ namespace WOClient.Components.Login
         {
             SwitchViewRequested?.Invoke(this, ViewsEnum.ForgetPassword);
         }
+        private void OnUserLoggedIn()
+        {
+            UserLoggedIn?.Invoke(this, new EventArgs());
+        }
         #endregion
 
         #region Public Methods
@@ -76,6 +81,7 @@ namespace WOClient.Components.Login
                 else
                 {
                     OnSwitchToMyTasks();
+                    OnUserLoggedIn();
                 }
             }
             catch (Exception)

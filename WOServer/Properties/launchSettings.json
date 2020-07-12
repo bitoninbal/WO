@@ -3,7 +3,7 @@
     "WOServer": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "https://192.168.1.103:5001",
+      "applicationUrl": "https://192.168.1.234:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

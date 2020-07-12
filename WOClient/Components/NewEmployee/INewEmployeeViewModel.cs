@@ -13,7 +13,6 @@ namespace WOClient.Components.NewEmployee
         string FirstName { get; }
         string LastName { get; }
         PermissionsEnum Permission { get; }
-        int DirectManager { get; }
         #endregion
 
         #region Methods
