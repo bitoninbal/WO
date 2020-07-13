@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using WOCommon.Enums;
 
-namespace WOClient.Models
+namespace WOClient.Library.Models
 {
     public class Comment: INotifyPropertyChanged
     {

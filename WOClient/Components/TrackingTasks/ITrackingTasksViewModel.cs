@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using WOClient.Components.Base;
 using WOClient.Components.NewTask;
-using WOClient.Models;
+using WOClient.Library.Models;
 
 namespace WOClient.Components.TrackingTasks
 {

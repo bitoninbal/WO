@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using WOClient.Components.Base;
-using WOClient.Models;
+using WOClient.Library.Models;
 
 namespace WOClient.Components.Comments
 {

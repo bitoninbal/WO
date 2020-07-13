@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.NewTask;
-using WOClient.Models;
+using WOClient.Library.Models;
 using WOClient.Resources.Commands;
 
 namespace WOClient.Components.TrackingTasks

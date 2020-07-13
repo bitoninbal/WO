@@ -30,7 +30,7 @@ namespace WOClient
             var api             = new ClientApi();
             var commentsVm      = new CommentsViewModel();
             var newEmployeeVm   = new NewEmployeeViewModel(api);
-            var employeesVm     = new EmployeesViewModel(newEmployeeVm);
+            var employeesVm     = new EmployeesViewModel(newEmployeeVm, api);
             var loginVm         = new LoginViewModel(api);
             var forgetPasswodVm = new ForgetPasswordViewModel();
             var myTasksVm       = new MyTasksViewModel();

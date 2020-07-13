@@ -1,13 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using WOClient.Components.Base;
-using WOClient.Models;
+﻿using WOClient.Components.Base;
+using WOClient.Components.NewEmployee;
+using WOClient.Library.Models;
 
 namespace WOClient.Components.Employees
 {
     public interface IEmplyeesViewModel: IBaseViewModel
     {
         #region Properties
-        ObservableCollection<IPerson> Employees { get; set; } 
+        IPerson Employee { get; set; }
+        INewEmployeeViewModel NewEmployeeVm { get; }
         #endregion
     }
 }

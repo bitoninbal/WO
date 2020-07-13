@@ -1,4 +1,4 @@
-﻿namespace WOClient.Models
+﻿namespace WOClient.Library.Models
 {
     public class Employee: Person
     {

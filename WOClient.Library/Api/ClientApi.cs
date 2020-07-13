@@ -22,6 +22,13 @@ namespace WOClient.Library.Api
         #endregion
 
         #region Public Methods
+        public async Task DeleteEmployeeAsync(int employeeId)
+        {
+            var channel = GetChannel();
+
+            await _usersApi.DeleteEmployeeAsync(channel, employeeId);
+            await channel.ShutdownAsync();
+        }
         public async Task EmployeeRegisterAsync(string firstName,
                                                 string lastName,
                                                 string email,

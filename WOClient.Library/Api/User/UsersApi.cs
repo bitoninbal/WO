@@ -32,6 +32,18 @@ namespace WOClient.Library.Api.User
 
                 await client.RegisterAsync(input);
             }
+
+        internal async Task DeleteEmployeeAsync(GrpcChannel channel, int employeeId)
+        {
+            var client = new Users.UsersClient(channel);
+            var input = new PersonIdInput
+            {
+                PersonId = employeeId
+            };
+
+            await client.DeleteEmployeeAsync(input);
+        }
+
         internal async Task LoginAsync(GrpcChannel channel, string userName, string password)
         {
             var client = new Users.UsersClient(channel);
@@ -64,9 +76,9 @@ namespace WOClient.Library.Api.User
         internal async Task<ObservableCollection<UserData>> GetEmployeesAsync(GrpcChannel channel, int managerId)
         {
             var client = new Users.UsersClient(channel);
-            var input = new ManagerIdInput
+            var input = new PersonIdInput
             {
-                ManagerId = managerId
+                PersonId = managerId
             };
 
             using var result = client.GetEmployees(input);

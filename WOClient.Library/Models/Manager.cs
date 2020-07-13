@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace WOClient.Models
+namespace WOClient.Library.Models
 {
     public class Manager: Person
     {

@@ -7,7 +7,7 @@ using WOClient.Components.Login;
 using WOClient.Components.MyTasks;
 using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;
-using WOClient.Models;
+using WOClient.Library.Models;
 
 namespace WOClient.Components.Main
 {

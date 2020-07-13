@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using WOClient.Components.Base;
-using WOClient.Models;
+using WOClient.Library.Models;
 using WOCommon.Enums;
 
 namespace WOClient.Components.NewTask

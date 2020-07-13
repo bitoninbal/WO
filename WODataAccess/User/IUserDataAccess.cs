@@ -18,6 +18,7 @@ namespace WODataAccess.User
                                      string Permission,
                                      int DirectManager);
         Task<IEnumerable<UserModel>> GetEmployeesDataAccessAsync(int managerId);
+        Task DeleteEmployeeDataAccessAsync(int personId);
         #endregion
     }
 }

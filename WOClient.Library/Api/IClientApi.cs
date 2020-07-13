@@ -19,6 +19,8 @@ namespace WOClient.Library.Api
                                    int directManager);
 
         Task<ObservableCollection<UserData>> GetEmployeesAsync(int managerId);
+
+        Task DeleteEmployeeAsync(int employeeId);
         #endregion
     }
 }

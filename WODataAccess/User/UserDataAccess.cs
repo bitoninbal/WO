@@ -49,6 +49,31 @@ namespace WODataAccess.User
             }
         }
 
+        public async Task DeleteEmployeeDataAccessAsync(int personId)
+        {
+            var cnn = new SqlConnection(ConnectionString);
+            var query = "Delete From Users WHERE Id = @PersonId";
+            var cmd = new SqlCommand(query, cnn);
+
+            cmd.Parameters.AddWithValue("@PersonId", personId);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                await cnn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                await cmd.DisposeAsync();
+                await cnn.CloseAsync();
+            }
+        }
+
         public async Task<UserModel> LoginDataAccessAsync(string userName, string hashedPassword)
         {
             var cnn   = new SqlConnection(ConnectionString);

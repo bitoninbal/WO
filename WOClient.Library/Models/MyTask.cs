@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Media;
+using System.Drawing;
 using WOCommon.Enums;
 
-namespace WOClient.Models
+namespace WOClient.Library.Models
 {
     public class MyTask: INotifyPropertyChanged
     {
@@ -14,10 +14,10 @@ namespace WOClient.Models
         }
 
         #region Fields
-        private string       _description;
-        private Color        _bgColor;
-        private DateTime     _finalDate;
-        private string       _taskName;
+        private string _description;
+        private Color _bgColor;
+        private DateTime _finalDate;
+        private string _taskName;
         private PriorityEnum _priority;
         #endregion
 

@@ -1,33 +1,25 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.Threading.Tasks;
 using WOClient.Components.Base;
+using WOClient.Components.Main;
 using WOClient.Components.NewEmployee;
-using WOClient.Models;
-using WOClient.Resources.Commands;
+using WOClient.Library.Api;
+using WOClient.Library.Models;
 
 namespace WOClient.Components.Employees
 {
     public class EmployeesViewModel: BaseViewModel, IEmplyeesViewModel
     {
-        public EmployeesViewModel(INewEmployeeViewModel newEmployeeVm)
+        public EmployeesViewModel(INewEmployeeViewModel newEmployeeVm, IClientApi api)
         {
-            OpenNewEmployeeCommand = new RelayCommand(OpenNewEmployee);
-            DeleteEmployeeCommand  = new RelayCommand(DeleteEmployee);
-
-            Employees = new ObservableCollection<IPerson>();
-
+            _api           = api;
             _newEmployeeVm = newEmployeeVm;
         }
 
         #region Fields
-        private IPerson _employee;
+        private IClientApi _api;
         private INewEmployeeViewModel _newEmployeeVm;
-        #endregion
-
-        #region ICommands
-        public ICommand DeleteEmployeeCommand { get; }
-        public ICommand OpenNewEmployeeCommand { get; }
+        private IPerson _employee;
         #endregion
 
         #region Properties
@@ -42,27 +34,22 @@ namespace WOClient.Components.Employees
                 NotifyPropertyChanged("Employee");
             }
         }
+        public INewEmployeeViewModel NewEmployeeVm { get; }
+        #endregion
 
-        public INewEmployeeViewModel NewEmployeeVm
+        #region Public Methods
+        public async Task DeleteEmployeeAsync()
         {
-            get => _newEmployeeVm;
-            set
-            {
-                if (_newEmployeeVm == value) return;
+            var user = (Manager)IMainWindowViewModel.User;
 
-                _newEmployeeVm = value;
-                NotifyPropertyChanged("NewEmployeeVm");
-            }
+            await _api.DeleteEmployeeAsync(Employee.PersonId);
+
+            user.MyEmployees.Remove(Employee);
         }
-        public ObservableCollection<IPerson> Employees { get; set; }
         #endregion
 
         #region Private Methods
-        private void DeleteEmployee()
-        {
-            Employees.Remove(Employee);
-        }
-        private async void OpenNewEmployee()
+        public async Task OpenNewEmployeeAsync()
         {
             var view = new NewEmployeeView
             {

@@ -46,9 +46,16 @@ namespace WOServer.Services
             };
         }
 
-        public override async Task GetEmployees(ManagerIdInput request, IServerStreamWriter<UserData> responseStream, ServerCallContext context)
+        public override async Task<Empty> DeleteEmployee(PersonIdInput request, ServerCallContext context)
         {
-            var result = await _dataAccess.GetEmployeesDataAccessAsync(request.ManagerId);
+            await _dataAccess.DeleteEmployeeDataAccessAsync(request.PersonId);
+
+            return new Empty();
+        }
+
+        public override async Task GetEmployees(PersonIdInput request, IServerStreamWriter<UserData> responseStream, ServerCallContext context)
+        {
+            var result = await _dataAccess.GetEmployeesDataAccessAsync(request.PersonId);
 
             if (result is null)
             {

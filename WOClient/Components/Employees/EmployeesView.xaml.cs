@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace WOClient.Components.Employees
 {
@@ -11,6 +10,20 @@ namespace WOClient.Components.Employees
         public EmployeesView()
         {
             InitializeComponent();
+        }
+
+        private async void DelteEmployee_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var vm = (EmployeesViewModel)DataContext;
+
+            await vm.DeleteEmployeeAsync();
+        }
+
+        private async void OpenNewEmployee_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var vm = (EmployeesViewModel)DataContext;
+
+            await vm.OpenNewEmployeeAsync();
         }
     }
 }

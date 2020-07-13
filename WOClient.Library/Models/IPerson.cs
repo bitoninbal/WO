@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace WOClient.Models
+namespace WOClient.Library.Models
 {
     public interface IPerson: INotifyPropertyChanged
     {

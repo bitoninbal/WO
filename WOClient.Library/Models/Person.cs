@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using WOClient.Library.Api;
 
-namespace WOClient.Models
+namespace WOClient.Library.Models
 {
     public abstract class Person: IPerson
     {
@@ -10,11 +10,11 @@ namespace WOClient.Models
         {
             Api = new ClientApi();
 
-            _personId  = personId;
+            _personId = personId;
             _managerId = managerId;
             _firstName = firstName;
-            _lastName  = lastName;
-            _email     = email;
+            _lastName = lastName;
+            _email = email;
 
             InitMyTasks();
         }

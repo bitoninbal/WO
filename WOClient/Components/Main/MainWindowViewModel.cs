@@ -9,7 +9,6 @@ using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;
 using WOClient.Enums;
 using WOClient.Library.Models;
-using WOClient.Models;
 
 namespace WOClient.Components.Main
 {
