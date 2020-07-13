@@ -13,7 +13,7 @@
         Title="MainWindow">
     <Window.Resources>
         <ResourceDictionary>
-            <converters:PersonTypeToVisibilityConverter x:Key="PersonTypeToVisibilityConverter" />
+            <converters:PremissionToVisibilityConverter x:Key="PremissionToVisibilityConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -55,8 +55,9 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="FormatListBulletedSquare"
-                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                                  Converter={StaticResource PersonTypeToVisibilityConverter}}" />
+                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                                  Path=Permission,
+                                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="TrackingTasksButton"
                             Grid.Row="1"
                             Grid.Column="1"
@@ -67,8 +68,9 @@
                             FontSize="16"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                 Converter={StaticResource PersonTypeToVisibilityConverter}}" />
+                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                 Path=Permission,
+                                                 Converter={StaticResource PremissionToVisibilityConverter}}" />
 
                     <materialDesign:PackIcon Grid.Row="2"
                                              Grid.Column="0"
@@ -89,8 +91,9 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="AccountGroupOutline"
-                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                                  Converter={StaticResource PersonTypeToVisibilityConverter}}" />
+                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                                  Path=Permission,
+                                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="EmployeesButton"
                             Grid.Row="3"
                             Grid.Column="1"
@@ -101,15 +104,17 @@
                             Foreground="White"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                 Converter={StaticResource PersonTypeToVisibilityConverter}}" />
+                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                 Path=Permission,
+                                                 Converter={StaticResource PremissionToVisibilityConverter}}" />
 
                     <materialDesign:PackIcon Grid.Row="4"
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="Bookshelf"
-                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                                  Converter={StaticResource PersonTypeToVisibilityConverter}}" />
+                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                                  Path=Permission,
+                                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="ReportsButton"
                             Grid.Row="4"
                             Grid.Column="1"
@@ -120,8 +125,9 @@
                             Foreground="White"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                 Converter={StaticResource PersonTypeToVisibilityConverter}}" />
+                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                 Path=Permission,
+                                                 Converter={StaticResource PremissionToVisibilityConverter}}" />
                 </Grid>
             </materialDesign:DrawerHost.LeftDrawerContent>
 
@@ -174,7 +180,7 @@
                                 Content="{Binding CurrentVm}" />
 
                 <materialDesign:Snackbar Grid.Row="2"
-                                         MessageQueue="{Binding MessageQueue}"
+                                         MessageQueue="{Binding Source={x:Static mainComponent:IMainWindowViewModel.MessageQueue}}"
                                          ActionButtonPlacement="Inline"
                                          ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionLightButton}" />
             </Grid>

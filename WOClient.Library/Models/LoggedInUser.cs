@@ -7,11 +7,11 @@ namespace WOClient.Library.Models
     {
         #region Fields
         private int _id;
+        private int _directManager;
         private string _email;
         private string _firstName;
         private string _lastName;
         private PermissionsEnum _permission;
-        private int _directManager;
         #endregion
 
         #region Properties

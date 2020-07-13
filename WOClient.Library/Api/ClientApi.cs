@@ -64,7 +64,7 @@ namespace WOClient.Library.Api
             var httpClient = new HttpClient(httpClientHandler);
             var options = new GrpcChannelOptions { HttpClient = httpClient };
 
-            return GrpcChannel.ForAddress("https://192.168.1.234:5001", options);
+            return GrpcChannel.ForAddress("https://127.0.0.1:5001", options);
         }
         #endregion
     }

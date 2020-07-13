@@ -2,21 +2,21 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using WOClient.Models;
+using WOCommon.Enums;
 
 namespace WOClient.Converters
 {
-    public class PersonTypeToVisibilityConverter: IValueConverter
+    public class PremissionToVisibilityConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null) return Visibility.Collapsed;
-            if (!(value is Person)) return Visibility.Collapsed;
+            if (!(value is PermissionsEnum)) return Visibility.Collapsed;
 
-            var person = (Person)value;
+            var permissions = (PermissionsEnum)value;
 
-            if (person.GetType() == typeof(Employee)) return Visibility.Collapsed;
-            if (person.GetType() == typeof(Manager)) return Visibility.Visible;
+            if (permissions == PermissionsEnum.Employee) return Visibility.Collapsed;
+            if (permissions == PermissionsEnum.Manager) return Visibility.Visible;
 
             return Visibility.Collapsed;
         }

@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
+             xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <UserControl.Resources>
@@ -68,14 +69,16 @@
         <ComboBox Grid.Row="3"
                   Grid.Column="1"
                   Margin="0 10 0 10"
-                  DataContext="{DynamicResource Person.Instance}"
-                  ItemsSource="{Binding MyEmployees}">
+                  ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                        Path=MyEmployees}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center"
-                                   Text="xfjxfgjj" />
-
+                                   Margin="3 0"
+                                   Text="{Binding FirstName}" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="{Binding LastName}" />
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
