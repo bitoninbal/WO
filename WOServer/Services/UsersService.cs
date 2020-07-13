@@ -52,7 +52,7 @@ namespace WOServer.Services
 
             if (result is null)
             {
-                await responseStream.WriteAsync(null);
+                await responseStream.WriteAsync(new UserData());
 
                 return;
             }

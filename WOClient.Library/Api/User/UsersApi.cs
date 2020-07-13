@@ -76,6 +76,8 @@ namespace WOClient.Library.Api.User
 
             while (await result.ResponseStream.MoveNext())
             {
+                if (result.ResponseStream.Current.Id == 0) return null;
+
                 employees.Add(new UserData
                 {
                     Id            = result.ResponseStream.Current.Id,

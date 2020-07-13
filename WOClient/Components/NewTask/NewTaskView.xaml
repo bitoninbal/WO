@@ -4,7 +4,8 @@
              xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
              xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:validations="clr-namespace:WOClient.Validations">
     <UserControl.Resources>
         <ObjectDataProvider x:Key="PriorityEnum"
                             MethodName="GetValues"
@@ -43,30 +44,49 @@
                    VerticalAlignment="Center"
                    Margin="0 30 0 10"
                    Text="Subject:" />
-        <TextBox Grid.Row="1"
+        <TextBox x:Name="SubjectTextBox"
+                 Grid.Row="1"
                  Grid.Column="1"
                  Margin="0 10 0 10" 
-                 VerticalAlignment="Bottom"
-                 Text="{Binding Subject}" />
+                 VerticalAlignment="Bottom">
+            <TextBox.Text>
+                <Binding Path="Subject"
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validations:EmptyStringValidation ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    VerticalAlignment="Center"
                    Margin="0 10 0 10"
                    Text="Final Date:" />
-        <DatePicker Grid.Row="2"
+        <DatePicker x:Name="FinalDatePicker"
+                    Grid.Row="2"
                     Grid.Column="1"
                     Margin="0 10 0 10"
                     Width="300"
-                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                    Text="{Binding FinalDate}" />
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+            <DatePicker.SelectedDate>
+                <Binding Path="FinalDate"
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validations:LegalDateValidation ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
 
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    VerticalAlignment="Center"
                    Margin="0 10 0 10"
                    Text="Employee Name:" />
-        <ComboBox Grid.Row="3"
+        <ComboBox x:Name="EmployeeComboBox"
+                  Grid.Row="3"
                   Grid.Column="1"
                   Margin="0 10 0 10"
                   ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
@@ -82,6 +102,14 @@
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
+            <ComboBox.SelectedItem>
+                <Binding Path="SelectedEmployee"
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validations:ComboBoxValidation ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </ComboBox.SelectedItem>
         </ComboBox>
 
         <TextBlock Grid.Row="4"
@@ -89,11 +117,20 @@
                    VerticalAlignment="Center"
                    Margin="0 10 0 10"
                    Text="Priority:" />
-        <ComboBox Grid.Row="4"
+        <ComboBox x:Name="PriorityComboBox"
+                  Grid.Row="4"
                   Grid.Column="1"
                   Margin="0 10 0 10"
-                  ItemsSource="{Binding Source={StaticResource PriorityEnum}}"
-                  SelectedItem="{Binding Priority}" />
+                  ItemsSource="{Binding Source={StaticResource PriorityEnum}}">
+            <ComboBox.SelectedItem>
+                <Binding Path="Priority"
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validations:ComboBoxValidation ValidatesOnTargetUpdated="True" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </ComboBox.SelectedItem>
+        </ComboBox>
 
         <TextBlock Grid.Row="5"
                    Grid.Column="0"
@@ -115,7 +152,35 @@
                     Orientation="Horizontal">
             <Button Content="Send"
                     Width="100"
-                    Click="SendNewTask_Click" />
+                    Click="SendNewTask_Click">
+                <Button.Style>
+                    <Style TargetType="Button" 
+                           BasedOn="{StaticResource  MaterialDesignRaisedButton}">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=SubjectTextBox, 
+                                                                 Path=(Validation.HasError)}"
+                                               Value="False" />
+                                    <Condition Binding="{Binding ElementName=FinalDatePicker,
+                                                                 Path=(Validation.HasError)}"
+                                               Value="False" />
+                                    <Condition Binding="{Binding ElementName=EmployeeComboBox,
+                                                                 Path=(Validation.HasError)}"
+                                               Value="False" />
+                                    <Condition Binding="{Binding ElementName=PriorityComboBox,
+                                                                 Path=(Validation.HasError)}"
+                                               Value="False" />
+                                </MultiDataTrigger.Conditions>
+
+                                <Setter Property="IsEnabled" Value="True" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
             <Button Content="Close"
                     Width="100"
                     Margin="50 0"
