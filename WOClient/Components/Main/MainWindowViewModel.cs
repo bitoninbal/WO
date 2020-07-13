@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
+﻿using System;
 using WOClient.Components.Base;
 using WOClient.Components.Comments;
 using WOClient.Components.Employees;
@@ -24,8 +23,6 @@ namespace WOClient.Components.Main
                                    IReportsViewModel reportsVm,
                                    ITrackingTasksViewModel trackingTasksVm)
         {
-            MessageQueue = new SnackbarMessageQueue();
-
             _currentVm        = loginVm;
             _commentsVm       = commentsVm;
             _emplyeesVm       = emplyeesVm;
@@ -138,8 +135,6 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("TrackingTasksVm");
             }
         }
-
-        public static SnackbarMessageQueue MessageQueue { get; private set; }
         #endregion
 
         #region Private Methods
@@ -151,21 +146,21 @@ namespace WOClient.Components.Main
         }
         private void InitUser(object sender, EventArgs args)
         {
-            switch (UserInfo.Instance.Permission)
+            switch (LoggedInUser.Instance.Permission)
             {
                 case WOCommon.Enums.PermissionsEnum.Manager:
-                    Person.Instance = new Manager(UserInfo.Instance.Id,
-                                                  UserInfo.Instance.DirectManager,
-                                                  UserInfo.Instance.FirstName,
-                                                  UserInfo.Instance.LastName,
-                                                  UserInfo.Instance.Email);
+                    IMainWindowViewModel.User = new Manager(LoggedInUser.Instance.Id,
+                                                            LoggedInUser.Instance.DirectManager,
+                                                            LoggedInUser.Instance.FirstName,
+                                                            LoggedInUser.Instance.LastName,
+                                                            LoggedInUser.Instance.Email);
                     break;
                 case WOCommon.Enums.PermissionsEnum.Employee:
-                    Person.Instance = new Employee(UserInfo.Instance.Id,
-                                                   UserInfo.Instance.DirectManager,
-                                                   UserInfo.Instance.FirstName,
-                                                   UserInfo.Instance.LastName,
-                                                   UserInfo.Instance.Email);
+                    IMainWindowViewModel.User = new Employee(LoggedInUser.Instance.Id,
+                                                             LoggedInUser.Instance.DirectManager,
+                                                             LoggedInUser.Instance.FirstName,
+                                                             LoggedInUser.Instance.LastName,
+                                                             LoggedInUser.Instance.Email);
                     break;
             }
         }
@@ -175,12 +170,15 @@ namespace WOClient.Components.Main
             {
                 case ViewsEnum.ForgetPassword:
                     CurrentVm = ForgetPasswordVm;
+
                     break;
                 case ViewsEnum.Login:
                     CurrentVm = LoginVm;
+
                     break;
                 case ViewsEnum.MyTasks:
                     CurrentVm = MyTasksVm;
+
                     break;
             }
         }

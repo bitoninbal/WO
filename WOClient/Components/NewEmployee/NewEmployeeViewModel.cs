@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
 using WOClient.Library.Api;
-using WOClient.Models;
 using WOCommon.Enums;
 
 namespace WOClient.Components.NewEmployee
@@ -79,11 +78,11 @@ namespace WOClient.Components.NewEmployee
         {
             try
             {
-                await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, Person.Instance.PersonId);
+                await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, IMainWindowViewModel.User.PersonId);
             }
             catch (Exception)
             {
-                MainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
+                IMainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
             }
         }
         #endregion

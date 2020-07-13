@@ -28,8 +28,6 @@ namespace WOClient.Models
         #endregion
 
         #region Properties
-        public static IPerson Instance { get; set; }
-
         public ObservableCollection<MyTask> MyTasks { get; }
         public string FirstName
         {

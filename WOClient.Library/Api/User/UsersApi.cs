@@ -45,19 +45,19 @@ namespace WOClient.Library.Api.User
 
             if (result.Id == 0) return;
 
-            UserInfo.Instance.Id            = result.Id;
-            UserInfo.Instance.FirstName = result.FirstName;
-            UserInfo.Instance.LastName      = result.LastName;
-            UserInfo.Instance.Email         = result.Email;
-            UserInfo.Instance.DirectManager = result.DirectManager;
+            LoggedInUser.Instance.Id            = result.Id;
+            LoggedInUser.Instance.FirstName = result.FirstName;
+            LoggedInUser.Instance.LastName      = result.LastName;
+            LoggedInUser.Instance.Email         = result.Email;
+            LoggedInUser.Instance.DirectManager = result.DirectManager;
 
             if (result.Permission.Equals("Employee"))
             {
-                UserInfo.Instance.Permission = PermissionsEnum.Employee;
+                LoggedInUser.Instance.Permission = PermissionsEnum.Employee;
             } 
             else
             {
-                UserInfo.Instance.Permission = PermissionsEnum.Manager;
+                LoggedInUser.Instance.Permission = PermissionsEnum.Manager;
             }
         }
 

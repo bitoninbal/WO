@@ -23,7 +23,8 @@ namespace WOClient.Components.Main
         ITrackingTasksViewModel TrackingTasksVm { get; set; }
         IReportsViewModel ReportsVm { get; set; }
 
-        static SnackbarMessageQueue MessageQueue { get; private set; } // Maybe it can be deleted from the class
+        static IPerson User { get; protected set; }
+        static SnackbarMessageQueue MessageQueue { get; } = new SnackbarMessageQueue();
         #endregion
     }
 }

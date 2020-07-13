@@ -74,9 +74,9 @@ namespace WOClient.Components.Login
             {
                 await _api.LoginAsync(UserName, Password.Copy());
 
-                if (UserInfo.Instance.Id == 0)
+                if (LoggedInUser.Instance.Id == 0)
                 {
-                    MainWindowViewModel.MessageQueue.Enqueue("User name or password is incorrect.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
+                    IMainWindowViewModel.MessageQueue.Enqueue("User name or password is incorrect.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
                 }
                 else
                 {
@@ -86,7 +86,7 @@ namespace WOClient.Components.Login
             }
             catch (Exception)
             {
-                MainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object (), false, true, TimeSpan.FromSeconds(6));
+                IMainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object (), false, true, TimeSpan.FromSeconds(6));
             }
         }
         #endregion

@@ -3,7 +3,7 @@ using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
-    public class UserInfo: INotifyPropertyChanged
+    public class LoggedInUser: INotifyPropertyChanged
     {
         #region Fields
         private int _id;
@@ -15,7 +15,7 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Properties
-        public static UserInfo Instance { get; } = new UserInfo();
+        public static LoggedInUser Instance { get; } = new LoggedInUser();
 
         public int Id
         {
