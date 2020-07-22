@@ -1,13 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
     public class Manager: Person
     {
-        public Manager(int personId, int managerId, string firstName, string lastName, string email) : base(personId, managerId, firstName, lastName, email)
+        public Manager(PermissionsEnum permission,
+                       int personId,
+                       int managerId,
+                       string firstName,
+                       string lastName,
+                       string email):
+            base(permission,
+                 personId,
+                 managerId,
+                 firstName,
+                 lastName,
+                 email)
         {
-            Task.Run(Init);
+            Task.Run(InitAsync);
         }
 
         #region Fields
@@ -30,41 +42,20 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Private Methods
-        private async void Init()
+        private async Task InitAsync()
         {
-            await InitMyEmployees();
-            await InitTrackingTasks();
+            await InitMyEmployeesAsync();
+            await InitTrackingTasksAsync();
         }
-        private async Task InitMyEmployees()
+        private async Task InitMyEmployeesAsync()
         {
             var result = await Api.GetEmployeesAsync(PersonId);
 
             if (result is null) return;
 
-            MyEmployees = new ObservableCollection<IPerson>();
-
-            foreach (var user in result)
-            {
-                switch (user.Permission)
-                {
-                    case "Manager":
-                        MyEmployees.Add(new Manager(user.Id,
-                                                    user.DirectManager,
-                                                    user.FirstName,
-                                                    user.LastName,
-                                                    user.Email));
-                        break;
-                    case "Employee":
-                        MyEmployees.Add(new Employee(user.Id,
-                                                     user.DirectManager,
-                                                     user.FirstName,
-                                                     user.LastName,
-                                                     user.Email));
-                        break;
-                }
-            }
+            MyEmployees = result;
         }
-        private async Task InitTrackingTasks()
+        private async Task InitTrackingTasksAsync()
         {
 
         }

@@ -11,28 +11,6 @@ namespace WOClient.Library.Api.User
     internal class UsersApi
     {
         #region Public Methods
-        internal async Task EmployeeRegisterAsync(GrpcChannel channel,
-                                                  string firstName,
-                                                  string lastName,
-                                                  string email,
-                                                  string hashedPassword,
-                                                  PermissionsEnum permission,
-                                                  int directManager)
-            {
-                var client = new Users.UsersClient(channel);
-                var input = new RegisterInput
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Email = email,
-                    Password = hashedPassword,
-                    Permission = permission.ToString(),
-                    DirectManager = directManager
-                };
-
-                await client.RegisterAsync(input);
-            }
-
         internal async Task DeleteEmployeeAsync(GrpcChannel channel, int employeeId)
         {
             var client = new Users.UsersClient(channel);
@@ -43,7 +21,68 @@ namespace WOClient.Library.Api.User
 
             await client.DeleteEmployeeAsync(input);
         }
+        internal async Task<int> EmployeeRegisterAsync(GrpcChannel channel,
+                                                       string firstName,
+                                                       string lastName,
+                                                       string email,
+                                                       string hashedPassword,
+                                                       PermissionsEnum permission,
+                                                       int directManager)
+        {
+            var client = new Users.UsersClient(channel);
+            var input  = new RegisterInput
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Password = hashedPassword,
+                Permission = permission.ToString(),
+                DirectManager = directManager
+            };
+            var result = await client.RegisterAsync(input);
 
+            return result.Value;
+        }
+        internal async Task<ObservableCollection<IPerson>> GetEmployeesAsync(GrpcChannel channel, int managerId)
+        {
+            var client = new Users.UsersClient(channel);
+            var input = new PersonIdInput
+            {
+                PersonId = managerId
+            };
+
+            using var result = client.GetEmployees(input);
+            var employees = new ObservableCollection<IPerson>();
+
+            while (await result.ResponseStream.MoveNext())
+            {
+                if (result.ResponseStream.Current.Id == 0) return null;
+
+                var permission = ConvertStringToPermissionsEnum(result.ResponseStream.Current.Permission);
+
+                switch (permission)
+                {
+                    case PermissionsEnum.Manager:
+                        employees.Add(new Manager(permission,
+                                                  result.ResponseStream.Current.Id,
+                                                  result.ResponseStream.Current.DirectManager,
+                                                  result.ResponseStream.Current.FirstName,
+                                                  result.ResponseStream.Current.LastName,
+                                                  result.ResponseStream.Current.Email));
+                        break;
+                    case PermissionsEnum.Employee:
+                        employees.Add(new Employee(permission,
+                                                   result.ResponseStream.Current.Id,
+                                                   result.ResponseStream.Current.DirectManager,
+                                                   result.ResponseStream.Current.FirstName,
+                                                   result.ResponseStream.Current.LastName,
+                                                   result.ResponseStream.Current.Email));
+                        break;
+                }
+            }
+
+            return employees;
+        }
         internal async Task LoginAsync(GrpcChannel channel, string userName, string password)
         {
             var client = new Users.UsersClient(channel);
@@ -57,51 +96,47 @@ namespace WOClient.Library.Api.User
 
             if (result.Id == 0) return;
 
-            LoggedInUser.Instance.Id            = result.Id;
+            LoggedInUser.Instance.Id = result.Id;
             LoggedInUser.Instance.FirstName = result.FirstName;
-            LoggedInUser.Instance.LastName      = result.LastName;
-            LoggedInUser.Instance.Email         = result.Email;
+            LoggedInUser.Instance.LastName = result.LastName;
+            LoggedInUser.Instance.Email = result.Email;
             LoggedInUser.Instance.DirectManager = result.DirectManager;
 
             if (result.Permission.Equals("Employee"))
             {
                 LoggedInUser.Instance.Permission = PermissionsEnum.Employee;
-            } 
+            }
             else
             {
                 LoggedInUser.Instance.Permission = PermissionsEnum.Manager;
             }
         }
-
-        internal async Task<ObservableCollection<UserData>> GetEmployeesAsync(GrpcChannel channel, int managerId)
+        internal async Task UpdateFieldAsync(GrpcChannel channel, int personId, string value, string columnName)
         {
             var client = new Users.UsersClient(channel);
-            var input = new PersonIdInput
+            var input = new UpdateFieldInput
             {
-                PersonId = managerId
+                PersonId   = personId,
+                NewValue   = value,
+                ColumnName = columnName
             };
 
-            using var result = client.GetEmployees(input);
-            var employees = new ObservableCollection<UserData>();
+            await client.UpdateFieldAsync(input);
+        }
+        #endregion
 
-            //if (result.ResponseStream.Current is null) return null;
-
-            while (await result.ResponseStream.MoveNext())
+        #region Private Methods
+        private PermissionsEnum ConvertStringToPermissionsEnum(string permissionString)
+        {
+            switch (permissionString)
             {
-                if (result.ResponseStream.Current.Id == 0) return null;
-
-                employees.Add(new UserData
-                {
-                    Id            = result.ResponseStream.Current.Id,
-                    FirstName     = result.ResponseStream.Current.FirstName,
-                    LastName      = result.ResponseStream.Current.LastName,
-                    Email         = result.ResponseStream.Current.Email,
-                    Permission    = result.ResponseStream.Current.Permission,
-                    DirectManager = result.ResponseStream.Current.DirectManager,
-                });
+                case "Employee":
+                    return PermissionsEnum.Employee;
+                case "Manager":
+                    return PermissionsEnum.Manager;
+                default:
+                    return PermissionsEnum.Employee;
             }
-
-            return employees;
         }
         #endregion
     }

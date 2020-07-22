@@ -1,5 +1,5 @@
-﻿using WOClient.Components.Base;
-using WOClient.Components.NewEmployee;
+﻿using System.Threading.Tasks;
+using WOClient.Components.Base;
 using WOClient.Library.Models;
 
 namespace WOClient.Components.Employees
@@ -8,7 +8,11 @@ namespace WOClient.Components.Employees
     {
         #region Properties
         IPerson Employee { get; set; }
-        INewEmployeeViewModel NewEmployeeVm { get; }
+        #endregion
+
+        #region Methods
+        Task DeleteEmployeeAsync();
+        Task OpenNewEmployeeAsync();
         #endregion
     }
 }

@@ -34,7 +34,6 @@ namespace WOClient.Components.Employees
                 NotifyPropertyChanged("Employee");
             }
         }
-        public INewEmployeeViewModel NewEmployeeVm { get; }
         #endregion
 
         #region Public Methods
@@ -46,9 +45,6 @@ namespace WOClient.Components.Employees
 
             user.MyEmployees.Remove(Employee);
         }
-        #endregion
-
-        #region Private Methods
         public async Task OpenNewEmployeeAsync()
         {
             var view = new NewEmployeeView

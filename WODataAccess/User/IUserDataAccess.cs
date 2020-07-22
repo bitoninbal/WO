@@ -10,6 +10,9 @@ namespace WODataAccess.User
     public interface IUserDataAccess
     {
         #region Methods
+        Task DeleteEmployeeDataAccessAsync(int personId);
+        Task<IEnumerable<UserModel>> GetEmployeesDataAccessAsync(int managerId);
+        Task<int> GetEmployeeIdAsync(string email);
         Task<UserModel> LoginDataAccessAsync(string userName, string hashedPassword);
         Task RegisterDataAccessAsync(string FirstName,
                                      string LastName,
@@ -17,8 +20,7 @@ namespace WODataAccess.User
                                      string Password,
                                      string Permission,
                                      int DirectManager);
-        Task<IEnumerable<UserModel>> GetEmployeesDataAccessAsync(int managerId);
-        Task DeleteEmployeeDataAccessAsync(int personId);
+        Task UpdateFieldAsync(int id, string newValue, string columnName);
         #endregion
     }
 }

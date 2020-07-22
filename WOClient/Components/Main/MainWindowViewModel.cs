@@ -148,14 +148,16 @@ namespace WOClient.Components.Main
             switch (LoggedInUser.Instance.Permission)
             {
                 case WOCommon.Enums.PermissionsEnum.Manager:
-                    IMainWindowViewModel.User = new Manager(LoggedInUser.Instance.Id,
+                    IMainWindowViewModel.User = new Manager(LoggedInUser.Instance.Permission,
+                                                            LoggedInUser.Instance.Id,
                                                             LoggedInUser.Instance.DirectManager,
                                                             LoggedInUser.Instance.FirstName,
                                                             LoggedInUser.Instance.LastName,
                                                             LoggedInUser.Instance.Email);
                     break;
                 case WOCommon.Enums.PermissionsEnum.Employee:
-                    IMainWindowViewModel.User = new Employee(LoggedInUser.Instance.Id,
+                    IMainWindowViewModel.User = new Employee(LoggedInUser.Instance.Permission, 
+                                                             LoggedInUser.Instance.Id,
                                                              LoggedInUser.Instance.DirectManager,
                                                              LoggedInUser.Instance.FirstName,
                                                              LoggedInUser.Instance.LastName,

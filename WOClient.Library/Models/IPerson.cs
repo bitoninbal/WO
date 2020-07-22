@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
@@ -10,6 +11,7 @@ namespace WOClient.Library.Models
         string Email { get; set; }
         string FirstName { get; set; }
         string LastName { get; set; }
+        PermissionsEnum Permission { get; set; }
         ObservableCollection<MyTask> MyTasks { get; }
     }
 }

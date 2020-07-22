@@ -1,25 +1,30 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using WOClient.Library.Api;
+using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
     public abstract class Person: IPerson
     {
-        protected Person(int personId, int managerId, string firstName, string lastName, string email)
+        protected Person(PermissionsEnum permission, int personId, int managerId, string firstName, string lastName, string email)
         {
             Api = new ClientApi();
 
-            _personId = personId;
-            _managerId = managerId;
-            _firstName = firstName;
-            _lastName = lastName;
-            _email = email;
+            _permission = permission;
+            _personId   = personId;
+            _managerId  = managerId;
+            _firstName  = firstName;
+            _lastName   = lastName;
+            _email      = email;
 
             InitMyTasks();
         }
 
         #region Fields
+        private PermissionsEnum _permission;
         private int _personId;
         private int _managerId;
         private string _firstName;
@@ -29,6 +34,18 @@ namespace WOClient.Library.Models
 
         #region Properties
         public ObservableCollection<MyTask> MyTasks { get; }
+        public PermissionsEnum Permission
+        {
+            get => _permission;
+            set
+            {
+                if (_permission == value) return;
+
+                _permission = value;
+                NotifyPropertyChanged(nameof(Permission));
+                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "Permission"));
+            }
+        }
         public string FirstName
         {
             get => _firstName;
@@ -38,6 +55,7 @@ namespace WOClient.Library.Models
 
                 _firstName = value;
                 NotifyPropertyChanged("FirstName");
+                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "FirstName"));
             }
         }
         public string LastName
@@ -49,6 +67,7 @@ namespace WOClient.Library.Models
 
                 _lastName = value;
                 NotifyPropertyChanged("LastName");
+                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "LastName"));
             }
         }
         public string Email
@@ -60,6 +79,7 @@ namespace WOClient.Library.Models
 
                 _email = value;
                 NotifyPropertyChanged("Email");
+                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "Email"));
             }
         }
         public int PersonId
@@ -89,6 +109,10 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Methods
+        private async Task UpdateFieldInDbAsync<T>(int personId, T value, string columnName)
+        {
+            await Api.UpdateFieldAsync(personId, value, columnName);
+        }
         protected void InitMyTasks()
         {
 

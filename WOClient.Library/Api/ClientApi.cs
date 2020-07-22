@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Security;
 using System.Threading.Tasks;
-using WOClient.Library.Api.Protos;
 using WOClient.Library.Api.User;
+using WOClient.Library.Models;
 using WOCommon.Enums;
 using WOCommon.Extensions;
 
@@ -29,18 +29,29 @@ namespace WOClient.Library.Api
             await _usersApi.DeleteEmployeeAsync(channel, employeeId);
             await channel.ShutdownAsync();
         }
-        public async Task EmployeeRegisterAsync(string firstName,
-                                                string lastName,
-                                                string email,
-                                                SecureString password,
-                                                PermissionsEnum permission,
-                                                int directManager)
+        public async Task<int> EmployeeRegisterAsync(string firstName,
+                                                     string lastName,
+                                                     string email,
+                                                     SecureString password,
+                                                     PermissionsEnum permission,
+                                                     int directManager)
         {
             var channel        = GetChannel();
             var hashedPassword = password.HashValue();
+            var employeeId = await _usersApi.EmployeeRegisterAsync(channel, firstName, lastName, email, hashedPassword, permission, directManager);
 
-            await _usersApi.EmployeeRegisterAsync(channel, firstName, lastName, email, hashedPassword, permission, directManager);
             await channel.ShutdownAsync();
+
+            return employeeId;
+        }
+        public async Task<ObservableCollection<IPerson>> GetEmployeesAsync(int managerId)
+        {
+            var channel = GetChannel();
+            var result = await _usersApi.GetEmployeesAsync(channel, managerId);
+
+            await channel.ShutdownAsync();
+
+            return result;
         }
         public async Task LoginAsync(string userName, SecureString password)
         {
@@ -50,14 +61,29 @@ namespace WOClient.Library.Api
             await _usersApi.LoginAsync(channel, userName, hashedPassword);
             await channel.ShutdownAsync();
         }
-        public async Task<ObservableCollection<UserData>> GetEmployeesAsync(int managerId)
+        public async Task UpdateFieldAsync<T>(int personId, T value, string columnName)
         {
+            string newValue;
             var channel = GetChannel();
-            var result = await _usersApi.GetEmployeesAsync(channel, managerId);
 
+            switch (value)
+            {
+                case PermissionsEnum permission:
+                    newValue = permission.ToString();
+
+                    break;
+                case string str:
+                    newValue = str;
+
+                    break;
+                default:
+                    newValue = value.ToString();
+
+                    break;
+            }
+
+            await _usersApi.UpdateFieldAsync(channel, personId, newValue, columnName);
             await channel.ShutdownAsync();
-
-            return result;
         }
         #endregion
 
@@ -71,7 +97,7 @@ namespace WOClient.Library.Api
             var httpClient = new HttpClient(httpClientHandler);
             var options = new GrpcChannelOptions { HttpClient = httpClient };
 
-            return GrpcChannel.ForAddress("https://127.0.0.1:5001", options);
+            return GrpcChannel.ForAddress("https://192.168.1.234:5001", options);
         }
         #endregion
     }

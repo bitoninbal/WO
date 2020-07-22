@@ -1,9 +1,11 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Security;
 using System.Threading.Tasks;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
 using WOClient.Library.Api;
+using WOClient.Library.Models;
 using WOCommon.Enums;
 
 namespace WOClient.Components.NewEmployee
@@ -78,12 +80,39 @@ namespace WOClient.Components.NewEmployee
         {
             try
             {
-                await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, IMainWindowViewModel.User.PersonId);
+                var employeeId = await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, IMainWindowViewModel.User.PersonId);
+
+                AddNewUserToCollection(employeeId);
+                SetPropertiesToDefault();
+
+                DialogHost.CloseDialogCommand.Execute(null, null);
             }
             catch (Exception)
             {
                 IMainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
             }
+        }
+        #endregion
+
+        #region Private Methods
+        private void AddNewUserToCollection(int employeeId)
+        {
+            var user = (Manager)IMainWindowViewModel.User;
+            switch (Permission)
+            {
+                case PermissionsEnum.Manager:
+                    user.MyEmployees.Add(new Manager(Permission, employeeId, user.PersonId, FirstName, LastName, Email));
+                    break;
+                case PermissionsEnum.Employee:
+                    user.MyEmployees.Add(new Employee(Permission, employeeId, user.PersonId, FirstName, LastName, Email));
+                    break;
+            }
+        }
+        private void SetPropertiesToDefault()
+        {
+            Email     = default;
+            FirstName = default;
+            LastName  = default;
         }
         #endregion
     }

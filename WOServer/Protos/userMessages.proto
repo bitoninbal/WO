@@ -2,12 +2,14 @@ syntax = "proto3";
 option csharp_namespace = "WOServer.Protos";
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
 
 service Users {
-	rpc Register (RegisterInput) returns (google.protobuf.Empty);
+	rpc Register (RegisterInput) returns (google.protobuf.Int32Value);
 	rpc LoginRequset (LoginInput) returns (UserData);
 	rpc DeleteEmployee (PersonIdInput) returns (google.protobuf.Empty);
 	rpc GetEmployees (PersonIdInput) returns (stream UserData);
+	rpc UpdateField (UpdateFieldInput) returns (google.protobuf.Empty);
 }
 
 message PersonIdInput {
@@ -35,4 +37,10 @@ message UserData {
 	string lastName     = 4;
 	string permission   = 5;
 	int32 directManager = 6;
+}
+
+message UpdateFieldInput {
+	int32 personId    = 1;
+	string newValue   = 2;
+	string columnName = 3;
 }

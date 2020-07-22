@@ -1,10 +1,21 @@
-﻿namespace WOClient.Library.Models
+﻿using WOCommon.Enums;
+
+namespace WOClient.Library.Models
 {
     public class Employee: Person
     {
-        public Employee(int personId, int managerId, string firstName, string lastName, string email) : base(personId, managerId, firstName, lastName, email)
-        {
-
-        }
+        public Employee(PermissionsEnum permission,
+                        int personId,
+                        int managerId,
+                        string firstName,
+                        string lastName,
+                        string email):
+            base(permission,
+                personId,
+                managerId,
+                firstName,
+                lastName,
+                email)
+        {}
     }
 }
