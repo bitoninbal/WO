@@ -114,6 +114,39 @@ namespace WODataAccess.User
                 await cnn.CloseAsync();
             }
         }
+
+        public async Task<bool> IsEmployeeEmailExistAsync(string email)
+        {
+            var cnn = new SqlConnection(ConnectionString);
+            var query = "SELECT Id FROM Users WHERE Email = @Email";
+            var cmd = new SqlCommand(query, cnn);
+
+            cmd.Parameters.AddWithValue("@Email", email);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                await cnn.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync(CommandBehavior.SingleRow))
+                {
+                    if (!reader.HasRows) return false;
+
+                    await reader.ReadAsync();
+
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                await cmd.DisposeAsync();
+                await cnn.CloseAsync();
+            }
+        }
         public async Task<UserModel> LoginDataAccessAsync(string userName, string hashedPassword)
         {
             var cnn = new SqlConnection(ConnectionString);

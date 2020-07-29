@@ -82,6 +82,16 @@ namespace WOServer.Services
                 Value = employeeId
             };
         }
+
+        public override async Task<BoolValue> IsMailExist(StringValue request, ServerCallContext context)
+        {
+            var result = await _dataAccess.IsEmployeeEmailExistAsync(request.Value);
+
+            return new BoolValue
+            {
+                Value = result
+            };
+        }
         public override async Task<Empty> UpdateField(UpdateFieldInput request, ServerCallContext context)
         {
             await _dataAccess.UpdateFieldAsync(request.PersonId, request.NewValue, request.ColumnName);

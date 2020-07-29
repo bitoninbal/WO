@@ -1,0 +1,21 @@
+syntax = "proto3";
+option csharp_namespace = "WOClient.Library.Api.Protos";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+service Tasks {
+	rpc AddTask (TaskInput) returns (google.protobuf.Int32Value);
+    rpc GetTrackingTasks (google.protobuf.Int32Value) returns (stream TaskInput);
+}
+
+message TaskInput {
+	google.protobuf.Timestamp finalDate = 1;
+	int32 employeeId                    = 2;
+	int32 managerId                     = 3;
+	string priority                     = 4;
+	string description                  = 5;
+	string subject                      = 6;
+}
+

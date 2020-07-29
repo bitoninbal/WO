@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using WODataAccess.Models;
+
+namespace WODataAccess.User
+{
+    public interface ITasksDataAccess
+    {
+        Task<int> AddTaskDataAccessAsync(DateTime finalDate, 
+                                    int      employeeId, 
+                                    int      managerId, 
+                                    string   priority, 
+                                    string   description, 
+                                    string   subject);
+        Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId);
+    }
+}

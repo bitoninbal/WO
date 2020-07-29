@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Security;
 using System.Threading.Tasks;
 using WOClient.Library.Models;
@@ -16,9 +17,16 @@ namespace WOClient.Library.Api
                                         SecureString password,
                                         PermissionsEnum permission,
                                         int directManager);
+        Task<int> AddTaskAsync(DateTime finalDate,
+                          int employeeId,
+                          int managerId,
+                          PriorityEnum priority,
+                          string description,
+                          string subject);
         Task<ObservableCollection<IPerson>> GetEmployeesAsync(int managerId);
         Task LoginAsync(string email, SecureString password);
         Task UpdateFieldAsync<T>(int personId, T value, string columnName);
+        Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(int personId);
         #endregion
     }
 }

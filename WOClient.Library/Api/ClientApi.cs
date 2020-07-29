@@ -1,4 +1,5 @@
 ﻿using Grpc.Net.Client;
+using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Security;
@@ -15,10 +16,12 @@ namespace WOClient.Library.Api
         public ClientApi()
         {
             _usersApi = new UsersApi();
+            _tasksApi = new TasksApi();
         }
 
         #region Fields
         private readonly UsersApi _usersApi;
+        private readonly TasksApi _tasksApi;
         #endregion
 
         #region Public Methods
@@ -38,16 +41,44 @@ namespace WOClient.Library.Api
         {
             var channel        = GetChannel();
             var hashedPassword = password.HashValue();
-            var employeeId = await _usersApi.EmployeeRegisterAsync(channel, firstName, lastName, email, hashedPassword, permission, directManager);
+            if (!(await _usersApi.IsMailExistAsync(channel, email)))
+            {
+                var employeeId = await _usersApi.EmployeeRegisterAsync(channel, firstName, lastName, email, hashedPassword, permission, directManager);
+                await channel.ShutdownAsync();
+                return employeeId;
+            }
+
+            await channel.ShutdownAsync();
+            return 0;
+        }
+
+        public async Task<int> AddTaskAsync(DateTime          finalDate,
+                                            int          employeeId,
+                                            int          managerId,
+                                            PriorityEnum priority,
+                                            string       description,
+                                            string       subject)
+        {
+            var channel = GetChannel();
+            var taskId = await _tasksApi.AddTaskAsync(channel, finalDate ,employeeId, managerId, priority, description, subject);
+
+            await channel.ShutdownAsync();
+            return taskId;
+            
+        }
+        public async Task<ObservableCollection<IPerson>> GetEmployeesAsync(int personId)
+        {
+            var channel = GetChannel();
+            var result = await _usersApi.GetEmployeesAsync(channel, personId);
 
             await channel.ShutdownAsync();
 
-            return employeeId;
+            return result;
         }
-        public async Task<ObservableCollection<IPerson>> GetEmployeesAsync(int managerId)
+        public async Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(int personId)
         {
             var channel = GetChannel();
-            var result = await _usersApi.GetEmployeesAsync(channel, managerId);
+           var result = await _tasksApi.GetTrackingTasksAsync(channel, personId);
 
             await channel.ShutdownAsync();
 
@@ -97,7 +128,7 @@ namespace WOClient.Library.Api
             var httpClient = new HttpClient(httpClientHandler);
             var options = new GrpcChannelOptions { HttpClient = httpClient };
 
-            return GrpcChannel.ForAddress("https://192.168.1.234:5001", options);
+            return GrpcChannel.ForAddress("https://127.0.0.1:5001", options);
         }
         #endregion
     }

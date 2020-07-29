@@ -1,39 +1,34 @@
 ﻿<UserControl x:Class="WOClient.Components.TrackingTasks.TrackingTasksView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Grid VerticalAlignment="Top"
                 HorizontalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   Text="Tracking Tasks"
-                   Margin="0, 20"
-                   HorizontalAlignment="Center"
-                   FontFamily="Segoe UI Light"
-                   FontSize="30" />
-        <Button Grid.Row="0"
-                Grid.Column="1"
-                Width="30"
-                Height="30"
-                Margin="20 0"
-                Command="{Binding OpenNewTaskCommand}"
-                Content="{materialDesign:PackIcon Kind=Plus}"
-                Style="{StaticResource MaterialDesignFloatingActionLightButton}"
-                ToolTip="Add new task" />
-
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Width="500"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="Tracking Tasks"
+                       Margin="100 0 0 0"
+                       FontFamily="Segoe UI Light"
+                       FontSize="30" />
+            <Button Width="30"
+                    Height="30"
+                    Margin="30 0"
+                    Command="{Binding OpenNewTaskCommand}"
+                    Content="{materialDesign:PackIcon Kind=Plus}"
+                    Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+                    ToolTip="Add new task" />
+        </StackPanel>
         <TextBlock Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
                    HorizontalAlignment="Center"
+                   Margin="0 10"
                    Text="You have no tasks to follow.">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
@@ -49,17 +44,19 @@
         </TextBlock>
 
         <ListBox Grid.Row="1"
-                 Grid.Column="0"
-                 Grid.ColumnSpan="2"
+                 Margin="0 10"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 VirtualizingPanel.IsVirtualizing="True">
+                 VirtualizingPanel.IsVirtualizing="True"
+                 ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                        Path=TrackingTasks}">
             <ListBox.Style>
                 <Style TargetType="{x:Type ListBox}"
                        BasedOn="{StaticResource MaterialDesignListBox}">
                     <Setter Property="Visibility" Value="Visible" />
 
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Tasks.Count}" Value="0">
+                        <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                                       Path=TrackingTasks}" Value="0">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>

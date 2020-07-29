@@ -17,8 +17,9 @@ namespace WOClient.Library.Models
         private string _description;
         private Color _bgColor;
         private DateTime _finalDate;
-        private string _taskName;
+        private string _subject;
         private PriorityEnum _priority;
+        private int _taskId;
         #endregion
 
         #region Properties
@@ -31,6 +32,17 @@ namespace WOClient.Library.Models
 
                 _bgColor = value;
                 NotifyPropertyChanged("BgColor");
+            }
+        }
+        public int TaskId
+        {
+            get => _taskId;
+            set
+            {
+                if (_taskId == value) return;
+
+                _taskId = value;
+                NotifyPropertyChanged("TaskId");
             }
         }
         public string Description
@@ -66,15 +78,15 @@ namespace WOClient.Library.Models
                 NotifyPropertyChanged("Priority");
             }
         }
-        public string TaskName
+        public string Subject
         {
-            get => _taskName;
+            get => _subject;
             set
             {
-                if (_taskName == value) return;
+                if (_subject == value) return;
 
-                _taskName = value;
-                NotifyPropertyChanged("TaskName");
+                _subject = value;
+                NotifyPropertyChanged("Subject");
             }
         }
         public ObservableCollection<Comment> Comments { get; }

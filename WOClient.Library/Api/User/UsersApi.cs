@@ -1,5 +1,7 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Grpc.Net.Client;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WOClient.Library.Api.Protos;
@@ -20,6 +22,17 @@ namespace WOClient.Library.Api.User
             };
 
             await client.DeleteEmployeeAsync(input);
+        }
+        internal async Task<bool> IsMailExistAsync(GrpcChannel channel, string email)
+        {
+            var client = new Users.UsersClient(channel);
+            var input = new StringValue
+            {
+                Value = email
+            };
+
+            var result = await client.IsMailExistAsync(input);
+            return result.Value;
         }
         internal async Task<int> EmployeeRegisterAsync(GrpcChannel channel,
                                                        string firstName,

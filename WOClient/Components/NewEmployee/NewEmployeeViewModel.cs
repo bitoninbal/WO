@@ -2,6 +2,7 @@
 using System;
 using System.Security;
 using System.Threading.Tasks;
+using System.Windows;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
 using WOClient.Library.Api;
@@ -82,10 +83,16 @@ namespace WOClient.Components.NewEmployee
             {
                 var employeeId = await _api.EmployeeRegisterAsync(FirstName, LastName, Email, Password.Copy(), Permission, IMainWindowViewModel.User.PersonId);
 
-                AddNewUserToCollection(employeeId);
-                SetPropertiesToDefault();
-
-                DialogHost.CloseDialogCommand.Execute(null, null);
+                if(employeeId == 0)
+                {
+                    MessageBox.Show("User already exist.");
+                }
+                else
+                {
+                    AddNewUserToCollection(employeeId);
+                    SetPropertiesToDefault();
+                    DialogHost.CloseDialogCommand.Execute(null, null);
+                }
             }
             catch (Exception)
             {

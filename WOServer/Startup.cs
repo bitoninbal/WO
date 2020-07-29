@@ -15,7 +15,8 @@ namespace WOServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddScoped<IUserDataAccess, UserDataAccess>();
+            services.AddScoped<IUserDataAccess,  UserDataAccess>();
+            services.AddScoped<ITasksDataAccess, TasksDataAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -31,6 +32,7 @@ namespace WOServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<UsersService>();
+                endpoints.MapGrpcService<TasksService>();
 
                 endpoints.MapGet("/", async context =>
                 {

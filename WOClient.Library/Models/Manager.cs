@@ -19,11 +19,14 @@ namespace WOClient.Library.Models
                  lastName,
                  email)
         {
+            MyEmployees   = new ObservableCollection<IPerson>();
+            TrackingTasks = new ObservableCollection<MyTask>();
             Task.Run(InitAsync);
         }
 
         #region Fields
         private ObservableCollection<IPerson> _myEmployees;
+        private ObservableCollection<MyTask> _trackingTasks;
         #endregion
 
         #region Properties
@@ -38,7 +41,17 @@ namespace WOClient.Library.Models
                 NotifyPropertyChanged("MyEmployees");
             }
         }
-        public ObservableCollection<MyTask> TrackingTasks { get; }
+        public ObservableCollection<MyTask> TrackingTasks
+        {
+            get => _trackingTasks;
+            set
+            {
+                if (_trackingTasks == value) return;
+
+                _trackingTasks = value;
+                NotifyPropertyChanged("TrackingTasks");
+            }
+        }
         #endregion
 
         #region Private Methods
@@ -57,7 +70,11 @@ namespace WOClient.Library.Models
         }
         private async Task InitTrackingTasksAsync()
         {
+            var result = await Api.GetTrackingTasksAsync(PersonId);
 
+            if (result is null) return;
+
+            TrackingTasks = result;
         }
         #endregion
     }

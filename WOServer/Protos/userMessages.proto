@@ -10,6 +10,7 @@ service Users {
 	rpc DeleteEmployee (PersonIdInput) returns (google.protobuf.Empty);
 	rpc GetEmployees (PersonIdInput) returns (stream UserData);
 	rpc UpdateField (UpdateFieldInput) returns (google.protobuf.Empty);
+	rpc IsMailExist (google.protobuf.StringValue) returns (google.protobuf.BoolValue);
 }
 
 message PersonIdInput {
