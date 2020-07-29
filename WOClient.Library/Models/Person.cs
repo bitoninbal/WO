@@ -42,6 +42,7 @@ namespace WOClient.Library.Models
                 if (_permission == value) return;
 
                 _permission = value;
+
                 NotifyPropertyChanged(nameof(Permission));
                 Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "Permission"));
             }
@@ -54,6 +55,7 @@ namespace WOClient.Library.Models
                 if (_firstName == value) return;
 
                 _firstName = value;
+
                 NotifyPropertyChanged("FirstName");
                 Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "FirstName"));
             }
@@ -66,6 +68,7 @@ namespace WOClient.Library.Models
                 if (_lastName == value) return;
 
                 _lastName = value;
+
                 NotifyPropertyChanged("LastName");
                 Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "LastName"));
             }
@@ -78,6 +81,7 @@ namespace WOClient.Library.Models
                 if (_email == value) return;
 
                 _email = value;
+
                 NotifyPropertyChanged("Email");
                 Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "Email"));
             }

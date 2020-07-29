@@ -10,6 +10,7 @@ namespace WOClient.Converters
         {
             if (value == null) return false;
             if (value.ToString().Equals(string.Empty)) return false;
+
             return true;
         }
 

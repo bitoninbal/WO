@@ -238,7 +238,7 @@ namespace WODataAccess.User
                 await cnn.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return;
             }

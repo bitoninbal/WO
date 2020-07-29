@@ -12,13 +12,14 @@ namespace WOClient.Library.Api.User
 {
     public class TasksApi
     {
-        internal async Task<int> AddTaskAsync(GrpcChannel  channel,
-                                              DateTime     finalDate,
-                                              int          employeeId,
-                                              int          managerId,
-                                              PriorityEnum priority,
-                                              string       description,
-                                              string       subject)
+        #region Internal Methods
+        internal async Task<int> AddTaskAsync(GrpcChannel channel,
+                                      DateTime finalDate,
+                                      int employeeId,
+                                      int managerId,
+                                      PriorityEnum priority,
+                                      string description,
+                                      string subject)
         {
             var client = new Tasks.TasksClient(channel);
 
@@ -31,8 +32,8 @@ namespace WOClient.Library.Api.User
                 Description = description,
                 Subject = subject
             };
-
             var taskId = await client.AddTaskAsync(input);
+
             return taskId.Value;
         }
 
@@ -52,19 +53,22 @@ namespace WOClient.Library.Api.User
                 var currTask = new MyTask
                 {
                     Description = result.ResponseStream.Current.Description,
-                    FinalDate   = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
-                    Priority    = ConvertPriority(result.ResponseStream.Current.Priority),
-                    Subject     = result.ResponseStream.Current.Subject
+                    FinalDate = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
+                    Priority = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
+                    Subject = result.ResponseStream.Current.Subject
                 };
+
                 trackingTasks.Add(currTask);
             }
 
             return trackingTasks;
         }
+        #endregion
 
-        private PriorityEnum ConvertPriority(string priority)
+        #region Private Methods
+        private PriorityEnum ConvertStringToProretyEnum(string priority)
         {
-            switch(priority)
+            switch (priority)
             {
                 case "Low":
                     return PriorityEnum.Low;
@@ -75,6 +79,7 @@ namespace WOClient.Library.Api.User
                 default:
                     return PriorityEnum.Low;
             }
-        }
+        } 
+        #endregion
     }
 }

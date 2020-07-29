@@ -40,7 +40,7 @@
                 ToolTip="Add new employee"
                 Click="OpenNewEmployee_Click"
                 Content="{materialDesign:PackIcon Kind=Plus}"
-                Style="{StaticResource MaterialDesignFloatingActionLightButton}"/>
+                Style="{StaticResource MaterialDesignFloatingActionLightButton}" />
 
         <DataGrid Grid.Row="1"
                   Grid.Column="0"

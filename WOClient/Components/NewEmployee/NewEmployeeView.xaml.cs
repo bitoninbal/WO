@@ -12,6 +12,7 @@ namespace WOClient.Components.NewEmployee
             PassErrTextBlock.Text = " ";
         }
 
+        #region Private Methods
         private async void NewEmplyee_Click(object sender, RoutedEventArgs e)
         {
             var vm = (NewEmployeeViewModel)DataContext;
@@ -37,6 +38,7 @@ namespace WOClient.Components.NewEmployee
 
                 newEmplyeeVm.Password = PassBox.SecurePassword.Copy();
             }
-        }
+        } 
+        #endregion
     }
 }

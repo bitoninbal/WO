@@ -109,9 +109,11 @@ namespace WOClient.Components.NewEmployee
             {
                 case PermissionsEnum.Manager:
                     user.MyEmployees.Add(new Manager(Permission, employeeId, user.PersonId, FirstName, LastName, Email));
+
                     break;
                 case PermissionsEnum.Employee:
                     user.MyEmployees.Add(new Employee(Permission, employeeId, user.PersonId, FirstName, LastName, Email));
+
                     break;
             }
         }

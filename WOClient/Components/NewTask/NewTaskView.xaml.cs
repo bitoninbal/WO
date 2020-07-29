@@ -12,11 +12,13 @@ namespace WOClient.Components.NewTask
             InitializeComponent();
         }
 
+        #region Private Methods
         private async void SendNewTask_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var vm = (NewTaskViewModel)DataContext;
 
             await vm.SendNewTaskAsync();
-        }
+        } 
+        #endregion
     }
 }

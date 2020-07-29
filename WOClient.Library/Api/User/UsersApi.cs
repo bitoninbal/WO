@@ -30,8 +30,8 @@ namespace WOClient.Library.Api.User
             {
                 Value = email
             };
-
             var result = await client.IsMailExistAsync(input);
+
             return result.Value;
         }
         internal async Task<int> EmployeeRegisterAsync(GrpcChannel channel,
@@ -104,7 +104,6 @@ namespace WOClient.Library.Api.User
                 Email = userName,
                 Password = password
             };
-
             var result = await client.LoginRequsetAsync(input);
 
             if (result.Id == 0) return;
@@ -116,13 +115,9 @@ namespace WOClient.Library.Api.User
             LoggedInUser.Instance.DirectManager = result.DirectManager;
 
             if (result.Permission.Equals("Employee"))
-            {
                 LoggedInUser.Instance.Permission = PermissionsEnum.Employee;
-            }
             else
-            {
                 LoggedInUser.Instance.Permission = PermissionsEnum.Manager;
-            }
         }
         internal async Task UpdateFieldAsync(GrpcChannel channel, int personId, string value, string columnName)
         {

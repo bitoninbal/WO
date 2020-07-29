@@ -16,13 +16,14 @@ namespace WOClient.Components.NewTask
             _api         = api;
             _description = string.Empty;
         }
+
         #region Fields
-        private DateTime     _finalDate = DateTime.Now;
-        private IPerson      _selectedEmployee;
-        private PriorityEnum _priority  = PriorityEnum.Low;
         private string       _description;
         private string       _subject;
+        private DateTime     _finalDate = DateTime.Now;
         private IClientApi   _api;
+        private IPerson      _selectedEmployee;
+        private PriorityEnum _priority  = PriorityEnum.Low;
         #endregion
 
         #region Properties
@@ -89,7 +90,13 @@ namespace WOClient.Components.NewTask
             try
             {
                 DialogHost.CloseDialogCommand.Execute(null, null);
-                var taskId = await _api.AddTaskAsync(FinalDate.Date.ToUniversalTime(), SelectedEmployee.PersonId, SelectedEmployee.ManagerId, Priority, Description, Subject);
+
+                var taskId = await _api.AddTaskAsync(FinalDate.Date.ToUniversalTime(),
+                                                     SelectedEmployee.PersonId,
+                                                     SelectedEmployee.ManagerId,
+                                                     Priority,
+                                                     Description,
+                                                     Subject);
                 var newTask = new MyTask
                 {
                     Subject     = Subject,
@@ -99,27 +106,30 @@ namespace WOClient.Components.NewTask
                     TaskId      = taskId
                 };
                 var user = IMainWindowViewModel.User as Manager;
+
                 user.TrackingTasks.Add(newTask);
                 AddTaskToEmployee(newTask);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 IMainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
             }
         }
-        public void AddTaskToEmployee(MyTask newTask)
+        #endregion
+
+        #region Private Methods
+        private void AddTaskToEmployee(MyTask newTask)
         {
             var user = IMainWindowViewModel.User as Manager;
+
             foreach (var employee in user.MyEmployees)
             {
-                if(employee.PersonId == SelectedEmployee.PersonId)
-                {
-                    employee.MyTasks.Add(newTask);
-                    break;
-                }
+                if (employee.PersonId != SelectedEmployee.PersonId) continue;
+
+                employee.MyTasks.Add(newTask);
             }
         }
         #endregion
-    } 
+    }
 }

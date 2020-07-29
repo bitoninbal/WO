@@ -25,6 +25,7 @@ namespace WOServer.Services
                                                      request.Priority,
                                                      request.Description,
                                                      request.Subject);
+
             return new Int32Value {Value = taskId};
         }
         public override async Task GetTrackingTasks(PersonIdInput request, IServerStreamWriter<TaskInput> responseStream, ServerCallContext context)
@@ -47,6 +48,5 @@ namespace WOServer.Services
                 await responseStream.WriteAsync(tasks);
             }
         }
-
     }
 }

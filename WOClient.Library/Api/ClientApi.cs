@@ -41,18 +41,19 @@ namespace WOClient.Library.Api
         {
             var channel        = GetChannel();
             var hashedPassword = password.HashValue();
-            if (!(await _usersApi.IsMailExistAsync(channel, email)))
-            {
-                var employeeId = await _usersApi.EmployeeRegisterAsync(channel, firstName, lastName, email, hashedPassword, permission, directManager);
-                await channel.ShutdownAsync();
-                return employeeId;
-            }
+            int result;
+
+            if (await _usersApi.IsMailExistAsync(channel, email))
+                result = 0;
+            else
+                result = await _usersApi.EmployeeRegisterAsync(channel, firstName, lastName, email, hashedPassword, permission, directManager);
 
             await channel.ShutdownAsync();
-            return 0;
+
+            return result;
         }
 
-        public async Task<int> AddTaskAsync(DateTime          finalDate,
+        public async Task<int> AddTaskAsync(DateTime     finalDate,
                                             int          employeeId,
                                             int          managerId,
                                             PriorityEnum priority,
@@ -63,8 +64,8 @@ namespace WOClient.Library.Api
             var taskId = await _tasksApi.AddTaskAsync(channel, finalDate ,employeeId, managerId, priority, description, subject);
 
             await channel.ShutdownAsync();
+
             return taskId;
-            
         }
         public async Task<ObservableCollection<IPerson>> GetEmployeesAsync(int personId)
         {
@@ -78,7 +79,7 @@ namespace WOClient.Library.Api
         public async Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(int personId)
         {
             var channel = GetChannel();
-           var result = await _tasksApi.GetTrackingTasksAsync(channel, personId);
+            var result = await _tasksApi.GetTrackingTasksAsync(channel, personId);
 
             await channel.ShutdownAsync();
 

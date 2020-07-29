@@ -26,6 +26,7 @@
                     Style="{StaticResource MaterialDesignFloatingActionLightButton}"
                     ToolTip="Add new task" />
         </StackPanel>
+        
         <TextBlock Grid.Row="1"
                    HorizontalAlignment="Center"
                    Margin="0 10"
@@ -48,7 +49,7 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  VirtualizingPanel.IsVirtualizing="True"
                  ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                        Path=TrackingTasks}">
+                                       Path=TrackingTasks}">
             <ListBox.Style>
                 <Style TargetType="{x:Type ListBox}"
                        BasedOn="{StaticResource MaterialDesignListBox}">

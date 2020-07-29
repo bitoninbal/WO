@@ -32,8 +32,10 @@ namespace WODataAccess.User
             try
             {
                 await cnn.OpenAsync();
+
                 var result = await cmd.ExecuteScalarAsync();
                 var taskId = Convert.ToInt32(result);
+
                 return taskId;
             }
             catch (Exception)
@@ -50,6 +52,5 @@ namespace WODataAccess.User
         {
             return null;
         }
-
     }
 }

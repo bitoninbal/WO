@@ -139,8 +139,8 @@ namespace WOClient.Components.Main
         #region Private Methods
         private void SubscribeToSwitchViewRequested()
         {
-            LoginVm.SwitchViewRequested += SwitchToView;
-            LoginVm.UserLoggedIn += InitUser;
+            LoginVm.SwitchViewRequested          += SwitchToView;
+            LoginVm.UserLoggedIn                 += InitUser;
             ForgetPasswordVm.SwitchViewRequested += SwitchToView;
         }
         private void InitUser(object sender, EventArgs args)
