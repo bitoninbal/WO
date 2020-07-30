@@ -76,6 +76,15 @@ namespace WOClient.Library.Api
 
             return result;
         }
+        public async Task<ObservableCollection<MyTask>> GetMyTasksAsync(int personId)
+        {
+            var channel = GetChannel();
+            var result = await _tasksApi.GetMyTasksAsync(channel, personId);
+
+            await channel.ShutdownAsync();
+
+            return result;
+        }
         public async Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(int personId)
         {
             var channel = GetChannel();

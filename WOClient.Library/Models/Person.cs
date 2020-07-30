@@ -11,7 +11,7 @@ namespace WOClient.Library.Models
         protected Person(PermissionsEnum permission, int personId, int managerId, string firstName, string lastName, string email)
         {
             Api     = new ClientApi();
-            MyTasks = new ObservableCollection<MyTask>();
+            _myTasks = new ObservableCollection<MyTask>();
 
             _permission = permission;
             _personId   = personId;
@@ -20,10 +20,11 @@ namespace WOClient.Library.Models
             _lastName   = lastName;
             _email      = email;
 
-            InitMyTasks();
+            Task.Run(InitMyTasks);
         }
 
         #region Fields
+        private ObservableCollection<MyTask> _myTasks;
         private PermissionsEnum _permission;
         private int _personId;
         private int _managerId;
@@ -33,7 +34,17 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Properties
-        public ObservableCollection<MyTask> MyTasks { get; }
+        public ObservableCollection<MyTask> MyTasks
+        {
+            get => _myTasks;
+            set
+            {
+                if (_myTasks == value) return;
+
+                _myTasks = value;
+                NotifyPropertyChanged("MyTasks");
+            }
+        }
         public PermissionsEnum Permission
         {
             get => _permission;
@@ -117,9 +128,13 @@ namespace WOClient.Library.Models
         {
             await Api.UpdateFieldAsync(personId, value, columnName);
         }
-        protected void InitMyTasks()
+        protected async Task InitMyTasks()
         {
+            var result = await Api.GetMyTasksAsync(PersonId);
 
+            if (result is null) return;
+
+            MyTasks = result;
         }
         #endregion
 

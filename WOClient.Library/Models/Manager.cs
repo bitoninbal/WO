@@ -19,8 +19,8 @@ namespace WOClient.Library.Models
                  lastName,
                  email)
         {
-            MyEmployees   = new ObservableCollection<IPerson>();
-            TrackingTasks = new ObservableCollection<MyTask>();
+            _myEmployees = new ObservableCollection<IPerson>();
+            _trackingTasks = new ObservableCollection<MyTask>();
 
             Task.Run(InitAsync);
         }

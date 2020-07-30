@@ -36,7 +36,34 @@ namespace WOClient.Library.Api.User
 
             return taskId.Value;
         }
+        internal async Task<ObservableCollection<MyTask>> GetMyTasksAsync(GrpcChannel channel, int personId)
+        {
+            var client = new Tasks.TasksClient(channel);
+            var input = new Int32Value
+            {
+                Value = personId
+            };
 
+            using var result = client.GetMyTasks(input);
+            var tasks = new ObservableCollection<MyTask>();
+
+            while (await result.ResponseStream.MoveNext())
+            {
+                if (result.ResponseStream.Current.TaskId == 0) return tasks;
+
+                var task = new MyTask
+                {
+                    Description = result.ResponseStream.Current.Description,
+                    FinalDate   = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
+                    Priority    = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
+                    Subject     = result.ResponseStream.Current.Subject
+                };
+
+                tasks.Add(task);
+            }
+
+            return tasks;
+        }
         internal async Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(GrpcChannel channel, int personId)
         {
             var client = new Tasks.TasksClient(channel);

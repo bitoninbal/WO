@@ -36,7 +36,9 @@
                     <Setter Property="Visibility" Value="Collapsed" />
 
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Tasks.Count}" Value="0">
+                        <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                                       Path=TrackingTasks.Count}"
+                                     Value="0">
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -57,7 +59,8 @@
 
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                       Path=TrackingTasks}" Value="0">
+                                                       Path=TrackingTasks.Count}"
+                                     Value="0">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>

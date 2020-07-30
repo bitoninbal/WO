@@ -14,6 +14,7 @@ namespace WODataAccess.User
                                     string   priority, 
                                     string   description, 
                                     string   subject);
+        Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId);
         Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId);
     }
 }
