@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using WOClient.Library.Api;
@@ -11,7 +10,8 @@ namespace WOClient.Library.Models
     {
         protected Person(PermissionsEnum permission, int personId, int managerId, string firstName, string lastName, string email)
         {
-            Api = new ClientApi();
+            Api     = new ClientApi();
+            MyTasks = new ObservableCollection<MyTask>();
 
             _permission = permission;
             _personId   = personId;

@@ -28,24 +28,29 @@ namespace WOServer.Services
 
             return new Int32Value {Value = taskId};
         }
-        public override async Task GetTrackingTasks(PersonIdInput request, IServerStreamWriter<TaskInput> responseStream, ServerCallContext context)
+        public override async Task GetTrackingTasks(Int32Value request, IServerStreamWriter<TaskOutput> responseStream, ServerCallContext context)
         {
-            var result = await _dataAccess.GetTrackingTasksDataAccessAsync(request.PersonId);
+            var result = await _dataAccess.GetTrackingTasksDataAccessAsync(request.Value);
 
             if (result is null)
             {
-                await responseStream.WriteAsync(new TaskInput());
+                await responseStream.WriteAsync(new TaskOutput());
 
                 return;
             }
 
-            foreach (var task in result)
+            foreach (var taskModel in result)
             {
-                var tasks = new TaskInput
+                var task = new TaskOutput
                 {
+                    TaskId = taskModel.TaskId,
+                    FinalDate = taskModel.FinalDate.ToUniversalTime().ToTimestamp(),
+                    Subject = taskModel.Subject,
+                    Description = taskModel.Description,
+                    Priority = taskModel.Priority
                 };
 
-                await responseStream.WriteAsync(tasks);
+                await responseStream.WriteAsync(task);
             }
         }
     }

@@ -109,7 +109,6 @@ namespace WOClient.Components.NewTask
 
                 user.TrackingTasks.Add(newTask);
                 AddTaskToEmployee(newTask);
-
             }
             catch (Exception)
             {

@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 
 service Tasks {
 	rpc AddTask (TaskInput) returns (google.protobuf.Int32Value);
-    rpc GetTrackingTasks (google.protobuf.Int32Value) returns (stream TaskInput);
+    rpc GetTrackingTasks (google.protobuf.Int32Value) returns (stream TaskOutput);
 }
 
 message TaskInput {
@@ -19,3 +19,10 @@ message TaskInput {
 	string subject                      = 6;
 }
 
+message TaskOutput {
+	int32 taskId                        = 1;
+	google.protobuf.Timestamp finalDate = 2;
+	string priority                     = 3;
+	string description                  = 4;
+	string subject                      = 5;
+}

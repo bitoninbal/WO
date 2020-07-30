@@ -50,12 +50,14 @@ namespace WOClient.Library.Api.User
 
             while (await result.ResponseStream.MoveNext())
             {
+                if (result.ResponseStream.Current.TaskId == 0) return trackingTasks;
+
                 var currTask = new MyTask
                 {
                     Description = result.ResponseStream.Current.Description,
-                    FinalDate = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
-                    Priority = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
-                    Subject = result.ResponseStream.Current.Subject
+                    FinalDate   = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
+                    Priority    = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
+                    Subject     = result.ResponseStream.Current.Subject
                 };
 
                 trackingTasks.Add(currTask);
