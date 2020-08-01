@@ -9,6 +9,8 @@
                     xmlns:models="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:trackingTasks="clr-namespace:WOClient.Components.TrackingTasks"
                     xmlns:reports="clr-namespace:WOClient.Components.Reports">
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
     <DataTemplate DataType="{x:Type comments:CommentsViewModel}">
         <comments:CommentsView />
     </DataTemplate>
@@ -24,7 +26,7 @@
     <DataTemplate DataType="{x:Type reports:ReportsViewModel}">
         <reports:ReportsView />
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type forgetPassword:ForgetPasswordViewModel}">
         <forgetPassword:ForgetPasswordView />
     </DataTemplate>
@@ -46,9 +48,10 @@
                            FontSize="16"
                            HorizontalAlignment="Center" />
             </Expander.Header>
-            
+
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -109,7 +112,7 @@
                     <Button Content="{materialDesign:PackIcon Kind=CommentOutline}"
                             Margin="5"
                             ToolTip="Write comment"
-                            Command="{Binding DataContext.AddCommentCommand,
+                            Command="{Binding DataContext.OpenCommentDialogCommand,
                                               RelativeSource={RelativeSource AncestorType=UserControl}}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}"
@@ -145,6 +148,41 @@
                         </Button.Style>
                     </Button>
                 </StackPanel>
+
+                <Grid Grid.Row="4"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      Visibility="{Binding DataContext.IsCommentDialogOpen,
+                                           RelativeSource={RelativeSource AncestorType=UserControl},
+                                           Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBox Grid.Row="0"
+                             MinLines="4"
+                             MaxLines="4"
+                             AcceptsReturn="True"
+                             Background="White"
+                             Text="{Binding DataContext.Comment,
+                                            RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Button Margin="5"
+                                ToolTip="Send"
+                                Content="{materialDesign:PackIcon Kind=Send}"
+                                Command="{Binding DataContext.SendCommentCommand,
+                                                  RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+                        <Button ToolTip="Cancel"
+                                Content="{materialDesign:PackIcon Kind=Close}"
+                                Command="{Binding DataContext.OpenCommentDialogCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Expander>
     </DataTemplate>
@@ -198,7 +236,7 @@
                          TextWrapping="Wrap"
                          Text="{Binding Reply}"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" />
-                    
+
                     <StackPanel Orientation="Horizontal"
                                 Grid.Row="2"
                                 Grid.Column="1">

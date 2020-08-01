@@ -8,7 +8,7 @@ using WOClient.Resources.Commands;
 
 namespace WOClient.Components.TrackingTasks
 {
-    public class TrackingTasksViewModel: BaseViewModel, ITrackingTasksViewModel
+    public class TrackingTasksViewModel: MyTaskViewModel, ITrackingTasksViewModel
     {
         public TrackingTasksViewModel(INewTaskViewModel newTaskVm)
         {
