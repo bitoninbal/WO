@@ -46,6 +46,7 @@
                            FontSize="16"
                            HorizontalAlignment="Center" />
             </Expander.Header>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -87,7 +88,8 @@
                             Margin="0, 5"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal">
-                    <ToggleButton Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
+                    <ToggleButton x:Name="LockToggleButton"
+                                  Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
                                   ToolTip="Lock/Unlock">
                         <ToggleButton.Style>
                             <Style TargetType="{x:Type ToggleButton}"
@@ -103,12 +105,45 @@
 
                     <!-- Amir - Refuse to implement files manager 
                          Inbal - Decided to be smart ass -->
-                    
+
                     <Button Content="{materialDesign:PackIcon Kind=CommentOutline}"
                             Margin="5"
-                            ToolTip="Write comment" />
+                            ToolTip="Write comment"
+                            Command="{Binding DataContext.AddCommentCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                <Setter Property="IsEnabled" Value="True" />
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked,
+                                                                   ElementName=LockToggleButton}"
+                                                 Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
                     <Button Content="{materialDesign:PackIcon Kind=FileUploadOutline}"
-                    ToolTip="Upload files" />
+                            ToolTip="Upload files">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                <Setter Property="IsEnabled" Value="True" />
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked,
+                                                                   ElementName=LockToggleButton}"
+                                                 Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Expander>
