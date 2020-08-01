@@ -85,6 +85,18 @@ namespace WOClient.Library.Models
         }
         #endregion
 
+        #region Public Methods
+        public void Reset()
+        {
+            Id            = default;
+            Email         = default;
+            FirstName     = default;
+            LastName      = default;
+            Permission    = default;
+            DirectManager = default;
+        }
+        #endregion
+
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 

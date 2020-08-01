@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using MaterialDesignThemes.Wpf;
+using System.Windows;
 using System.Windows.Controls;
+using WOClient.Library.Models;
 
 namespace WOClient.Components.Main
 {
@@ -11,6 +13,7 @@ namespace WOClient.Components.Main
         public MainWindow(IMainWindowViewModel mainWindowVm)
         {
             InitializeComponent();
+
             DataContext = mainWindowVm;
         }
 
@@ -40,6 +43,13 @@ namespace WOClient.Components.Main
                     break;
                 case "ReportsButton":
                     viewModel.CurrentVm = viewModel.ReportsVm;
+
+                    break;
+                case "LogoutButton":
+                    LoggedInUser.Instance.Reset();
+                    DrawerHost.CloseDrawerCommand.Execute(null, null);
+
+                    viewModel.CurrentVm = viewModel.LoginVm;
 
                     break;
             }

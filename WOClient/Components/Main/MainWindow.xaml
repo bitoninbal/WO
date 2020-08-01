@@ -30,6 +30,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -128,6 +129,21 @@
                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                  Path=Permission,
                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
+
+                    <materialDesign:PackIcon Grid.Row="5"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             Kind="Logout" />
+                    <Button x:Name="LogoutButton"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Content="Logout"
+                            Margin="0, 5"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="SwitchViewClick" />
                 </Grid>
             </materialDesign:DrawerHost.LeftDrawerContent>
 

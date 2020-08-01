@@ -18,7 +18,7 @@ namespace WOClient.Components.NewTask
             var vm = (NewTaskViewModel)DataContext;
 
             await vm.SendNewTaskAsync();
-        } 
+        }
         #endregion
     }
 }

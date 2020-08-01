@@ -109,6 +109,7 @@ namespace WOClient.Components.NewTask
 
                 user.TrackingTasks.Add(newTask);
                 AddTaskToEmployee(newTask);
+                SetPropertiesToDefault();
             }
             catch (Exception)
             {
@@ -128,6 +129,13 @@ namespace WOClient.Components.NewTask
 
                 employee.MyTasks.Add(newTask);
             }
+        }
+        private void SetPropertiesToDefault()
+        {
+            FinalDate   = DateTime.Now;
+            Priority    = PriorityEnum.Low;
+            Description = default;
+            Subject     = default;
         }
         #endregion
     }

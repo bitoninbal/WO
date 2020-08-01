@@ -25,6 +25,7 @@ namespace WOClient
             ComposeObjects();
             Current.MainWindow.Show();
         }
+
         private static void ComposeObjects()
         {
             var api             = new ClientApi();
@@ -47,6 +48,5 @@ namespace WOClient
 
             Current.MainWindow = new MainWindow(mainWindowVm);
         }
-
     }
 }

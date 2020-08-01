@@ -102,6 +102,7 @@
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
+            
             <ComboBox.SelectedItem>
                 <Binding Path="SelectedEmployee"
                          UpdateSourceTrigger="PropertyChanged">
