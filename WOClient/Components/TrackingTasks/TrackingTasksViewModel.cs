@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.NewTask;
+using WOClient.Library.Api;
 using WOClient.Library.Models;
 using WOClient.Resources.Commands;
 
@@ -10,7 +11,7 @@ namespace WOClient.Components.TrackingTasks
 {
     public class TrackingTasksViewModel: MyTaskViewModel, ITrackingTasksViewModel
     {
-        public TrackingTasksViewModel(INewTaskViewModel newTaskVm)
+        public TrackingTasksViewModel(INewTaskViewModel newTaskVm, IClientApi api) : base(api)
         {
             OpenNewTaskCommand = new RelayCommand(OpenNewTask);
             Tasks              = new ObservableCollection<MyTask>();

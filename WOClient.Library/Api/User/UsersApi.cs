@@ -1,7 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WOClient.Library.Api.Protos;
@@ -119,7 +118,7 @@ namespace WOClient.Library.Api.User
             else
                 LoggedInUser.Instance.Permission = PermissionsEnum.Manager;
         }
-        internal async Task UpdateFieldAsync(GrpcChannel channel, int personId, string value, string columnName)
+        internal async Task UpdateUserFieldAsync(GrpcChannel channel, int personId, string value, string columnName)
         {
             var client = new Users.UsersClient(channel);
             var input = new UpdateFieldInput

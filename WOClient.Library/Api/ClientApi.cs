@@ -15,13 +15,15 @@ namespace WOClient.Library.Api
     {
         public ClientApi()
         {
-            _usersApi = new UsersApi();
-            _tasksApi = new TasksApi();
+            _commentApi = new CommentApi();
+            _tasksApi   = new TasksApi();
+            _usersApi   = new UsersApi();
         }
 
         #region Fields
-        private readonly UsersApi _usersApi;
+        private readonly CommentApi _commentApi;
         private readonly TasksApi _tasksApi;
+        private readonly UsersApi _usersApi;
         #endregion
 
         #region Public Methods
@@ -102,7 +104,7 @@ namespace WOClient.Library.Api
             await _usersApi.LoginAsync(channel, userName, hashedPassword);
             await channel.ShutdownAsync();
         }
-        public async Task UpdateFieldAsync<T>(int personId, T value, string columnName)
+        public async Task UpdateUserFieldAsync<T>(int personId, T value, string columnName)
         {
             string newValue;
             var channel = GetChannel();
@@ -123,8 +125,24 @@ namespace WOClient.Library.Api
                     break;
             }
 
-            await _usersApi.UpdateFieldAsync(channel, personId, newValue, columnName);
+            await _usersApi.UpdateUserFieldAsync(channel, personId, newValue, columnName);
             await channel.ShutdownAsync();
+        }
+        public async Task UpdateCompletedTaskFieldAsync(int taskId, bool newValue)
+        {
+            var channel = GetChannel();
+
+            await _tasksApi.UpdateTaskCompletedFieldAsync(channel, taskId, newValue);
+            await channel.ShutdownAsync();
+        }
+        public async Task<int> AddCommentAsync(int taskId, int personId, string comment)
+        {
+            var channel = GetChannel();
+            var commentId = await _commentApi.AddCommentAsync(channel, taskId, personId, comment);
+
+            await channel.ShutdownAsync();
+
+            return commentId;
         }
         #endregion
 

@@ -25,9 +25,11 @@ namespace WOClient.Library.Api
                           string subject);
         Task<ObservableCollection<IPerson>> GetEmployeesAsync(int managerId);
         Task LoginAsync(string email, SecureString password);
-        Task UpdateFieldAsync<T>(int personId, T value, string columnName);
+        Task UpdateUserFieldAsync<T>(int personId, T value, string columnName);
         Task<ObservableCollection<MyTask>> GetMyTasksAsync(int personId);
         Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(int personId);
+        Task UpdateCompletedTaskFieldAsync(int taskId, bool newValue);
+        Task<int> AddCommentAsync(int taskId, int personId, string comment);
         #endregion
     }
 }

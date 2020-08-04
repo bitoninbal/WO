@@ -32,4 +32,34 @@ namespace WOClient.Resources.Commands
         public void Execute(object parameter) => _execute();
         #endregion
     }
+
+    public class RelayCommand<T>: ICommand
+    {
+        #region Constructor
+        public RelayCommand(Action<T> execute)
+        {
+            if (execute == null) throw new ArgumentNullException("execute");
+
+            _execute = execute;
+        }
+        #endregion
+
+        #region Events
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+        #endregion
+
+        #region Fields
+        readonly Action<T> _execute;
+        #endregion
+
+        #region ICommand Members
+        public bool CanExecute(object parameter) => true;
+
+        public void Execute(object parameter) => _execute((T)parameter);
+        #endregion
+    }
 }

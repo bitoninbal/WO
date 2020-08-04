@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
+using WOClient.Library.Api;
 using WOCommon.Enums;
 
 namespace WOClient.Library.Models
@@ -10,19 +12,36 @@ namespace WOClient.Library.Models
     {
         public MyTask()
         {
+            Api      = new ClientApi();
             Comments = new ObservableCollection<Comment>();
         }
 
         #region Fields
-        private string _description;
-        private Color _bgColor;
-        private DateTime _finalDate;
-        private string _subject;
+        private bool         _isCompleted;
+        private string       _description;
+        private Color        _bgColor;
+        private DateTime     _finalDate;
+        private string       _subject;
         private PriorityEnum _priority;
-        private int _taskId;
+        private int          _taskId;
         #endregion
 
         #region Properties
+        protected ClientApi Api { get; }
+
+        public bool IsCompleted
+        {
+            get => _isCompleted;
+            set
+            {
+                if (_isCompleted == value) return;
+
+                _isCompleted = value;
+                NotifyPropertyChanged("IsCompleted");
+
+                if (TaskId != 0) Task.Run(() => UpdateCompletedTaskFieldAsync(TaskId, value));
+            }
+        }
         public Color BgColor
         {
             get => _bgColor;
@@ -90,6 +109,13 @@ namespace WOClient.Library.Models
             }
         }
         public ObservableCollection<Comment> Comments { get; }
+        #endregion
+
+        #region Private Methods
+        private async Task UpdateCompletedTaskFieldAsync(int taskId, bool value)
+        {
+            await Api.UpdateCompletedTaskFieldAsync(taskId, value);
+        }
         #endregion
 
         #region INotifyPropertyChanged

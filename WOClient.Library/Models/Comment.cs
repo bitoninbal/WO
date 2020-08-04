@@ -6,11 +6,23 @@ namespace WOClient.Library.Models
     public class Comment: INotifyPropertyChanged
     {
         #region Fields
+        private int _commentId;
         private PermissionsEnum _sender;
         private string _message;
         #endregion
 
         #region Properties
+        public int CommentId
+        {
+            get => _commentId;
+            set
+            {
+                if (_commentId == value) return;
+
+                _commentId = value;
+                NotifyPropertyChanged(nameof(CommentId));
+            }
+        }
         public PermissionsEnum Sender
         {
             get => _sender;

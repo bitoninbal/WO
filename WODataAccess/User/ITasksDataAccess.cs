@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using WODataAccess.Models;
 
@@ -16,5 +15,6 @@ namespace WODataAccess.User
                                     string   subject);
         Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId);
         Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId);
+        Task UpdateCompletedTaskFieldAsync(int id, bool newValue);
     }
 }

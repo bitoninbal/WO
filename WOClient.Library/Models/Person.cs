@@ -126,7 +126,7 @@ namespace WOClient.Library.Models
         #region Methods
         private async Task UpdateFieldInDbAsync<T>(int personId, T value, string columnName)
         {
-            await Api.UpdateFieldAsync(personId, value, columnName);
+            await Api.UpdateUserFieldAsync(personId, value, columnName);
         }
         protected async Task InitMyTasks()
         {

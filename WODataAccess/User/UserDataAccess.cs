@@ -114,7 +114,6 @@ namespace WODataAccess.User
                 await cnn.CloseAsync();
             }
         }
-
         public async Task<bool> IsEmployeeEmailExistAsync(string email)
         {
             var cnn = new SqlConnection(ConnectionString);

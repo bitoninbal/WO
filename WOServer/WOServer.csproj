@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\commentMessages.proto" />
     <None Remove="Protos\taskMessages.proto" />
     <None Remove="Protos\userMessages.proto" />
   </ItemGroup>
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\commentMessages.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\taskMessages.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\userMessages.proto" GrpcServices="Server" />
   </ItemGroup>

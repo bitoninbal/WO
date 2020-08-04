@@ -7,8 +7,14 @@ import "google/protobuf/timestamp.proto";
 
 service Tasks {
 	rpc AddTask (TaskInput) returns (google.protobuf.Int32Value);
+	rpc UpdateCompletedField (CompletedFieldInput) returns (google.protobuf.Empty);
 	rpc GetMyTasks (google.protobuf.Int32Value) returns (stream TaskOutput);
     rpc GetTrackingTasks (google.protobuf.Int32Value) returns (stream TaskOutput);
+}
+
+message CompletedFieldInput {
+	int32 taskId  = 1;
+	bool newValue = 2;
 }
 
 message TaskInput {
@@ -26,4 +32,5 @@ message TaskOutput {
 	string priority                     = 3;
 	string description                  = 4;
 	string subject                      = 5;
+	bool isCompleted					= 6;
 }

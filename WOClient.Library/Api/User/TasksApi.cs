@@ -53,10 +53,12 @@ namespace WOClient.Library.Api.User
 
                 var task = new MyTask
                 {
+                    TaskId      = result.ResponseStream.Current.TaskId,
                     Description = result.ResponseStream.Current.Description,
                     FinalDate   = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     Priority    = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
-                    Subject     = result.ResponseStream.Current.Subject
+                    Subject     = result.ResponseStream.Current.Subject,
+                    IsCompleted = result.ResponseStream.Current.IsCompleted
                 };
 
                 tasks.Add(task);
@@ -81,16 +83,29 @@ namespace WOClient.Library.Api.User
 
                 var currTask = new MyTask
                 {
+                    TaskId      = result.ResponseStream.Current.TaskId,
                     Description = result.ResponseStream.Current.Description,
                     FinalDate   = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     Priority    = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
-                    Subject     = result.ResponseStream.Current.Subject
+                    Subject     = result.ResponseStream.Current.Subject,
+                    IsCompleted = result.ResponseStream.Current.IsCompleted
                 };
 
                 trackingTasks.Add(currTask);
             }
 
             return trackingTasks;
+        }
+        internal async Task UpdateTaskCompletedFieldAsync(GrpcChannel channel, int taskId, bool value)
+        {
+            var client = new Tasks.TasksClient(channel);
+            var input = new CompletedFieldInput
+            {
+                TaskId   = taskId,
+                NewValue = value,
+            };
+
+            await client.UpdateCompletedFieldAsync(input);
         }
         #endregion
 

@@ -34,9 +34,9 @@ namespace WOClient
             var employeesVm     = new EmployeesViewModel(newEmployeeVm, api);
             var loginVm         = new LoginViewModel(api);
             var forgetPasswodVm = new ForgetPasswordViewModel();
-            var myTasksVm       = new MyTasksViewModel();
+            var myTasksVm       = new MyTasksViewModel(api);
             var newTaskVm       = new NewTaskViewModel(api);
-            var trackingTasksVm = new TrackingTasksViewModel(newTaskVm);
+            var trackingTasksVm = new TrackingTasksViewModel(newTaskVm, api);
             var reportsVm       = new ReportsViewModel();
             var mainWindowVm    = new MainWindowViewModel(commentsVm,
                                                           employeesVm,

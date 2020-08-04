@@ -92,8 +92,9 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal">
                     <ToggleButton x:Name="LockToggleButton"
+                                  ToolTip="Lock/Unlock"
                                   Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
-                                  ToolTip="Lock/Unlock">
+                                  IsChecked="{Binding IsCompleted}">
                         <ToggleButton.Style>
                             <Style TargetType="{x:Type ToggleButton}"
                                    BasedOn="{StaticResource MaterialDesignSwitchToggleButton}">
@@ -175,12 +176,13 @@
                                 ToolTip="Send"
                                 Content="{materialDesign:PackIcon Kind=Send}"
                                 Command="{Binding DataContext.SendCommentCommand,
-                                                  RelativeSource={RelativeSource AncestorType=UserControl}}" />
-
+                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding Path=DataContext.TaskId,
+                                                           RelativeSource={RelativeSource AncestorType=Grid}}" />
                         <Button ToolTip="Cancel"
                                 Content="{materialDesign:PackIcon Kind=Close}"
                                 Command="{Binding DataContext.OpenCommentDialogCommand,
-                                              RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                                  RelativeSource={RelativeSource AncestorType=UserControl}}" />
                     </StackPanel>
                 </Grid>
             </Grid>
