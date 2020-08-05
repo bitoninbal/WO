@@ -39,7 +39,7 @@ namespace WODataAccess.User
 
                 return taskId;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return 0;
             }
@@ -52,7 +52,7 @@ namespace WODataAccess.User
         public async Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted FROM Tasks WHERE UserId = @UserId";
+            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted, UserId FROM Tasks WHERE UserId = @UserId";
             var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@UserId", personId);
@@ -77,7 +77,8 @@ namespace WODataAccess.User
                             FinalDate   = await reader.GetFieldValueAsync<DateTime>(2),
                             Description = await reader.GetFieldValueAsync<string>(3),
                             Priority    = await reader.GetFieldValueAsync<string>(4),
-                            IsCompleted = await reader.GetFieldValueAsync<bool>(5)
+                            IsCompleted = await reader.GetFieldValueAsync<bool>(5),
+                            UserId      = await reader.GetFieldValueAsync<int>(6)
                         });
                     }
 
@@ -97,7 +98,7 @@ namespace WODataAccess.User
         public async Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted FROM Tasks WHERE ManagerId = @ManagerId";
+            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted UserId FROM Tasks WHERE ManagerId = @ManagerId";
             var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@ManagerId", personId);
@@ -122,7 +123,8 @@ namespace WODataAccess.User
                             FinalDate   = await reader.GetFieldValueAsync<DateTime>(2),
                             Description = await reader.GetFieldValueAsync<string>(3),
                             Priority    = await reader.GetFieldValueAsync<string>(4),
-                            IsCompleted = await reader.GetFieldValueAsync<bool>(5)
+                            IsCompleted = await reader.GetFieldValueAsync<bool>(5),
+                            UserId      = await reader.GetFieldValueAsync<int>(6)
                         });
                     }
 

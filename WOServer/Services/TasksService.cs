@@ -21,11 +21,11 @@ namespace WOServer.Services
         public override async Task<Int32Value> AddTask(TaskInput request, ServerCallContext context)
         {
             var taskId = await _dataAccess.AddTaskDataAccessAsync(request.FinalDate.ToDateTime(),
-                                                     request.EmployeeId,
-                                                     request.ManagerId,
-                                                     request.Priority,
-                                                     request.Description,
-                                                     request.Subject);
+                                                                 request.EmployeeId,
+                                                                 request.ManagerId,
+                                                                 request.Priority,
+                                                                 request.Description,
+                                                                 request.Subject);
 
             return new Int32Value { Value = taskId };
         }
@@ -44,12 +44,13 @@ namespace WOServer.Services
             {
                 var task = new TaskOutput
                 {
-                    TaskId = taskModel.TaskId,
-                    FinalDate = taskModel.FinalDate.ToUniversalTime().ToTimestamp(),
-                    Subject = taskModel.Subject,
+                    TaskId      = taskModel.TaskId,
+                    FinalDate   = taskModel.FinalDate.ToUniversalTime().ToTimestamp(),
+                    Subject     = taskModel.Subject,
                     Description = taskModel.Description,
-                    Priority = taskModel.Priority,
-                    IsCompleted = taskModel.IsCompleted
+                    Priority    = taskModel.Priority,
+                    IsCompleted = taskModel.IsCompleted,
+                    EmployeeId  = taskModel.UserId
                 };
 
                 await responseStream.WriteAsync(task);
@@ -70,12 +71,13 @@ namespace WOServer.Services
             {
                 var task = new TaskOutput
                 {
-                    TaskId = taskModel.TaskId,
-                    FinalDate = taskModel.FinalDate.ToUniversalTime().ToTimestamp(),
-                    Subject = taskModel.Subject,
+                    TaskId      = taskModel.TaskId,
+                    FinalDate   = taskModel.FinalDate.ToUniversalTime().ToTimestamp(),
+                    Subject     = taskModel.Subject,
                     Description = taskModel.Description,
-                    Priority = taskModel.Priority,
-                    IsCompleted = taskModel.IsCompleted
+                    Priority    = taskModel.Priority,
+                    IsCompleted = taskModel.IsCompleted,
+                    EmployeeId  = taskModel.UserId
                 };
 
                 await responseStream.WriteAsync(task);

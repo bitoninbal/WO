@@ -32,5 +32,6 @@ message TaskOutput {
 	string priority                     = 3;
 	string description                  = 4;
 	string subject                      = 5;
-	bool isCompleted					= 6;
+	bool   isCompleted					= 6;
+	int32  employeeId					= 7;
 }

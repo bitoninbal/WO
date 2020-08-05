@@ -14,7 +14,7 @@ namespace WOClient.Components.Base
         {
             OpenCommentDialogCommand = new RelayCommand(OpenCommentDialog);
             SendCommentCommand       = new RelayCommand<int>(SendComment);
-            _api = api;
+            _api                     = api;
         }
 
         #region Fields
@@ -70,13 +70,38 @@ namespace WOClient.Components.Base
                 var commentId = await _api.AddCommentAsync(taskId, IMainWindowViewModel.User.PersonId, Comment);
 
                 if (commentId == 0) return;
-
-                //AddNewUserToCollection(employeeId);
-                //SetPropertiesToDefault();
+                var comment = new Comment
+                {
+                    CommentId = commentId,
+                    Message   = Comment,
+                    Sender    = IMainWindowViewModel.User.Permission,
+                };
+                IsCommentDialogOpen = false;
+                AddCommentToCollections(taskId, comment);
+                Comment = default;
             }
             catch (Exception)
             {
                 IMainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
+            }
+        }
+        private void AddCommentToCollections(int taskId, Comment comment)
+        {
+            if(IMainWindowViewModel.User is Employee)
+            {
+                foreach (var task in IMainWindowViewModel.User.MyTasks)
+                {
+                    if (task.TaskId == taskId)
+                    {
+                        task.Comments.Add(comment);
+                        break;
+                    }
+                }
+            }
+            else //manager 
+            {
+                var user = IMainWindowViewModel.User as Manager;
+
             }
         }
         #endregion

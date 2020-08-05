@@ -24,9 +24,21 @@ namespace WOClient.Library.Models
         private string       _subject;
         private PriorityEnum _priority;
         private int          _taskId;
+        private int          _userId;
         #endregion
 
         #region Properties
+        public int UserId
+        {
+            get => _userId;
+            set
+            {
+                if (_userId == value) return;
+
+                _userId = value;
+                NotifyPropertyChanged("UserId");
+            }
+        }
         protected ClientApi Api { get; }
 
         public bool IsCompleted

@@ -14,12 +14,12 @@ namespace WOClient.Library.Api.User
     {
         #region Internal Methods
         internal async Task<int> AddTaskAsync(GrpcChannel channel,
-                                      DateTime finalDate,
-                                      int employeeId,
-                                      int managerId,
-                                      PriorityEnum priority,
-                                      string description,
-                                      string subject)
+                                              DateTime finalDate,
+                                              int employeeId,
+                                              int managerId,
+                                              PriorityEnum priority,
+                                              string description,
+                                              string subject)
         {
             var client = new Tasks.TasksClient(channel);
 
@@ -58,7 +58,8 @@ namespace WOClient.Library.Api.User
                     FinalDate   = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     Priority    = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject     = result.ResponseStream.Current.Subject,
-                    IsCompleted = result.ResponseStream.Current.IsCompleted
+                    IsCompleted = result.ResponseStream.Current.IsCompleted,
+                    UserId      = result.ResponseStream.Current.EmployeeId
                 };
 
                 tasks.Add(task);
@@ -88,7 +89,8 @@ namespace WOClient.Library.Api.User
                     FinalDate   = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     Priority    = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject     = result.ResponseStream.Current.Subject,
-                    IsCompleted = result.ResponseStream.Current.IsCompleted
+                    IsCompleted = result.ResponseStream.Current.IsCompleted,
+                    UserId      = result.ResponseStream.Current.EmployeeId
                 };
 
                 trackingTasks.Add(currTask);

@@ -6,9 +6,9 @@ namespace WOClient.Library.Models
     public class Comment: INotifyPropertyChanged
     {
         #region Fields
-        private int _commentId;
+        private int             _commentId;
         private PermissionsEnum _sender;
-        private string _message;
+        private string          _message;
         #endregion
 
         #region Properties

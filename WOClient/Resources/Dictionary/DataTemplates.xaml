@@ -8,7 +8,8 @@
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:models="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:trackingTasks="clr-namespace:WOClient.Components.TrackingTasks"
-                    xmlns:reports="clr-namespace:WOClient.Components.Reports">
+                    xmlns:reports="clr-namespace:WOClient.Components.Reports"
+                    xmlns:validations="clr-namespace:WOClient.Validations">
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <DataTemplate DataType="{x:Type comments:CommentsViewModel}">
@@ -161,13 +162,23 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBox Grid.Row="0"
+                    <TextBox x:Name="CommentTextBox"
+                             Margin="0 0 0 20"
+                             Grid.Row="0"
                              MinLines="4"
                              MaxLines="4"
                              AcceptsReturn="True"
-                             Background="White"
-                             Text="{Binding DataContext.Comment,
-                                            RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                             Background="White">
+                        <TextBox.Text>
+                            <Binding Path="DataContext.Comment"
+                                     RelativeSource="{RelativeSource AncestorType=UserControl}"
+                                     UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validations:EmptyStringValidation ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <StackPanel Grid.Row="1"
                                 Orientation="Horizontal"
@@ -178,7 +189,22 @@
                                 Command="{Binding DataContext.SendCommentCommand,
                                                   RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding Path=DataContext.TaskId,
-                                                           RelativeSource={RelativeSource AncestorType=Grid}}" />
+                                                           RelativeSource={RelativeSource AncestorType=Grid}}">
+                            <Button.Style>
+                                <Style TargetType="Button" 
+                                    BasedOn="{StaticResource  MaterialDesignRaisedDarkButton}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=CommentTextBox,
+                                                                       Path=(Validation.HasError)}"
+                                                     Value="False">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <Button ToolTip="Cancel"
                                 Content="{materialDesign:PackIcon Kind=Close}"
                                 Command="{Binding DataContext.OpenCommentDialogCommand,
