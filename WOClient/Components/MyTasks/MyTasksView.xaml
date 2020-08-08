@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="WOClient.Components.MyTasks.MyTasksView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mainComponent="clr-namespace:WOClient.Components.Main">
+             xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid VerticalAlignment="Top"
           HorizontalAlignment="Center">
         <Grid.RowDefinitions>

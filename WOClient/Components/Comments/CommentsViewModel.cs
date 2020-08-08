@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using WOClient.Components.Base;
-using WOClient.Library.Models;
+﻿using WOClient.Components.Base;
 
 namespace WOClient.Components.Comments
 {
@@ -8,11 +6,7 @@ namespace WOClient.Components.Comments
     {
         public CommentsViewModel()
         {
-            Comments = new ObservableCollection<Comment>();
+            
         }
-
-        #region Properties
-        public ObservableCollection<Comment> Comments { get; set; }
-        #endregion
     }
 }

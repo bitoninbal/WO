@@ -123,7 +123,7 @@ namespace WOClient.Library.Models
         protected ClientApi Api { get; }
         #endregion
 
-        #region Methods
+        #region Private Methods
         private async Task UpdateFieldInDbAsync<T>(int personId, T value, string columnName)
         {
             await Api.UpdateUserFieldAsync(personId, value, columnName);

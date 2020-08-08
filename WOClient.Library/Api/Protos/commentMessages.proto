@@ -7,11 +7,19 @@ import "google/protobuf/timestamp.proto";
 
 service Comments {
 	rpc AddComment (CommentInput) returns (google.protobuf.Int32Value);
+	rpc GetCommentsOfTask (google.protobuf.Int32Value) returns (stream CommentOutput);
 }
 
 message CommentInput {
-	int32 taskId	= 1;
-	int32 userId	= 2;
-	string comment  = 3;
+	int32 taskId   = 1;
+	int32 senderId = 2;
+	string message = 3;
 }
 
+message CommentOutput {
+	int32 commentId		   = 1;
+	int32 senderId		   = 2;
+	string senderFirstName = 3;
+	string senderLastName  = 4;
+	string message		   = 5;
+}

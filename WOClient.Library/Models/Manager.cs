@@ -55,6 +55,20 @@ namespace WOClient.Library.Models
         }
         #endregion
 
+        #region Public Methods
+        public IPerson GetEmplyee(int id)
+        {
+            foreach (var emplyee in MyEmployees)
+            {
+                if (emplyee.PersonId != id) continue;
+
+                return emplyee;
+            }
+
+            return null;
+        }
+        #endregion
+
         #region Private Methods
         private async Task InitAsync()
         {

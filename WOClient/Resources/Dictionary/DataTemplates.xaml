@@ -1,15 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:comments="clr-namespace:WOClient.Components.Comments"
+                    xmlns:converters="clr-namespace:WOClient.Converters"
                     xmlns:emplyees="clr-namespace:WOClient.Components.Employees"
                     xmlns:login="clr-namespace:WOClient.Components.Login"
                     xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword"
+                    xmlns:myTask="clr-namespace:WOClient.Components.MyTaskComponent"
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:models="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:trackingTasks="clr-namespace:WOClient.Components.TrackingTasks"
                     xmlns:reports="clr-namespace:WOClient.Components.Reports"
                     xmlns:validations="clr-namespace:WOClient.Validations">
+    <converters:LoggedInToBooleanConverter x:Key="LoggedInToBooleanConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <DataTemplate DataType="{x:Type comments:CommentsViewModel}">
@@ -40,14 +43,56 @@
         <trackingTasks:TrackingTasksView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type models:MyTask}">
+    <DataTemplate DataType="{x:Type models:Comment}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal">
+                <TextBlock FontWeight="Bold"
+                           Text="{Binding SenderFirstName}" />
+                <TextBlock Margin="5 0"
+                           FontWeight="Bold"
+                           Text="{Binding Path=SenderLastName,
+                                          StringFormat={}{0}:}" />
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueLightBrush}" />
+                        
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=SenderId,
+                                                           Converter={StaticResource LoggedInToBooleanConverter}}"
+                                         Value="True">
+                                <Setter Property="Foreground" Value="#c51162" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
+
+            <TextBlock Grid.Row="1"
+                       Foreground="Black"
+                       TextWrapping="Wrap"
+                       Text="{Binding Message}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="CommentsItemTemplate"
+                  DataType="{x:Type models:MyTask}">
+        <DataTemplate.Resources>
+            <myTask:MyTaskViewModel x:Key="Vm" />
+        </DataTemplate.Resources>
+
         <Expander Width="500"
                   Foreground="Black"
                   Background="#b39ddb">
             <Expander.Header>
-                <TextBlock Text="{Binding Subject}"
-                           FontSize="16"
-                           HorizontalAlignment="Center" />
+                <TextBlock FontSize="16"
+                           HorizontalAlignment="Center"
+                           Text="{Binding Subject}" />
             </Expander.Header>
 
             <Grid>
@@ -55,233 +100,58 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="400" />
-                </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0"
-                           Grid.Column="1"
-                           Text="{Binding FinalDate}" />
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="0, 0, 20, 0"
-                           Text="Final Date:" />
+                <ListBox Grid.Row="0"
+                         ItemsSource="{Binding Comments}" />
+                <TextBox x:Name="CommentTextBox"
+                         Grid.Row="1"
+                         Margin="0 0 0 20"
+                         MinLines="4"
+                         MaxLines="4"
+                         AcceptsReturn="True"
+                         Background="White">
+                    <TextBox.Text>
+                        <Binding Path="CommentMessage"
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validations:EmptyStringValidation ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
-                <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           Text="{Binding Priority}" />
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="0, 0, 20, 0"
-                           Text="Priority:" />
-
-                <TextBlock Grid.Row="2"
-                           Grid.Column="1"
-                           Text="{Binding Description}" />
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="0, 0, 20, 0"
-                           Text="Description:" />
-
-                <StackPanel Grid.Row="3"
-                            Grid.Column="1"
-                            Margin="0, 5"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                    <ToggleButton x:Name="LockToggleButton"
-                                  ToolTip="Lock/Unlock"
-                                  Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
-                                  IsChecked="{Binding IsCompleted}">
-                        <ToggleButton.Style>
-                            <Style TargetType="{x:Type ToggleButton}"
-                                   BasedOn="{StaticResource MaterialDesignSwitchToggleButton}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=LockOutline}" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ToggleButton.Style>
-                    </ToggleButton>
-
-                    <!-- Amir - Refuse to implement files manager 
-                         Inbal - Decided to be smart ass -->
-
-                    <Button Content="{materialDesign:PackIcon Kind=CommentOutline}"
-                            Margin="5"
-                            ToolTip="Write comment"
-                            Command="{Binding DataContext.OpenCommentDialogCommand,
-                                              RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <DockPanel Grid.Row="2"
+                           HorizontalAlignment="Stretch">
+                    <Button ToolTip="Send"
+                            DockPanel.Dock="Left"
+                            Content="{materialDesign:PackIcon Kind=Send}"
+                            Command="{Binding Source={StaticResource Vm},
+                                              Path=SendCommentCommand}"
+                            CommandParameter="{Binding Path=DataContext,
+                                                       RelativeSource={RelativeSource AncestorType=Grid}}">
                         <Button.Style>
-                            <Style TargetType="{x:Type Button}"
-                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                <Setter Property="IsEnabled" Value="True" />
-
+                            <Style TargetType="Button" 
+                                   BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
+                                <Setter Property="IsEnabled" Value="False" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsChecked,
-                                                                   ElementName=LockToggleButton}"
-                                                 Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
+                                    <DataTrigger Binding="{Binding ElementName=CommentTextBox,
+                                                                   Path=(Validation.HasError)}"
+                                                 Value="False">
+                                        <Setter Property="IsEnabled" Value="True" />
                                     </DataTrigger>
+
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
 
-                    <Button Content="{materialDesign:PackIcon Kind=FileUploadOutline}"
-                            ToolTip="Upload files">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}"
-                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                <Setter Property="IsEnabled" Value="True" />
-
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsChecked,
-                                                                   ElementName=LockToggleButton}"
-                                                 Value="True">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackPanel>
-
-                <Grid Grid.Row="4"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="2"
-                      Visibility="{Binding DataContext.IsCommentDialogOpen,
-                                           RelativeSource={RelativeSource AncestorType=UserControl},
-                                           Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <TextBox x:Name="CommentTextBox"
-                             Margin="0 0 0 20"
-                             Grid.Row="0"
-                             MinLines="4"
-                             MaxLines="4"
-                             AcceptsReturn="True"
-                             Background="White">
-                        <TextBox.Text>
-                            <Binding Path="DataContext.Comment"
-                                     RelativeSource="{RelativeSource AncestorType=UserControl}"
-                                     UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <validations:EmptyStringValidation ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-
-                    <StackPanel Grid.Row="1"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Right">
-                        <Button Margin="5"
-                                ToolTip="Send"
-                                Content="{materialDesign:PackIcon Kind=Send}"
-                                Command="{Binding DataContext.SendCommentCommand,
-                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                CommandParameter="{Binding Path=DataContext.TaskId,
-                                                           RelativeSource={RelativeSource AncestorType=Grid}}">
-                            <Button.Style>
-                                <Style TargetType="Button" 
-                                    BasedOn="{StaticResource  MaterialDesignRaisedDarkButton}">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=CommentTextBox,
-                                                                       Path=(Validation.HasError)}"
-                                                     Value="False">
-                                            <Setter Property="IsEnabled" Value="True" />
-                                        </DataTrigger>
-
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                        <Button ToolTip="Cancel"
-                                Content="{materialDesign:PackIcon Kind=Close}"
-                                Command="{Binding DataContext.OpenCommentDialogCommand,
-                                                  RelativeSource={RelativeSource AncestorType=UserControl}}" />
-                    </StackPanel>
-                </Grid>
+                    <Button DockPanel.Dock="Right"
+                            Width="100"
+                            Content="Show Task"
+                            ToolTip="Show Task" />
+                </DockPanel>
             </Grid>
         </Expander>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type models:Comment}">
-        <StackPanel Orientation="Horizontal">
-            <Expander Width="500"
-                  Foreground="Black"
-                  Background="#b39ddb">
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-                        <TextBlock Text="{Binding Subject}"
-                               FontSize="16" />
-                        <TextBlock Text="-"
-                               FontSize="16"
-                               Margin="5 0 5 0" />
-                        <TextBlock Text="{Binding EmployeeName}"
-                               FontSize="16" />
-                    </StackPanel>
-                </Expander.Header>
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="400" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Text="Comment:" />
-                    <TextBlock Grid.Row="0"
-                           Grid.Column="1"
-                           TextWrapping="Wrap"
-                           Text="{Binding EmployeeComment}" />
-                    <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           VerticalAlignment="Center"
-                           Text="Reply:" />
-                    <TextBox Grid.Row="1"
-                         Grid.Column="1"
-                         AcceptsReturn="True"
-                         Margin="0 10 0 10"
-                         MaxLines="4"
-                         MinLines="4"
-                         TextWrapping="Wrap"
-                         Text="{Binding Reply}"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" />
-
-                    <StackPanel Orientation="Horizontal"
-                                Grid.Row="2"
-                                Grid.Column="1">
-                        <Button ToolTip="Send"
-                            Content="Send" />
-                        <Button HorizontalAlignment="Left"
-                            Content="Show Task"
-                            ToolTip="Show Task"
-                            Margin="70 0"
-                            Width="100" />
-                        <Button Margin="10 0"
-                                ToolTip="Delete"
-                                Content="{materialDesign:PackIcon Kind=Delete}"
-                                Style="{StaticResource MaterialDesignIconButton}" />
-                    </StackPanel>
-                </Grid>
-            </Expander>
-        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

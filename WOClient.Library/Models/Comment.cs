@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel;
-using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
     public class Comment: INotifyPropertyChanged
     {
         #region Fields
-        private int             _commentId;
-        private PermissionsEnum _sender;
-        private string          _message;
+        private int    _commentId;
+        private int    _senderId;
+        private string _message;
+        private string _senderFirstName;
+        private string _senderLastName;
         #endregion
 
         #region Properties
@@ -23,15 +24,15 @@ namespace WOClient.Library.Models
                 NotifyPropertyChanged(nameof(CommentId));
             }
         }
-        public PermissionsEnum Sender
+        public int SenderId
         {
-            get => _sender;
+            get => _senderId;
             set
             {
-                if (_sender == value) return;
+                if (_senderId == value) return;
 
-                _sender = value;
-                NotifyPropertyChanged(nameof(Sender));
+                _senderId = value;
+                NotifyPropertyChanged(nameof(SenderId));
             }
         }
         public string Message
@@ -43,6 +44,28 @@ namespace WOClient.Library.Models
 
                 _message = value;
                 NotifyPropertyChanged(nameof(Message));
+            }
+        }
+        public string SenderFirstName
+        {
+            get => _senderFirstName;
+            set
+            {
+                if (_senderFirstName == value) return;
+
+                _senderFirstName = value;
+                NotifyPropertyChanged(nameof(SenderFirstName));
+            }
+        }
+        public string SenderLastName
+        {
+            get => _senderLastName;
+            set
+            {
+                if (_senderLastName == value) return;
+
+                _senderLastName = value;
+                NotifyPropertyChanged(nameof(SenderLastName));
             }
         }
         #endregion

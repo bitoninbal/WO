@@ -16,10 +16,10 @@ namespace WODataAccess.User
                                                       string   description,
                                                       string   subject)
         {
-            var cnn = new SqlConnection(ConnectionString);
+            var cnn   = new SqlConnection(ConnectionString);
             var query = "INSERT INTO Tasks(UserId, ManagerId, Subject, FinalDate, Description, Priority, IsCompleted) " +
                         "VALUES(@UserId, @ManagerId, @Subject, @FinalDate, @Description, @Priority, @IsCompleted); SELECT SCOPE_IDENTITY();";
-            var cmd = new SqlCommand(query, cnn);
+            var cmd   = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@UserId", employeeId);
             cmd.Parameters.AddWithValue("@ManagerId", managerId);
@@ -39,7 +39,7 @@ namespace WODataAccess.User
 
                 return taskId;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return 0;
             }
@@ -98,7 +98,7 @@ namespace WODataAccess.User
         public async Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted UserId FROM Tasks WHERE ManagerId = @ManagerId";
+            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted, UserId FROM Tasks WHERE ManagerId = @ManagerId";
             var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@ManagerId", personId);

@@ -1,13 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using WOClient.Components.Base;
-using WOClient.Library.Api;
 using WOClient.Library.Models;
 
 namespace WOClient.Components.MyTasks
 {
-    public class MyTasksViewModel: MyTaskViewModel, IMyTasksViewModel
+    public class MyTasksViewModel: BaseViewModel, IMyTasksViewModel
     {
-        public MyTasksViewModel(IClientApi api) : base(api)
+        public MyTasksViewModel()
         {
             Tasks = new ObservableCollection<MyTask>();
         }

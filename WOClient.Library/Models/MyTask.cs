@@ -12,35 +12,50 @@ namespace WOClient.Library.Models
     {
         public MyTask()
         {
-            Api      = new ClientApi();
-            Comments = new ObservableCollection<Comment>();
+            Api             = new ClientApi();
+            _comments       = new ObservableCollection<Comment>();
+            _commentMessage = string.Empty;
         }
 
         #region Fields
-        private bool         _isCompleted;
-        private string       _description;
-        private Color        _bgColor;
-        private DateTime     _finalDate;
-        private string       _subject;
+        private bool _isCommentDialogOpen;
+        private bool _isCompleted;
+        private int _taskId;
+        private int _assignedEmployee;
+        private string _commentMessage;
+        private string _description;
+        private string _subject;
+        private Color _bgColor;
+        private DateTime _finalDate;
+        private ObservableCollection<Comment> _comments;
         private PriorityEnum _priority;
-        private int          _taskId;
-        private int          _userId;
         #endregion
 
         #region Properties
-        public int UserId
-        {
-            get => _userId;
-            set
-            {
-                if (_userId == value) return;
-
-                _userId = value;
-                NotifyPropertyChanged("UserId");
-            }
-        }
         protected ClientApi Api { get; }
 
+        public ObservableCollection<Comment> Comments
+        {
+            get => _comments;
+            set
+            {
+                if (_comments == value) return;
+
+                _comments = value;
+                NotifyPropertyChanged(nameof(Comments));
+            }
+        }
+        public bool IsCommentDialogOpen
+        {
+            get => _isCommentDialogOpen;
+            set
+            {
+                if (_isCommentDialogOpen == value) return;
+
+                _isCommentDialogOpen = value;
+                NotifyPropertyChanged(nameof(IsCommentDialogOpen));
+            }
+        }
         public bool IsCompleted
         {
             get => _isCompleted;
@@ -49,20 +64,9 @@ namespace WOClient.Library.Models
                 if (_isCompleted == value) return;
 
                 _isCompleted = value;
-                NotifyPropertyChanged("IsCompleted");
+                NotifyPropertyChanged(nameof(IsCompleted));
 
                 if (TaskId != 0) Task.Run(() => UpdateCompletedTaskFieldAsync(TaskId, value));
-            }
-        }
-        public Color BgColor
-        {
-            get => _bgColor;
-            set
-            {
-                if (_bgColor == value) return;
-
-                _bgColor = value;
-                NotifyPropertyChanged("BgColor");
             }
         }
         public int TaskId
@@ -73,7 +77,29 @@ namespace WOClient.Library.Models
                 if (_taskId == value) return;
 
                 _taskId = value;
-                NotifyPropertyChanged("TaskId");
+                NotifyPropertyChanged(nameof(TaskId));
+            }
+        }
+        public int AssignedEmployee
+        {
+            get => _assignedEmployee;
+            set
+            {
+                if (_assignedEmployee == value) return;
+
+                _assignedEmployee = value;
+                NotifyPropertyChanged(nameof(AssignedEmployee));
+            }
+        }
+        public string CommentMessage
+        {
+            get => _commentMessage;
+            set
+            {
+                if (_commentMessage == value) return;
+
+                _commentMessage = value;
+                NotifyPropertyChanged(nameof(CommentMessage));
             }
         }
         public string Description
@@ -84,29 +110,7 @@ namespace WOClient.Library.Models
                 if (_description == value) return;
 
                 _description = value;
-                NotifyPropertyChanged("Description");
-            }
-        }
-        public DateTime FinalDate
-        {
-            get => _finalDate;
-            set
-            {
-                if (_finalDate == value) return;
-
-                _finalDate = value;
-                NotifyPropertyChanged("FinalDate");
-            }
-        }
-        public PriorityEnum Priority
-        {
-            get => _priority;
-            set
-            {
-                if (_priority == value) return;
-
-                _priority = value;
-                NotifyPropertyChanged("Priority");
+                NotifyPropertyChanged(nameof(Description));
             }
         }
         public string Subject
@@ -117,10 +121,42 @@ namespace WOClient.Library.Models
                 if (_subject == value) return;
 
                 _subject = value;
-                NotifyPropertyChanged("Subject");
+                NotifyPropertyChanged(nameof(Subject));
             }
         }
-        public ObservableCollection<Comment> Comments { get; }
+        public DateTime FinalDate
+        {
+            get => _finalDate;
+            set
+            {
+                if (_finalDate == value) return;
+
+                _finalDate = value;
+                NotifyPropertyChanged(nameof(FinalDate));
+            }
+        }
+        public Color BgColor
+        {
+            get => _bgColor;
+            set
+            {
+                if (_bgColor == value) return;
+
+                _bgColor = value;
+                NotifyPropertyChanged(nameof(BgColor));
+            }
+        }
+        public PriorityEnum Priority
+        {
+            get => _priority;
+            set
+            {
+                if (_priority == value) return;
+
+                _priority = value;
+                NotifyPropertyChanged(nameof(Priority));
+            }
+        }
         #endregion
 
         #region Private Methods
