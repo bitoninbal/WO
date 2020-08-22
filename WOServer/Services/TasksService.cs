@@ -21,11 +21,11 @@ namespace WOServer.Services
         public override async Task<Int32Value> AddTask(TaskInput request, ServerCallContext context)
         {
             var taskId = await _dataAccess.AddTaskDataAccessAsync(request.FinalDate.ToDateTime(),
-                                                                 request.EmployeeId,
-                                                                 request.ManagerId,
-                                                                 request.Priority,
-                                                                 request.Description,
-                                                                 request.Subject);
+                                                                  request.EmployeeId,
+                                                                  request.ManagerId,
+                                                                  request.Priority,
+                                                                  request.Description,
+                                                                  request.Subject);
 
             return new Int32Value { Value = taskId };
         }
@@ -49,6 +49,7 @@ namespace WOServer.Services
                     Subject     = taskModel.Subject,
                     Description = taskModel.Description,
                     Priority    = taskModel.Priority,
+                    IsArchive   = taskModel.IsArchive,
                     IsCompleted = taskModel.IsCompleted,
                     EmployeeId  = taskModel.UserId
                 };
@@ -76,6 +77,7 @@ namespace WOServer.Services
                     Subject     = taskModel.Subject,
                     Description = taskModel.Description,
                     Priority    = taskModel.Priority,
+                    IsArchive  = taskModel.IsArchive,
                     IsCompleted = taskModel.IsCompleted,
                     EmployeeId  = taskModel.UserId
                 };
@@ -83,9 +85,9 @@ namespace WOServer.Services
                 await responseStream.WriteAsync(task);
             }
         }
-        public override async Task<Empty> UpdateCompletedField(CompletedFieldInput request, ServerCallContext context)
+        public override async Task<Empty> UpdateField(UpdateTaskFieldInput request, ServerCallContext context)
         {
-            await _dataAccess.UpdateCompletedTaskFieldAsync(request.TaskId, request.NewValue);
+            await _dataAccess.UpdateTaskFieldAsync(request.TaskId, request.NewValue, request.ColumnName);
 
             return new Empty();
         } 

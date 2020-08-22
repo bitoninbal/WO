@@ -52,7 +52,7 @@ namespace WODataAccess.User
         public async Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted, UserId FROM Tasks WHERE UserId = @UserId";
+            var query = "SELECT * FROM Tasks WHERE UserId = @UserId";
             var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@UserId", personId);
@@ -73,12 +73,13 @@ namespace WODataAccess.User
                         tasks.Add(new TaskModel
                         {
                             TaskId      = await reader.GetFieldValueAsync<int>(0),
-                            Subject     = await reader.GetFieldValueAsync<string>(1),
-                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(2),
-                            Description = await reader.GetFieldValueAsync<string>(3),
-                            Priority    = await reader.GetFieldValueAsync<string>(4),
-                            IsCompleted = await reader.GetFieldValueAsync<bool>(5),
-                            UserId      = await reader.GetFieldValueAsync<int>(6)
+                            UserId      = await reader.GetFieldValueAsync<int>(1),
+                            Subject     = await reader.GetFieldValueAsync<string>(3),
+                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(4),
+                            Description = await reader.GetFieldValueAsync<string>(5),
+                            Priority    = await reader.GetFieldValueAsync<string>(6),
+                            IsCompleted = await reader.GetFieldValueAsync<bool>(7),
+                            IsArchive  = await reader.GetFieldValueAsync<bool>(8)
                         });
                     }
 
@@ -98,7 +99,7 @@ namespace WODataAccess.User
         public async Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "SELECT Id, Subject, FinalDate, Description, Priority, IsCompleted, UserId FROM Tasks WHERE ManagerId = @ManagerId";
+            var query = "SELECT * FROM Tasks WHERE ManagerId = @ManagerId";
             var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@ManagerId", personId);
@@ -119,12 +120,13 @@ namespace WODataAccess.User
                         tasks.Add(new TaskModel
                         {
                             TaskId      = await reader.GetFieldValueAsync<int>(0),
-                            Subject     = await reader.GetFieldValueAsync<string>(1),
-                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(2),
-                            Description = await reader.GetFieldValueAsync<string>(3),
-                            Priority    = await reader.GetFieldValueAsync<string>(4),
-                            IsCompleted = await reader.GetFieldValueAsync<bool>(5),
-                            UserId      = await reader.GetFieldValueAsync<int>(6)
+                            UserId      = await reader.GetFieldValueAsync<int>(1),
+                            Subject     = await reader.GetFieldValueAsync<string>(3),
+                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(4),
+                            Description = await reader.GetFieldValueAsync<string>(5),
+                            Priority    = await reader.GetFieldValueAsync<string>(6),
+                            IsCompleted = await reader.GetFieldValueAsync<bool>(7),
+                            IsArchive  = await reader.GetFieldValueAsync<bool>(8)
                         });
                     }
 
@@ -141,10 +143,10 @@ namespace WODataAccess.User
                 await cnn.CloseAsync();
             }
         }
-        public async Task UpdateCompletedTaskFieldAsync(int id, bool newValue)
+        public async Task UpdateTaskFieldAsync(int id, bool newValue, string columnName)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = $"UPDATE Tasks SET IsCompleted = @NewValue WHERE Id = @Id";
+            var query = $"UPDATE Tasks SET {columnName} = @NewValue WHERE Id = @Id";
             var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@NewValue", newValue);

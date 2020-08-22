@@ -15,6 +15,6 @@ namespace WODataAccess.User
                                     string   subject);
         Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId);
         Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId);
-        Task UpdateCompletedTaskFieldAsync(int id, bool newValue);
+        Task UpdateTaskFieldAsync(int id, bool newValue, string columnName);
     }
 }

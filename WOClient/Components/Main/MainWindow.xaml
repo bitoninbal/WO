@@ -31,6 +31,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -133,9 +134,24 @@
                     <materialDesign:PackIcon Grid.Row="5"
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
+                                             Kind="Archive" />
+                    <Button x:Name="ArchiveButton"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Content="Archive"
+                            Margin="0, 5"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Click="SwitchViewClick" />
+
+                    <materialDesign:PackIcon Grid.Row="6"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
                                              Kind="Logout" />
                     <Button x:Name="LogoutButton"
-                            Grid.Row="5"
+                            Grid.Row="6"
                             Grid.Column="1"
                             Content="Logout"
                             Margin="0, 5"

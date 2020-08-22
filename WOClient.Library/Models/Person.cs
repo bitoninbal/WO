@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using WOClient.Library.Api;
 using WOCommon.Enums;
+using System.Linq;
 
 namespace WOClient.Library.Models
 {
@@ -26,6 +27,8 @@ namespace WOClient.Library.Models
         #region Fields
         private ObservableCollection<MyTask> _myTasks;
         private PermissionsEnum _permission;
+        private bool _isAllTasksArchived;
+        private bool _isMyTasksArchivedExists;
         private int _personId;
         private int _managerId;
         private string _firstName;
@@ -56,6 +59,30 @@ namespace WOClient.Library.Models
 
                 NotifyPropertyChanged(nameof(Permission));
                 Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "Permission"));
+            }
+        }
+        public bool IsMyTasksArchivedExists
+        {
+            get => _isMyTasksArchivedExists;
+            set
+            {
+                if (_isMyTasksArchivedExists == value) return;
+
+                _isMyTasksArchivedExists = value;
+
+                NotifyPropertyChanged(nameof(IsMyTasksArchivedExists));
+            }
+        }
+        public bool IsAllMyTasksArchived
+        {
+            get => _isAllTasksArchived;
+            set
+            {
+                if (_isAllTasksArchived == value) return;
+
+                _isAllTasksArchived = value;
+
+                NotifyPropertyChanged(nameof(IsAllMyTasksArchived));
             }
         }
         public string FirstName
@@ -128,6 +155,17 @@ namespace WOClient.Library.Models
         {
             await Api.UpdateUserFieldAsync(personId, value, columnName);
         }
+        #endregion
+
+        #region Protected Methods
+        protected bool CheckIfAllTasksArchived(ObservableCollection<MyTask> tasks)
+        {
+            return tasks.All((task) => task.IsArchive);
+        }
+        protected bool CheckIfAnyTasksArchived(ObservableCollection<MyTask> tasks)
+        {
+            return tasks.Any((task) => task.IsArchive);
+        }
         protected async Task InitMyTasks()
         {
             var result = await Api.GetMyTasksAsync(PersonId);
@@ -135,6 +173,20 @@ namespace WOClient.Library.Models
             if (result is null) return;
 
             MyTasks = result;
+
+            IsMyTasksArchivedExists = CheckIfAnyTasksArchived(MyTasks);
+            IsAllMyTasksArchived = CheckIfAllTasksArchived(MyTasks);
+        }
+        #endregion
+
+        #region Public Methods
+        public void CheckIfAllMyTasksArchived()
+        {
+            IsAllMyTasksArchived = MyTasks.All((task) => task.IsArchive);
+        }
+        public void CheckIfAnyMyTasksArchived()
+        {
+            IsMyTasksArchivedExists = MyTasks.Any((task) => task.IsArchive);
         }
         #endregion
 

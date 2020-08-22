@@ -6,6 +6,9 @@ namespace WOClient.Library.Models
 {
     public interface IPerson: INotifyPropertyChanged
     {
+        #region Properties
+        bool IsAllMyTasksArchived { get; set; }
+        bool IsMyTasksArchivedExists { get; set; }
         int ManagerId { get; set; }
         int PersonId { get; set; }
         string Email { get; set; }
@@ -13,5 +16,11 @@ namespace WOClient.Library.Models
         string LastName { get; set; }
         PermissionsEnum Permission { get; set; }
         ObservableCollection<MyTask> MyTasks { get; }
+        #endregion
+
+        #region Methods
+        void CheckIfAllMyTasksArchived();
+        void CheckIfAnyMyTasksArchived();
+        #endregion
     }
 }

@@ -15,6 +15,8 @@ namespace WOClient.Components.MyTaskComponent
         {
             CloseCommentDialogCommand = new RelayCommand<MyTask>(CloseCommentDialog);
             CommentDialogCommand      = new RelayCommand<MyTask>(CommentDialog);
+            MoveFromArchiveCommand    = new RelayCommand<MyTask>(MoveFromArchive);
+            MoveToArchiveCommand      = new RelayCommand<MyTask>(MoveToArchive);
             SendCommentCommand        = new RelayCommand<MyTask>(SendCommentAsync);
             _api                      = new ClientApi();
         }
@@ -26,6 +28,8 @@ namespace WOClient.Components.MyTaskComponent
         #region ICommand
         public ICommand CloseCommentDialogCommand { get; }
         public ICommand CommentDialogCommand { get; }
+        public ICommand MoveFromArchiveCommand { get; }
+        public ICommand MoveToArchiveCommand { get; }
         public ICommand SendCommentCommand { get; }
         #endregion
 
@@ -87,6 +91,22 @@ namespace WOClient.Components.MyTaskComponent
                 task.IsCommentDialogOpen = false;
             else
                 task.IsCommentDialogOpen = true;
+        }
+        private void MoveFromArchive(MyTask task)
+        {
+            task.IsArchive = false;
+
+            IMainWindowViewModel.User.IsAllMyTasksArchived = false;
+
+            IMainWindowViewModel.User.CheckIfAnyMyTasksArchived();
+        }
+        private void MoveToArchive(MyTask task)
+        {
+            task.IsArchive = true;
+
+            IMainWindowViewModel.User.IsMyTasksArchivedExists = true;
+
+            IMainWindowViewModel.User.CheckIfAllMyTasksArchived();
         }
         private async void SendCommentAsync(MyTask task)
         {

@@ -31,7 +31,7 @@ namespace WOClient.Library.Api
         Task<ObservableCollection<MyTask>> GetMyTasksAsync(int personId);
         Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(int personId);
         Task LoginAsync(string email, SecureString password);
-        Task UpdateCompletedTaskFieldAsync(int taskId, bool newValue);
+        Task UpdateTaskFieldAsync(int taskId, bool value, string columnName);
         Task UpdateUserFieldAsync<T>(int personId, T value, string columnName);
         #endregion
     }

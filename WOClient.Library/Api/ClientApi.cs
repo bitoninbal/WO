@@ -150,11 +150,11 @@ namespace WOClient.Library.Api
             await _usersApi.UpdateUserFieldAsync(channel, personId, newValue, columnName);
             await channel.ShutdownAsync();
         }
-        public async Task UpdateCompletedTaskFieldAsync(int taskId, bool newValue)
+        public async Task UpdateTaskFieldAsync(int taskId, bool value, string columnName)
         {
             var channel = GetChannel();
 
-            await _tasksApi.UpdateTaskCompletedFieldAsync(channel, taskId, newValue);
+            await _tasksApi.UpdateTaskFieldAsync(channel, taskId, value, columnName);
             await channel.ShutdownAsync();
         }
         #endregion

@@ -26,11 +26,37 @@ namespace WOClient.Library.Models
         }
 
         #region Fields
+        private bool _isAllTrackingTasksArchived;
+        private bool _isTrackingTasksArchivedExists;
         private ObservableCollection<IPerson> _myEmployees;
         private ObservableCollection<MyTask> _trackingTasks;
         #endregion
 
         #region Properties
+        public bool IsAllTrackingTasksArchived
+        {
+            get => _isAllTrackingTasksArchived;
+            set
+            {
+                if (_isAllTrackingTasksArchived == value) return;
+
+                _isAllTrackingTasksArchived = value;
+
+                NotifyPropertyChanged(nameof(IsAllTrackingTasksArchived));
+            }
+        }
+        public bool IsTrackingTasksArchivedExists
+        {
+            get => _isTrackingTasksArchivedExists;
+            set
+            {
+                if (_isTrackingTasksArchivedExists == value) return;
+
+                _isTrackingTasksArchivedExists = value;
+
+                NotifyPropertyChanged(nameof(IsTrackingTasksArchivedExists));
+            }
+        }
         public ObservableCollection<IPerson> MyEmployees
         {
             get => _myEmployees;
@@ -90,6 +116,9 @@ namespace WOClient.Library.Models
             if (result is null) return;
 
             TrackingTasks = result;
+
+            IsAllTrackingTasksArchived = CheckIfAllTasksArchived(TrackingTasks);
+            IsTrackingTasksArchivedExists = CheckIfAnyTasksArchived(TrackingTasks);
         }
         #endregion
     }

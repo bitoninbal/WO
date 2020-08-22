@@ -45,6 +45,10 @@ namespace WOClient.Components.Main
                     viewModel.CurrentVm = viewModel.ReportsVm;
 
                     break;
+                case "ArchiveButton":
+                    viewModel.CurrentVm = viewModel.ArchiveVm;
+
+                    break;
                 case "LogoutButton":
                     LoggedInUser.Instance.Reset();
                     DrawerHost.CloseDrawerCommand.Execute(null, null);

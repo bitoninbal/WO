@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WOClient.Components.Archive;
 using WOClient.Components.Comments;
 using WOClient.Components.Employees;
 using WOClient.Components.ForgetPassword;
@@ -29,6 +30,7 @@ namespace WOClient
         private static void ComposeObjects()
         {
             var api             = new ClientApi();
+            var archiveVm       = new ArchiveViewModel();
             var commentsVm      = new CommentsViewModel();
             var newEmployeeVm   = new NewEmployeeViewModel(api);
             var employeesVm     = new EmployeesViewModel(newEmployeeVm, api);
@@ -38,7 +40,8 @@ namespace WOClient
             var newTaskVm       = new NewTaskViewModel(api);
             var trackingTasksVm = new TrackingTasksViewModel(newTaskVm);
             var reportsVm       = new ReportsViewModel();
-            var mainWindowVm    = new MainWindowViewModel(commentsVm,
+            var mainWindowVm    = new MainWindowViewModel(archiveVm,
+                                                          commentsVm,
                                                           employeesVm,
                                                           loginVm,
                                                           forgetPasswodVm,

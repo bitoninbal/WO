@@ -67,6 +67,7 @@ namespace WOClient.Library.Api.User
                     FinalDate        = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     Priority         = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject          = result.ResponseStream.Current.Subject,
+                    IsArchive       = result.ResponseStream.Current.IsArchive,
                     IsCompleted      = result.ResponseStream.Current.IsCompleted,
                     AssignedEmployee = result.ResponseStream.Current.EmployeeId
                 };
@@ -102,6 +103,7 @@ namespace WOClient.Library.Api.User
                     FinalDate        = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     Priority         = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject          = result.ResponseStream.Current.Subject,
+                    IsArchive = result.ResponseStream.Current.IsArchive,
                     IsCompleted      = result.ResponseStream.Current.IsCompleted,
                     AssignedEmployee = result.ResponseStream.Current.EmployeeId
                 };
@@ -115,16 +117,17 @@ namespace WOClient.Library.Api.User
 
             return tasks;
         }
-        internal async Task UpdateTaskCompletedFieldAsync(GrpcChannel channel, int taskId, bool value)
+        internal async Task UpdateTaskFieldAsync(GrpcChannel channel, int taskId, bool value, string columnName)
         {
             var client = new Tasks.TasksClient(channel);
-            var input = new CompletedFieldInput
+            var input = new UpdateTaskFieldInput
             {
-                TaskId   = taskId,
-                NewValue = value,
+                TaskId     = taskId,
+                NewValue   = value,
+                ColumnName = columnName
             };
 
-            await client.UpdateCompletedFieldAsync(input);
+            await client.UpdateFieldAsync(input);
         }
         #endregion
 

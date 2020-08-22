@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:archive="clr-namespace:WOClient.Components.Archive"
                     xmlns:comments="clr-namespace:WOClient.Components.Comments"
                     xmlns:converters="clr-namespace:WOClient.Converters"
                     xmlns:emplyees="clr-namespace:WOClient.Components.Employees"
@@ -15,6 +16,10 @@
     <converters:LoggedInToBooleanConverter x:Key="LoggedInToBooleanConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
+    <DataTemplate DataType="{x:Type archive:ArchiveViewModel}">
+        <archive:ArchiveView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type comments:CommentsViewModel}">
         <comments:CommentsView />
     </DataTemplate>

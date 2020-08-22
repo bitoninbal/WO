@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using System.Threading.Tasks;
 using WOClient.Library.Api;
 using WOCommon.Enums;
@@ -18,6 +17,7 @@ namespace WOClient.Library.Models
         }
 
         #region Fields
+        private bool _isArchive;
         private bool _isCommentDialogOpen;
         private bool _isCompleted;
         private int _taskId;
@@ -25,7 +25,6 @@ namespace WOClient.Library.Models
         private string _commentMessage;
         private string _description;
         private string _subject;
-        private Color _bgColor;
         private DateTime _finalDate;
         private ObservableCollection<Comment> _comments;
         private PriorityEnum _priority;
@@ -34,15 +33,18 @@ namespace WOClient.Library.Models
         #region Properties
         protected ClientApi Api { get; }
 
-        public ObservableCollection<Comment> Comments
+        public bool IsArchive
         {
-            get => _comments;
+            get => _isArchive;
             set
             {
-                if (_comments == value) return;
+                if (_isArchive == value) return;
 
-                _comments = value;
-                NotifyPropertyChanged(nameof(Comments));
+                _isArchive = value;
+
+                NotifyPropertyChanged(nameof(IsArchive));
+
+                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(TaskId, value, nameof(IsArchive)));
             }
         }
         public bool IsCommentDialogOpen
@@ -64,9 +66,10 @@ namespace WOClient.Library.Models
                 if (_isCompleted == value) return;
 
                 _isCompleted = value;
+
                 NotifyPropertyChanged(nameof(IsCompleted));
 
-                if (TaskId != 0) Task.Run(() => UpdateCompletedTaskFieldAsync(TaskId, value));
+                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(TaskId, value, nameof(IsCompleted)));
             }
         }
         public int TaskId
@@ -135,15 +138,15 @@ namespace WOClient.Library.Models
                 NotifyPropertyChanged(nameof(FinalDate));
             }
         }
-        public Color BgColor
+        public ObservableCollection<Comment> Comments
         {
-            get => _bgColor;
+            get => _comments;
             set
             {
-                if (_bgColor == value) return;
+                if (_comments == value) return;
 
-                _bgColor = value;
-                NotifyPropertyChanged(nameof(BgColor));
+                _comments = value;
+                NotifyPropertyChanged(nameof(Comments));
             }
         }
         public PriorityEnum Priority
@@ -160,9 +163,9 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Private Methods
-        private async Task UpdateCompletedTaskFieldAsync(int taskId, bool value)
+        private async Task UpdateTaskFieldAsync(int taskId, bool value, string columnName)
         {
-            await Api.UpdateCompletedTaskFieldAsync(taskId, value);
+            await Api.UpdateTaskFieldAsync(taskId, value, columnName);
         }
         #endregion
 

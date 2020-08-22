@@ -1,4 +1,5 @@
 ﻿using System;
+using WOClient.Components.Archive;
 using WOClient.Components.Base;
 using WOClient.Components.Comments;
 using WOClient.Components.Employees;
@@ -14,7 +15,8 @@ namespace WOClient.Components.Main
 {
     public class MainWindowViewModel: BaseViewModel, IMainWindowViewModel
     {
-        public MainWindowViewModel(ICommentsViewModel commentsVm,
+        public MainWindowViewModel(IArchiveViewModel archiveVm,
+                                   ICommentsViewModel commentsVm,
                                    IEmplyeesViewModel emplyeesVm,
                                    ILoginViewModel loginVm,
                                    IForgetPasswordViewModel forgetPasswordVm,
@@ -22,6 +24,7 @@ namespace WOClient.Components.Main
                                    IReportsViewModel reportsVm,
                                    ITrackingTasksViewModel trackingTasksVm)
         {
+            _archiveVm        = archiveVm;
             _currentVm        = loginVm;
             _commentsVm       = commentsVm;
             _emplyeesVm       = emplyeesVm;
@@ -35,6 +38,7 @@ namespace WOClient.Components.Main
         }
 
         #region Fields
+        private IArchiveViewModel        _archiveVm;
         private ICommentsViewModel       _commentsVm;
         private IEmplyeesViewModel       _emplyeesVm;
         private IForgetPasswordViewModel _forgetPasswordVm;
@@ -55,6 +59,18 @@ namespace WOClient.Components.Main
 
                 _currentVm = value;
                 NotifyPropertyChanged("CurrentVm");
+            }
+        }
+        public IArchiveViewModel ArchiveVm
+        {
+            get => _archiveVm;
+            set
+            {
+                if (_archiveVm == value) return;
+
+                _archiveVm = value;
+
+                NotifyPropertyChanged(nameof(ArchiveVm));
             }
         }
         public ICommentsViewModel CommentsVm
