@@ -96,17 +96,39 @@ namespace WOClient.Components.MyTaskComponent
         {
             task.IsArchive = false;
 
-            IMainWindowViewModel.User.IsAllMyTasksArchived = false;
+            if (IMainWindowViewModel.User.MyTasks.Contains(task))
+            {
+                IMainWindowViewModel.User.IsAllMyTasksArchived = false;
 
-            IMainWindowViewModel.User.CheckIfAnyMyTasksArchived();
+                IMainWindowViewModel.User.CheckIfAnyMyTasksArchived();
+            }
+            else
+            {
+                var user = IMainWindowViewModel.User as Manager;
+
+                user.IsAllTrackingTasksArchived = false;
+
+                user.CheckIfAnyTrackingTasksArchived();
+            }  
         }
         private void MoveToArchive(MyTask task)
         {
             task.IsArchive = true;
 
-            IMainWindowViewModel.User.IsMyTasksArchivedExists = true;
+            if (IMainWindowViewModel.User.MyTasks.Contains(task))
+            {
+                IMainWindowViewModel.User.IsAllMyTasksArchived = true;
 
-            IMainWindowViewModel.User.CheckIfAllMyTasksArchived();
+                IMainWindowViewModel.User.CheckIfAnyMyTasksArchived();
+            }
+            else
+            {
+                var user = IMainWindowViewModel.User as Manager;
+
+                user.IsAllTrackingTasksArchived = true;
+
+                user.CheckIfAnyTrackingTasksArchived();
+            }
         }
         private async void SendCommentAsync(MyTask task)
         {

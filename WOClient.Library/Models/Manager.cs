@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WOCommon.Enums;
+using System.Linq;
 
 namespace WOClient.Library.Models
 {
@@ -92,6 +93,14 @@ namespace WOClient.Library.Models
             }
 
             return null;
+        }
+        public void CheckIfAllTrackingTasksArchived()
+        {
+            IsAllTrackingTasksArchived = TrackingTasks.All((task) => task.IsArchive);
+        }
+        public void CheckIfAnyTrackingTasksArchived()
+        {
+            IsTrackingTasksArchivedExists = TrackingTasks.Any((task) => task.IsArchive);
         }
         #endregion
 

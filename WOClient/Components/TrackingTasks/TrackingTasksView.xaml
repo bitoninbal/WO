@@ -41,6 +41,12 @@
                                      Value="0">
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                                       Path=IsAllTrackingTasksArchived}"
+                                     Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </TextBlock.Style>
@@ -63,6 +69,12 @@
                                      Value="0">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                                       Path=IsAllTrackingTasksArchived}"
+                                     Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </ListBox.Style>
@@ -72,6 +84,14 @@
                        BasedOn="{StaticResource MaterialDesignListBoxItem}">
                     <Setter Property="Background" Value="#b39ddb" />
                     <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Visibility" Value="Visible" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsArchive}"
+                                     Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

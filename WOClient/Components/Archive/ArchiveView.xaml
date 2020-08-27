@@ -36,7 +36,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="520" />
-            <ColumnDefinition Width="520" />
+            <ColumnDefinition Width="540" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0"
