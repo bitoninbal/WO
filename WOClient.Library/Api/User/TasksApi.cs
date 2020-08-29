@@ -65,9 +65,10 @@ namespace WOClient.Library.Api.User
                     TaskId           = result.ResponseStream.Current.TaskId,
                     Description      = result.ResponseStream.Current.Description,
                     FinalDate        = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
+                    CreatedDate      = result.ResponseStream.Current.CreatedDate.ToDateTime().ToLocalTime(),
                     Priority         = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject          = result.ResponseStream.Current.Subject,
-                    IsArchive       = result.ResponseStream.Current.IsArchive,
+                    IsArchive        = result.ResponseStream.Current.IsArchive,
                     IsCompleted      = result.ResponseStream.Current.IsCompleted,
                     AssignedEmployee = result.ResponseStream.Current.EmployeeId
                 };
@@ -101,9 +102,10 @@ namespace WOClient.Library.Api.User
                     TaskId           = result.ResponseStream.Current.TaskId,
                     Description      = result.ResponseStream.Current.Description,
                     FinalDate        = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
+                    CreatedDate      = result.ResponseStream.Current.CreatedDate.ToDateTime().ToLocalTime(),
                     Priority         = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject          = result.ResponseStream.Current.Subject,
-                    IsArchive = result.ResponseStream.Current.IsArchive,
+                    IsArchive        = result.ResponseStream.Current.IsArchive,
                     IsCompleted      = result.ResponseStream.Current.IsCompleted,
                     AssignedEmployee = result.ResponseStream.Current.EmployeeId
                 };

@@ -1,32 +1,133 @@
 ﻿<UserControl x:Class="WOClient.Components.Reports.ReportsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <ResourceDictionary Source="ReportsDataTemplate.xaml" />
+    </UserControl.Resources>
+    
     <Grid HorizontalAlignment="Center"
           Margin="0,10,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
-            <ColumnDefinition Width="300" />
-        </Grid.ColumnDefinitions>
-        
-        <TextBlock Grid.Row="0"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
+
+        <TextBlock Grid.Row="1"
                    HorizontalAlignment="Center"
                    FontSize="20"
                    Text="Reports" />
-        
-        <TextBlock Grid.Row="1"
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0 50 0 0"
+                    HorizontalAlignment="Center">
+            <TextBlock VerticalAlignment="Center"
+                       Text="Select Report:" />
+            <ComboBox x:Name="ReportsComboBox"
+                      SelectedValue="{Binding SelectedReport}"
+                      SelectedValuePath="Tag"
+                      Width="200"
+                      Margin="30 0 0 0">
+                <ComboBoxItem Content="Number Of Open Tasks"
+                          Tag="{Binding Source={x:Static enums:ReportsEnum.NumberOfOpenTasks}}" />
+                <ComboBoxItem Content="All Tasks"
+                          Tag="{Binding Source={x:Static enums:ReportsEnum.AllTasks}}" />
+                <ComboBoxItem Content="All Employee Tasks"
+                          Tag="{Binding Source={x:Static enums:ReportsEnum.AllEmployeeTasks}}" />
+                <ComboBoxItem Content="Tasks Deadlines"
+                          Tag="{Binding Source={x:Static enums:ReportsEnum.TasksDeadlines}}" />
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Visible" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=SelectedValue,
+                                                       ElementName=ReportsComboBox}"
+                                     Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+
+            <TextBlock VerticalAlignment="Center"
+                       Margin="0 10 0 0"
+                       Text="From" />
+            <DatePicker Margin="10 0 0 0"
+                        Width="100"
+                        SelectedDate="{Binding FromDate}"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+            <TextBlock VerticalAlignment="Center"
+                       Margin="30 10 0 0"
+                       Text="To" />
+            <DatePicker Margin="10 0 0 0"
+                        Width="100"
+                        SelectedDate="{Binding ToDate}"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+            <Button Margin="50 18 0 0"
+                    Content="Show"
+                    Command="{Binding ShowReportCommand}" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="3"
+                  Margin="0 50 0 0"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding ReportCollections}">
+            <DataGrid.Style>
+                <Style TargetType="{x:Type DataGrid}"
+                       BasedOn="{StaticResource MaterialDesignDataGrid}">
+                    <Setter Property="Visibility" Value="Visible" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ReportCollections}"
+                                     Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding ReportCollections.Count}"
+                                     Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+            
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}"
+                       BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        <TextBlock Grid.Row="3"
                    Grid.Column="0"
-                   Margin="0 30 0 0"
-                   VerticalAlignment="Center"
-                   Text="Select Report:" />
-        <ComboBox Grid.Row="1"
-                  Grid.Column="1"
-                  Margin="0 30 0 0" />
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Center"
+                   Margin="0 10"
+                   Text="No result to display.">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ReportCollections.Count}"
+                                     Value="0">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </UserControl>

@@ -8,6 +8,7 @@ namespace WODataAccess.Models
         public bool     IsCompleted { get; set; }
         public string   Description { get; set; }
         public DateTime FinalDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string   Subject { get; set; }
         public string   Priority { get; set; }
         public int      TaskId { get; set; }

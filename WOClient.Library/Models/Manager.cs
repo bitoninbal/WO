@@ -83,6 +83,22 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Public Methods
+        public void CheckIfAllTrackingTasksArchived()
+        {
+            IsAllTrackingTasksArchived = TrackingTasks.All((task) => task.IsArchive);
+        }
+        public void CheckIfAnyTrackingTasksArchived()
+        {
+            IsTrackingTasksArchivedExists = TrackingTasks.Any((task) => task.IsArchive);
+        }
+        public int CountAllTasks()
+        {
+            return TrackingTasks.Count((task) => !task.IsArchive);
+        }
+        public int CountOpenTasks()
+        {
+            return TrackingTasks.Count((task) => task.IsCompleted);
+        }
         public IPerson GetEmplyee(int id)
         {
             foreach (var emplyee in MyEmployees)
@@ -93,14 +109,6 @@ namespace WOClient.Library.Models
             }
 
             return null;
-        }
-        public void CheckIfAllTrackingTasksArchived()
-        {
-            IsAllTrackingTasksArchived = TrackingTasks.All((task) => task.IsArchive);
-        }
-        public void CheckIfAnyTrackingTasksArchived()
-        {
-            IsTrackingTasksArchivedExists = TrackingTasks.Any((task) => task.IsArchive);
         }
         #endregion
 

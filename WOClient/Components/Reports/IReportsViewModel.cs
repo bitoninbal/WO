@@ -1,4 +1,5 @@
-﻿using WOClient.Components.Base;
+﻿using System;
+using WOClient.Components.Base;
 
 namespace WOClient.Components.Reports
 {

@@ -25,6 +25,7 @@ namespace WOClient.Library.Models
         private string _commentMessage;
         private string _description;
         private string _subject;
+        private DateTime _createdDate;
         private DateTime _finalDate;
         private ObservableCollection<Comment> _comments;
         private PriorityEnum _priority;
@@ -127,6 +128,18 @@ namespace WOClient.Library.Models
                 NotifyPropertyChanged(nameof(Subject));
             }
         }
+        public DateTime CreatedDate
+        {
+            get => _createdDate;
+            set
+            {
+                if (_createdDate == value) return;
+
+                _createdDate = value;
+
+                NotifyPropertyChanged(nameof(CreatedDate));
+            }
+        }
         public DateTime FinalDate
         {
             get => _finalDate;
@@ -135,6 +148,7 @@ namespace WOClient.Library.Models
                 if (_finalDate == value) return;
 
                 _finalDate = value;
+
                 NotifyPropertyChanged(nameof(FinalDate));
             }
         }

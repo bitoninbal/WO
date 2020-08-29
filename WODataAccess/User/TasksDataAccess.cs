@@ -17,8 +17,8 @@ namespace WODataAccess.User
                                                       string   subject)
         {
             var cnn   = new SqlConnection(ConnectionString);
-            var query = "INSERT INTO Tasks(UserId, ManagerId, Subject, FinalDate, Description, Priority, IsCompleted) " +
-                        "VALUES(@UserId, @ManagerId, @Subject, @FinalDate, @Description, @Priority, @IsCompleted); SELECT SCOPE_IDENTITY();";
+            var query = "INSERT INTO Tasks(UserId, ManagerId, Subject, FinalDate, Description, Priority, IsCompleted, CreatedDate) " +
+                        "VALUES(@UserId, @ManagerId, @Subject, @FinalDate, @Description, @Priority, @IsCompleted, @CreatedDate); SELECT SCOPE_IDENTITY();";
             var cmd   = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@UserId", employeeId);
@@ -28,6 +28,7 @@ namespace WODataAccess.User
             cmd.Parameters.AddWithValue("@Description", description);
             cmd.Parameters.AddWithValue("@Priority", priority);
             cmd.Parameters.AddWithValue("@IsCompleted", 0);
+            cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
             cmd.CommandType = CommandType.Text;
 
             try
@@ -39,7 +40,7 @@ namespace WODataAccess.User
 
                 return taskId;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return 0;
             }
@@ -75,11 +76,12 @@ namespace WODataAccess.User
                             TaskId      = await reader.GetFieldValueAsync<int>(0),
                             UserId      = await reader.GetFieldValueAsync<int>(1),
                             Subject     = await reader.GetFieldValueAsync<string>(3),
-                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(4),
-                            Description = await reader.GetFieldValueAsync<string>(5),
-                            Priority    = await reader.GetFieldValueAsync<string>(6),
-                            IsCompleted = await reader.GetFieldValueAsync<bool>(7),
-                            IsArchive  = await reader.GetFieldValueAsync<bool>(8)
+                            CreatedDate   = await reader.GetFieldValueAsync<DateTime>(4),
+                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(5),
+                            Description = await reader.GetFieldValueAsync<string>(6),
+                            Priority    = await reader.GetFieldValueAsync<string>(7),
+                            IsCompleted = await reader.GetFieldValueAsync<bool>(8),
+                            IsArchive   = await reader.GetFieldValueAsync<bool>(9)
                         });
                     }
 
@@ -122,11 +124,12 @@ namespace WODataAccess.User
                             TaskId      = await reader.GetFieldValueAsync<int>(0),
                             UserId      = await reader.GetFieldValueAsync<int>(1),
                             Subject     = await reader.GetFieldValueAsync<string>(3),
-                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(4),
-                            Description = await reader.GetFieldValueAsync<string>(5),
-                            Priority    = await reader.GetFieldValueAsync<string>(6),
-                            IsCompleted = await reader.GetFieldValueAsync<bool>(7),
-                            IsArchive  = await reader.GetFieldValueAsync<bool>(8)
+                            CreatedDate   = await reader.GetFieldValueAsync<DateTime>(4),
+                            FinalDate   = await reader.GetFieldValueAsync<DateTime>(5),
+                            Description = await reader.GetFieldValueAsync<string>(6),
+                            Priority    = await reader.GetFieldValueAsync<string>(7),
+                            IsCompleted = await reader.GetFieldValueAsync<bool>(8),
+                            IsArchive   = await reader.GetFieldValueAsync<bool>(9)
                         });
                     }
 

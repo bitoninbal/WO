@@ -51,7 +51,8 @@ namespace WOServer.Services
                     Priority    = taskModel.Priority,
                     IsArchive   = taskModel.IsArchive,
                     IsCompleted = taskModel.IsCompleted,
-                    EmployeeId  = taskModel.UserId
+                    EmployeeId  = taskModel.UserId,
+                    CreatedDate = taskModel.CreatedDate.ToUniversalTime().ToTimestamp()
                 };
 
                 await responseStream.WriteAsync(task);
@@ -77,9 +78,10 @@ namespace WOServer.Services
                     Subject     = taskModel.Subject,
                     Description = taskModel.Description,
                     Priority    = taskModel.Priority,
-                    IsArchive  = taskModel.IsArchive,
+                    IsArchive   = taskModel.IsArchive,
                     IsCompleted = taskModel.IsCompleted,
-                    EmployeeId  = taskModel.UserId
+                    EmployeeId  = taskModel.UserId,
+                    CreatedDate   = taskModel.CreatedDate.ToUniversalTime().ToTimestamp()
                 };
 
                 await responseStream.WriteAsync(task);

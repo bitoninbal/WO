@@ -35,6 +35,7 @@ message TaskOutput {
 	bool   isCompleted					= 6;
 	bool   IsArchive					= 7;
 	int32  employeeId					= 8;
+	google.protobuf.Timestamp createdDate = 9;
 }
 
 message UpdateTaskFieldInput {
