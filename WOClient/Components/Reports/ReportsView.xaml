@@ -1,14 +1,12 @@
 ﻿<UserControl x:Class="WOClient.Components.Reports.ReportsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
+             xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <UserControl.Resources>
-        <ResourceDictionary Source="ReportsDataTemplate.xaml" />
-    </UserControl.Resources>
-    
     <Grid HorizontalAlignment="Center"
-          Margin="0,10,0,0">
+          Margin="0 10 0 0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -32,13 +30,11 @@
                       Width="200"
                       Margin="30 0 0 0">
                 <ComboBoxItem Content="Number Of Open Tasks"
-                          Tag="{Binding Source={x:Static enums:ReportsEnum.NumberOfOpenTasks}}" />
+                              Tag="{Binding Source={x:Static enums:ReportsEnum.NumberOfOpenTasks}}" />
                 <ComboBoxItem Content="All Tasks"
-                          Tag="{Binding Source={x:Static enums:ReportsEnum.AllTasks}}" />
+                              Tag="{Binding Source={x:Static enums:ReportsEnum.AllTasks}}" />
                 <ComboBoxItem Content="All Employee Tasks"
-                          Tag="{Binding Source={x:Static enums:ReportsEnum.AllEmployeeTasks}}" />
-                <ComboBoxItem Content="Tasks Deadlines"
-                          Tag="{Binding Source={x:Static enums:ReportsEnum.TasksDeadlines}}" />
+                              Tag="{Binding Source={x:Static enums:ReportsEnum.AllEmployeeTasks}}" />
             </ComboBox>
         </StackPanel>
 
@@ -80,7 +76,46 @@
                     Command="{Binding ShowReportCommand}" />
         </StackPanel>
 
-        <DataGrid Grid.Row="3"
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    Margin="0 10 0 0"
+                    HorizontalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedReport}"
+                                     Value="{x:Static enums:ReportsEnum.AllEmployeeTasks}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            
+            <TextBlock VerticalAlignment="Center"
+                       Text="Select Employee:" />
+            <ComboBox x:Name="EmployeesComboBox"
+                      Width="200"
+                      Margin="30 0 0 0"
+                      SelectedItem="{Binding SelectedEmployee}"
+                      ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                            Path=MyEmployees}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center"
+                                       Margin="3 0"
+                                       Text="{Binding FirstName}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Text="{Binding LastName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <DataGrid Grid.Row="4"
                   Margin="0 50 0 0"
                   IsReadOnly="True"
                   ItemsSource="{Binding ReportCollections}">
@@ -99,6 +134,17 @@
                                      Value="0">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding SelectedReport}"
+                                           Value="{x:Static enums:ReportsEnum.AllEmployeeTasks}" />
+                                <Condition Binding="{Binding SelectedEmployee}"
+                                           Value="{x:Null}" />
+                            </MultiDataTrigger.Conditions>
+
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.Style>

@@ -4,7 +4,6 @@
     {
         NumberOfOpenTasks,
         AllTasks,
-        TasksDeadlines,
-        AllEmployeeTasks,
+        AllEmployeeTasks
     }
 }

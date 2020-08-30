@@ -24,6 +24,7 @@ namespace WOClient.Components.Reports
         #region Field
         private DateTime _fromDate = DateTime.Now;
         private DateTime _toDate = DateTime.Now;
+        private IPerson _selectedEmployee;
         private ReportsEnum _selectedReport;
         private List<object> _reportCollections;
         #endregion
@@ -55,6 +56,18 @@ namespace WOClient.Components.Reports
                 _toDate = value;
 
                 NotifyPropertyChanged(nameof(ToDate));
+            }
+        }
+        public IPerson SelectedEmployee
+        {
+            get => _selectedEmployee;
+            set
+            {
+                if (_selectedEmployee == value) return;
+
+                _selectedEmployee = value;
+
+                NotifyPropertyChanged(nameof(SelectedEmployee));
             }
         }
         public List<object> ReportCollections
@@ -105,18 +118,24 @@ namespace WOClient.Components.Reports
 
                     break;
                 case ReportsEnum.AllTasks:
-                    var filter = manager.TrackingTasks.ToList()
-                                                      .Concat(manager.MyTasks.ToList())
-                                                      .Where((task) => task.CreatedDate.Date >= FromDate.Date && task.CreatedDate.Date <= ToDate.Date)
-                                                      .OrderBy((task) => task.CreatedDate)
-                                                      .ToList();
+                    var filter1 = manager.TrackingTasks.ToList()
+                                                       .Concat(manager.MyTasks.ToList())
+                                                       .Where((task) => task.CreatedDate.Date >= FromDate.Date && task.CreatedDate.Date <= ToDate.Date)
+                                                       .OrderBy((task) => task.CreatedDate)
+                                                       .ToList();
 
-                    ReportCollections = AllTasksReport.GenerateReport(filter, FromDate, ToDate);
+                    ReportCollections = AllTasksReport.GenerateReport(filter1, FromDate, ToDate);
 
-                    break;
-                case ReportsEnum.TasksDeadlines:
                     break;
                 case ReportsEnum.AllEmployeeTasks:
+                    var filter2 = SelectedEmployee.MyTasks.ToList()
+                                                          .Concat(manager.MyTasks.ToList())
+                                                          .Where((task) => task.CreatedDate.Date >= FromDate.Date && task.CreatedDate.Date <= ToDate.Date)
+                                                          .OrderBy((task) => task.CreatedDate)
+                                                          .ToList();
+
+                    ReportCollections = AllTasksReport.GenerateReport(filter2, FromDate, ToDate);
+
                     break;
             }
         }
