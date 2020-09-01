@@ -105,6 +105,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <ListBox Grid.Row="0"
@@ -126,10 +127,10 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <DockPanel Grid.Row="2"
-                           HorizontalAlignment="Stretch">
-                    <Button ToolTip="Send"
-                            DockPanel.Dock="Left"
+                <StackPanel Grid.Row="2"
+                            Orientation="Horizontal">
+                    <Button Width="100"
+                            ToolTip="Send"
                             Content="{materialDesign:PackIcon Kind=Send}"
                             Command="{Binding Source={StaticResource Vm},
                                               Path=SendCommentCommand}"
@@ -151,11 +152,31 @@
                         </Button.Style>
                     </Button>
 
-                    <Button DockPanel.Dock="Right"
-                            Width="100"
-                            Content="Show Task"
-                            ToolTip="Show Task" />
-                </DockPanel>
+                    <ToggleButton x:Name="ShowTaskToggleButton"
+                                  Margin="360 0"
+                                  ToolTip="Show Task"
+                                  Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
+                                  Content="{materialDesign:PackIcon Kind=TextBox,
+                                                                    Size=25}" />
+                </StackPanel>
+
+                <ContentControl Grid.Row="3"
+                                Content="{Binding Path=DataContext,
+                                                  RelativeSource={RelativeSource AncestorType=Grid}}">
+                    <ContentControl.Style>
+                        <Style TargetType="{x:Type ContentControl}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsChecked,
+                                                                ElementName=ShowTaskToggleButton}"
+                                                Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
             </Grid>
         </Expander>
     </DataTemplate>

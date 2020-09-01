@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using WOClient.Library.Models;
@@ -51,6 +52,7 @@ namespace WOClient.Components.Main
                     break;
                 case "LogoutButton":
                     LoggedInUser.Instance.Reset();
+                    IMainWindowViewModel.User.Reset();
                     DrawerHost.CloseDrawerCommand.Execute(null, null);
 
                     viewModel.CurrentVm = viewModel.LoginVm;

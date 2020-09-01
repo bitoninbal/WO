@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using WOClient.Components.Archive;
 using WOClient.Components.Base;
 using WOClient.Components.Comments;
@@ -38,6 +39,7 @@ namespace WOClient.Components.Main
         }
 
         #region Fields
+        private static Timer             _updateTimer;
         private IArchiveViewModel        _archiveVm;
         private ICommentsViewModel       _commentsVm;
         private IEmplyeesViewModel       _emplyeesVm;
@@ -198,6 +200,20 @@ namespace WOClient.Components.Main
 
                     break;
             }
+        }
+        private void SetTimer()
+        {
+            // Create a timer with a two second interval.
+            _updateTimer = new Timer(2000);
+            // Hook up the Elapsed event for the timer. 
+            _updateTimer.Elapsed += _updateTimer_Elapsed;
+            _updateTimer.AutoReset = true;
+            _updateTimer.Enabled = true;
+        }
+
+        private async void _updateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            await IMainWindowViewModel.User.Update();
         }
         #endregion
     }

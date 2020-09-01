@@ -20,7 +20,7 @@ namespace WODataAccess.User
                                      string Password,
                                      string Permission,
                                      int DirectManager);
-        Task UpdateFieldAsync(int id, string newValue, string columnName);
+        Task UpdateFieldAsync<T>(int id, T newValue, string columnName);
         Task<bool> IsEmployeeEmailExistAsync(string email);
         #endregion
     }

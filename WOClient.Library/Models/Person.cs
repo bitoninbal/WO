@@ -120,8 +120,8 @@ namespace WOClient.Library.Models
 
                 _email = value;
 
-                NotifyPropertyChanged("Email");
-                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "Email"));
+                NotifyPropertyChanged(nameof(Email));
+                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, nameof(Email)));
             }
         }
         public int PersonId
@@ -143,7 +143,9 @@ namespace WOClient.Library.Models
                 if (_managerId == value) return;
 
                 _managerId = value;
+
                 NotifyPropertyChanged(nameof(ManagerId));
+                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "DirectManager"));
             }
         }
 
@@ -187,6 +189,14 @@ namespace WOClient.Library.Models
         public void CheckIfAnyMyTasksArchived()
         {
             IsMyTasksArchivedExists = MyTasks.Any((task) => task.IsArchive);
+        }
+        public virtual void Reset()
+        {
+            MyTasks.Clear();
+        }
+        public virtual async Task Update()
+        {
+            await InitMyTasks();
         }
         #endregion
 

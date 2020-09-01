@@ -110,6 +110,24 @@ namespace WOClient.Library.Models
 
             return null;
         }
+        public void AssignedEmployee(IPerson employee)
+        {
+            employee.ManagerId = PersonId;
+
+            MyEmployees.Add(employee);
+        }
+        public override void Reset()
+        {
+            base.Reset();
+
+            TrackingTasks.Clear();
+            MyEmployees.Clear();
+        }
+        public override async Task Update()
+        {
+            await base.Update();
+            await InitAsync();
+        }
         #endregion
 
         #region Private Methods

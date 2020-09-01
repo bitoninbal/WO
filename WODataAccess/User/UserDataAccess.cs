@@ -222,7 +222,7 @@ namespace WODataAccess.User
                 await cnn.CloseAsync();
             }
         }
-        public async Task UpdateFieldAsync(int id, string newValue, string columnName)
+        public async Task UpdateFieldAsync<T>(int id, T newValue, string columnName)
         {
             var cnn = new SqlConnection(ConnectionString);
             var query = $"UPDATE Users SET {columnName} = @NewValue WHERE Id = @Id";

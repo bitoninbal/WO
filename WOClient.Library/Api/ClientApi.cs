@@ -128,26 +128,46 @@ namespace WOClient.Library.Api
         }
         public async Task UpdateUserFieldAsync<T>(int personId, T value, string columnName)
         {
-            string newValue;
+            int intValue = 0;
+            string stringValue = string.Empty;
+            Type type;
             var channel = GetChannel();
 
             switch (value)
             {
+                case int number:
+                    type = typeof(int);
+                    intValue = number;
+
+                    break;
                 case PermissionsEnum permission:
-                    newValue = permission.ToString();
+                    type = typeof(string);
+                    stringValue = permission.ToString();
 
                     break;
                 case string str:
-                    newValue = str;
+                    type = typeof(string);
+                    stringValue = str;
 
                     break;
                 default:
-                    newValue = value.ToString();
-
-                    break;
+                    return;
             }
 
-            await _usersApi.UpdateUserFieldAsync(channel, personId, newValue, columnName);
+            switch (type.Name)
+            {
+                case "Int32":
+                    await _usersApi.UpdateUserFieldAsync(channel, personId, intValue, columnName);
+
+                    break;
+                case "String":
+                    await _usersApi.UpdateUserFieldAsync(channel, personId, stringValue, columnName);
+
+                    break;
+                default:
+                    return;
+            }
+
             await channel.ShutdownAsync();
         }
         public async Task UpdateTaskFieldAsync(int taskId, bool value, string columnName)

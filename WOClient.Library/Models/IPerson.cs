@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using WOCommon.Enums;
 
 namespace WOClient.Library.Models
@@ -21,6 +22,8 @@ namespace WOClient.Library.Models
         #region Methods
         void CheckIfAllMyTasksArchived();
         void CheckIfAnyMyTasksArchived();
+        void Reset();
+        Task Update();
         #endregion
     }
 }

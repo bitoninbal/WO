@@ -92,7 +92,13 @@ namespace WOServer.Services
                 Value = result
             };
         }
-        public override async Task<Empty> UpdateField(UpdateFieldInput request, ServerCallContext context)
+        public override async Task<Empty> UpdateIntField(UpdateIntFieldInput request, ServerCallContext context)
+        {
+            await _dataAccess.UpdateFieldAsync(request.PersonId, request.NewValue, request.ColumnName);
+
+            return new Empty();
+        }
+        public override async Task<Empty> UpdateStringField(UpdateStringFieldInput request, ServerCallContext context)
         {
             await _dataAccess.UpdateFieldAsync(request.PersonId, request.NewValue, request.ColumnName);
 

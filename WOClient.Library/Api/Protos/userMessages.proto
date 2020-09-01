@@ -9,7 +9,8 @@ service Users {
 	rpc LoginRequset (LoginInput) returns (UserData);
 	rpc DeleteEmployee (PersonIdInput) returns (google.protobuf.Empty);
 	rpc GetEmployees (PersonIdInput) returns (stream UserData);
-	rpc UpdateField (UpdateFieldInput) returns (google.protobuf.Empty);
+	rpc UpdateStringField (UpdateStringFieldInput) returns (google.protobuf.Empty);
+	rpc UpdateIntField (UpdateIntFieldInput) returns (google.protobuf.Empty);
 	rpc IsMailExist (google.protobuf.StringValue) returns (google.protobuf.BoolValue);
 }
 
@@ -40,8 +41,14 @@ message UserData {
 	int32 directManager = 6;
 }
 
-message UpdateFieldInput {
+message UpdateStringFieldInput {
 	int32 personId    = 1;
 	string newValue   = 2;
+	string columnName = 3;
+}
+
+message UpdateIntFieldInput {
+	int32 personId    = 1;
+	int32 newValue   = 2;
 	string columnName = 3;
 }

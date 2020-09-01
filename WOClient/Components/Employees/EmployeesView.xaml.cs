@@ -28,7 +28,7 @@ namespace WOClient.Components.Employees
             await vm.OpenNewEmployeeAsync();
         }
 
-        private void PermissionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void PermissionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
             var vm       = (EmployeesViewModel)DataContext;
@@ -40,6 +40,8 @@ namespace WOClient.Components.Employees
             switch (value)
             {
                 case PermissionsEnum.Employee:
+                    await vm.HandleDeleteManagerAsync();
+
                     vm.Employee.Permission = PermissionsEnum.Employee;
 
                     break;

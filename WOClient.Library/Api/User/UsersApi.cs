@@ -118,17 +118,29 @@ namespace WOClient.Library.Api.User
             else
                 LoggedInUser.Instance.Permission = PermissionsEnum.Manager;
         }
+        internal async Task UpdateUserFieldAsync(GrpcChannel channel, int personId, int value, string columnName)
+        {
+            var client = new Users.UsersClient(channel);
+            var input = new UpdateIntFieldInput
+            {
+                PersonId = personId,
+                NewValue = value,
+                ColumnName = columnName
+            };
+
+            await client.UpdateIntFieldAsync(input);
+        }
         internal async Task UpdateUserFieldAsync(GrpcChannel channel, int personId, string value, string columnName)
         {
             var client = new Users.UsersClient(channel);
-            var input = new UpdateFieldInput
+            var input = new UpdateStringFieldInput
             {
                 PersonId   = personId,
                 NewValue   = value,
                 ColumnName = columnName
             };
 
-            await client.UpdateFieldAsync(input);
+            await client.UpdateStringFieldAsync(input);
         }
         #endregion
 
