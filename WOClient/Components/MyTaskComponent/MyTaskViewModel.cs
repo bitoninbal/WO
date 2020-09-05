@@ -125,8 +125,7 @@ namespace WOClient.Components.MyTaskComponent
             {
                 var user = IMainWindowViewModel.User as Manager;
 
-                user.IsAllTrackingTasksArchived = true;
-
+                user.CheckIfAllTrackingTasksArchived();
                 user.CheckIfAnyTrackingTasksArchived();
             }
         }

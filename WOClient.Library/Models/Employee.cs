@@ -1,4 +1,5 @@
-﻿using WOCommon.Enums;
+﻿using System.Threading.Tasks;
+using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
@@ -17,5 +18,9 @@ namespace WOClient.Library.Models
                 lastName,
                 email)
         {}
+
+        #region Public Methods
+
+        #endregion
     }
 }

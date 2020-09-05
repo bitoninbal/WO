@@ -10,7 +10,7 @@ using WOCommon.Enums;
 
 namespace WOClient.Library.Api.User
 {
-    public class TasksApi
+    internal class TasksApi: BaseApi
     {
         public TasksApi(CommentApi commentApi)
         {
@@ -31,17 +31,18 @@ namespace WOClient.Library.Api.User
                                               string subject)
         {
             var client = new Tasks.TasksClient(channel);
-
-            var input = new TaskInput
+            var input  = new TaskInput
             {
-                FinalDate = finalDate.ToTimestamp(),
-                EmployeeId = employeeId,
-                ManagerId = managerId,
-                Priority = priority.ToString(),
+                FinalDate   = finalDate.ToTimestamp(),
+                EmployeeId  = employeeId,
+                ManagerId   = managerId,
+                Priority    = priority.ToString(),
                 Description = description,
-                Subject = subject
+                Subject     = subject
             };
             var taskId = await client.AddTaskAsync(input);
+
+            await SendUpdateEventAsync(channel, employeeId);
 
             return taskId.Value;
         }

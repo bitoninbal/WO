@@ -156,7 +156,7 @@ namespace WOClient.Library.Models
 
             TrackingTasks = result;
 
-            IsAllTrackingTasksArchived = CheckIfAllTasksArchived(TrackingTasks);
+            IsAllTrackingTasksArchived    = CheckIfAllTasksArchived(TrackingTasks);
             IsTrackingTasksArchivedExists = CheckIfAnyTasksArchived(TrackingTasks);
         }
         #endregion

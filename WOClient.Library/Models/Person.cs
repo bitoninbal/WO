@@ -45,7 +45,8 @@ namespace WOClient.Library.Models
                 if (_myTasks == value) return;
 
                 _myTasks = value;
-                NotifyPropertyChanged("MyTasks");
+
+                NotifyPropertyChanged(nameof(MyTasks));
             }
         }
         public PermissionsEnum Permission
@@ -177,7 +178,7 @@ namespace WOClient.Library.Models
             MyTasks = result;
 
             IsMyTasksArchivedExists = CheckIfAnyTasksArchived(MyTasks);
-            IsAllMyTasksArchived = CheckIfAllTasksArchived(MyTasks);
+            IsAllMyTasksArchived    = CheckIfAllTasksArchived(MyTasks);
         }
         #endregion
 

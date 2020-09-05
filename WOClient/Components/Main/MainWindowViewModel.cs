@@ -205,7 +205,7 @@ namespace WOClient.Components.Main
         }
         private void SetTimer()
         {
-            _updateTimer = new Timer(2000);
+            _updateTimer = new Timer(60 * 1000);
             _updateTimer.Elapsed += _updateTimer_Elapsed;
             _updateTimer.AutoReset = true;
             _updateTimer.Enabled = true;

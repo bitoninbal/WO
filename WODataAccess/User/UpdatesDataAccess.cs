@@ -56,7 +56,7 @@ namespace WODataAccess.User
                     return true;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
@@ -81,7 +81,7 @@ namespace WODataAccess.User
                 await cnn.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return;
             }

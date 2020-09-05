@@ -8,7 +8,7 @@ using WOClient.Library.Models;
 
 namespace WOClient.Library.Api.User
 {
-    public class CommentApi
+    internal class CommentApi: BaseApi
     {
         internal async Task<int> AddCommentAsync(GrpcChannel channel,
                                                  int taskId,
@@ -58,17 +58,6 @@ namespace WOClient.Library.Api.User
             }
 
             return commets;
-        }
-
-        internal async Task SendUpdateEventAsync(GrpcChannel channel, int userId)
-        {
-            var client       = new Users.UsersClient(channel);
-            var updatesInput = new Int32Value
-            {
-                Value = userId
-            };
-
-            await client.AddUpdateEventAsync(updatesInput);
         }
     }
 }
