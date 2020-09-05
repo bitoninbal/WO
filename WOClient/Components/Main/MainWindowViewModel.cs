@@ -183,7 +183,7 @@ namespace WOClient.Components.Main
                     break;
             }
 
-            //SetTimer();
+            SetTimer();
         }
         private void SwitchToView(object sender, ViewsEnum args)
         {

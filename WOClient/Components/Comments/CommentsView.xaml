@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="546" />
-            <ColumnDefinition Width="556" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -81,13 +81,29 @@
 
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
+                   Width="556"
                    Margin="10 0 0 10"
                    HorizontalAlignment="Center"
                    FontSize="18"
-                   Text="Tracking Tasks Comments" />
+                   Text="Tracking Tasks Comments">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                       Path=Permission}"
+                                     Value="{x:Static enums:PermissionsEnum.Manager}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
+                   Width="556"
                    Margin="10 0"
                    HorizontalAlignment="Center"
                    Text="You have no comments.">
@@ -117,22 +133,24 @@
         <ListBox Grid.Row="2"
                  Grid.Column="1"
                  Margin="10 0"
+                 Width="556"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 VirtualizingPanel.IsVirtualizing="True"
-                 ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                       Path=TrackingTasks}">
+                 VirtualizingPanel.IsVirtualizing="True">
             <ListBox.Style>
                 <Style TargetType="{x:Type ListBox}"
                        BasedOn="{StaticResource MaterialDesignListBox}">
+                    <Setter Property="Visibility" Value="Visible" />
                     <Setter Property="ItemTemplate" Value="{StaticResource CommentsItemTemplate}" />
                     <Setter Property="ItemContainerStyle" Value="{StaticResource CommetsItemContainerStyle}" />
-                    <Setter Property="Visibility" Value="Visible" />
-
+                    <Setter Property="ItemsSource" Value="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                                                   Path=TrackingTasks}" />
+                    
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                        Path=Permission}"
                                      Value="{x:Static enums:PermissionsEnum.Employee}">
                             <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="ItemsSource" Value="{x:Null}" />
                         </DataTrigger>
 
                         <MultiDataTrigger>
@@ -147,6 +165,7 @@
                             </MultiDataTrigger.Conditions>
 
                             <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="ItemsSource" Value="{x:Null}" />
                         </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>

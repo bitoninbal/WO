@@ -125,7 +125,11 @@ namespace WOClient.Library.Models
         }
         public override async Task UpdateAsync()
         {
-            await base.UpdateAsync();
+            var result = await Api.RequestUserUpdateAsync(PersonId);
+
+            if (!result) return;
+
+            await InitMyTasks();
             await InitAsync();
         }
         #endregion

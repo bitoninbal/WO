@@ -37,7 +37,7 @@ namespace WODataAccess.User
         public async Task<bool> IsUserHasUpdateAsync(int employeeId)
         {
             var cnn   = new SqlConnection(ConnectionString);
-            var query = "SELECT * FROM Updates WHERE EmployeeId = @EmployeeId OR ManagerId = @EmployeeId";
+            var query = "SELECT * FROM Updates WHERE UserId = @EmployeeId";
             var cmd   = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@EmployeeId", employeeId);
@@ -70,7 +70,7 @@ namespace WODataAccess.User
         private async Task DeleteUserUpdatesRowsAsync(int employeeId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "DELETE FROM Updates WHERE EmployeeId = @EmployeeId OR ManagerId = @EmployeeId";
+            var query = "DELETE FROM Updates WHERE UserId = @EmployeeId";
             var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@EmployeeId", employeeId);
