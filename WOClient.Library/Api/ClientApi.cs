@@ -181,11 +181,11 @@ namespace WOClient.Library.Api
 
             await channel.ShutdownAsync();
         }
-        public async Task UpdateTaskFieldAsync(int taskId, bool value, string columnName)
+        public async Task UpdateTaskFieldAsync(int taskId, int userIdToBeUpdated, bool value, string columnName)
         {
             var channel = GetChannel();
 
-            await _tasksApi.UpdateTaskFieldAsync(channel, taskId, value, columnName);
+            await _tasksApi.UpdateTaskFieldAsync(channel, taskId, userIdToBeUpdated, value, columnName);
             await channel.ShutdownAsync();
         }
         #endregion

@@ -120,16 +120,17 @@ namespace WOClient.Library.Api.User
 
             return tasks;
         }
-        internal async Task UpdateTaskFieldAsync(GrpcChannel channel, int taskId, bool value, string columnName)
+        internal async Task UpdateTaskFieldAsync(GrpcChannel channel, int taskId, int userIdToBeUpdated, bool value, string columnName)
         {
             var client = new Tasks.TasksClient(channel);
-            var input = new UpdateTaskFieldInput
+            var input  = new UpdateTaskFieldInput
             {
                 TaskId     = taskId,
                 NewValue   = value,
                 ColumnName = columnName
             };
 
+            await SendUpdateEventAsync(channel, userIdToBeUpdated);
             await client.UpdateFieldAsync(input);
         }
         #endregion

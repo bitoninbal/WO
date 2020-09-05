@@ -16,7 +16,7 @@ namespace WOClient.Library.Api.User
         internal async Task AddUpdateEventAsync(GrpcChannel channel, int employeeId)
         {
             var client = new Users.UsersClient(channel);
-            var input = new Int32Value
+            var input  = new Int32Value
             {
                 Value = employeeId
             };
@@ -26,7 +26,7 @@ namespace WOClient.Library.Api.User
         internal async Task DeleteEmployeeAsync(GrpcChannel channel, int employeeId)
         {
             var client = new Users.UsersClient(channel);
-            var input = new PersonIdInput
+            var input  = new PersonIdInput
             {
                 PersonId = employeeId
             };
@@ -36,7 +36,7 @@ namespace WOClient.Library.Api.User
         internal async Task<bool> IsMailExistAsync(GrpcChannel channel, string email)
         {
             var client = new Users.UsersClient(channel);
-            var input = new StringValue
+            var input  = new StringValue
             {
                 Value = email
             };
@@ -69,13 +69,13 @@ namespace WOClient.Library.Api.User
         internal async Task<ObservableCollection<IPerson>> GetEmployeesAsync(GrpcChannel channel, int managerId)
         {
             var client = new Users.UsersClient(channel);
-            var input = new PersonIdInput
+            var input  = new PersonIdInput
             {
                 PersonId = managerId
             };
 
             using var result = client.GetEmployees(input);
-            var employees = new ObservableCollection<IPerson>();
+            var employees    = new ObservableCollection<IPerson>();
 
             while (await result.ResponseStream.MoveNext())
             {
@@ -109,9 +109,9 @@ namespace WOClient.Library.Api.User
         internal async Task LoginAsync(GrpcChannel channel, string userName, string password)
         {
             var client = new Users.UsersClient(channel);
-            var input = new LoginInput
+            var input  = new LoginInput
             {
-                Email = userName,
+                Email    = userName,
                 Password = password
             };
             var result = await client.LoginRequsetAsync(input);
@@ -132,7 +132,7 @@ namespace WOClient.Library.Api.User
         internal async Task<bool> RequestUserUpdateAsync(GrpcChannel channel, int userId)
         {
             var client = new Users.UsersClient(channel);
-            var input = new Int32Value
+            var input  = new Int32Value
             {
                 Value = userId
             };

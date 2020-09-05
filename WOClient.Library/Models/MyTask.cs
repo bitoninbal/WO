@@ -45,7 +45,7 @@ namespace WOClient.Library.Models
 
                 NotifyPropertyChanged(nameof(IsArchive));
 
-                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(TaskId, value, nameof(IsArchive)));
+                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(this, value, nameof(IsArchive)));
             }
         }
         public bool IsCommentDialogOpen
@@ -70,7 +70,7 @@ namespace WOClient.Library.Models
 
                 NotifyPropertyChanged(nameof(IsCompleted));
 
-                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(TaskId, value, nameof(IsCompleted)));
+                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(this, value, nameof(IsCompleted)));
             }
         }
         public int TaskId
@@ -177,9 +177,16 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Private Methods
-        private async Task UpdateTaskFieldAsync(int taskId, bool value, string columnName)
+        private async Task UpdateTaskFieldAsync(MyTask task, bool value, string columnName)
         {
-            await Api.UpdateTaskFieldAsync(taskId, value, columnName);
+            var userToBeUpdated = task.AssignedEmployee;
+
+            if (LoggedInUser.Instance.Id == task.AssignedEmployee)
+            {
+                userToBeUpdated = LoggedInUser.Instance.DirectManager;
+            }
+
+            await Api.UpdateTaskFieldAsync(task.TaskId, userToBeUpdated, value, columnName);
         }
         #endregion
 
