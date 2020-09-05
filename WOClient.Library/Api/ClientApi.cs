@@ -29,12 +29,14 @@ namespace WOClient.Library.Api
         #region Public Methods
         public async Task<int> AddCommentAsync(int taskId,
                                                int senderId,
+                                               int userIdToBeUpdated,
                                                string comment)
         {
             var channel   = GetChannel();
             var commentId = await _commentApi.AddCommentAsync(channel,
                                                               taskId,
                                                               senderId,
+                                                              userIdToBeUpdated,
                                                               comment);
 
             await channel.ShutdownAsync();
@@ -126,6 +128,15 @@ namespace WOClient.Library.Api
             await _usersApi.LoginAsync(channel, userName, hashedPassword);
             await channel.ShutdownAsync();
         }
+        public async Task<bool> RequestUserUpdateAsync(int userId)
+        {
+            var channel = GetChannel();
+            var result  = await _usersApi.RequestUserUpdateAsync(channel, userId);
+
+            await channel.ShutdownAsync();
+
+            return result;
+        }
         public async Task UpdateUserFieldAsync<T>(int personId, T value, string columnName)
         {
             int intValue = 0;
@@ -189,7 +200,7 @@ namespace WOClient.Library.Api
             var httpClient = new HttpClient(httpClientHandler);
             var options = new GrpcChannelOptions { HttpClient = httpClient };
 
-            return GrpcChannel.ForAddress("https://127.0.0.1:5001", options);
+            return GrpcChannel.ForAddress("https://192.168.1.234:5001", options);
         }
         #endregion
     }

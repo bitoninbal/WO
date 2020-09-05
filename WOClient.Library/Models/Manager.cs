@@ -123,9 +123,9 @@ namespace WOClient.Library.Models
             TrackingTasks.Clear();
             MyEmployees.Clear();
         }
-        public override async Task Update()
+        public override async Task UpdateAsync()
         {
-            await base.Update();
+            await base.UpdateAsync();
             await InitAsync();
         }
         #endregion

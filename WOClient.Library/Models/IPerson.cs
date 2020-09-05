@@ -23,7 +23,7 @@ namespace WOClient.Library.Models
         void CheckIfAllMyTasksArchived();
         void CheckIfAnyMyTasksArchived();
         void Reset();
-        Task Update();
+        Task UpdateAsync();
         #endregion
     }
 }

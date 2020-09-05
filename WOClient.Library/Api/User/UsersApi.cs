@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WOClient.Library.Api.Protos;
@@ -12,6 +13,16 @@ namespace WOClient.Library.Api.User
     internal class UsersApi
     {
         #region Public Methods
+        internal async Task AddUpdateEventAsync(GrpcChannel channel, int employeeId)
+        {
+            var client = new Users.UsersClient(channel);
+            var input = new Int32Value
+            {
+                Value = employeeId
+            };
+
+            await client.AddUpdateEventAsync(input);
+        }
         internal async Task DeleteEmployeeAsync(GrpcChannel channel, int employeeId)
         {
             var client = new Users.UsersClient(channel);
@@ -117,6 +128,17 @@ namespace WOClient.Library.Api.User
                 LoggedInUser.Instance.Permission = PermissionsEnum.Employee;
             else
                 LoggedInUser.Instance.Permission = PermissionsEnum.Manager;
+        }
+        internal async Task<bool> RequestUserUpdateAsync(GrpcChannel channel, int userId)
+        {
+            var client = new Users.UsersClient(channel);
+            var input = new Int32Value
+            {
+                Value = userId
+            };
+            var result = await client.RequestUserUpdateAsync(input);
+
+            return result.Value;
         }
         internal async Task UpdateUserFieldAsync(GrpcChannel channel, int personId, int value, string columnName)
         {

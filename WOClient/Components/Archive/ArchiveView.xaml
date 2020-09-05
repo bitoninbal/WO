@@ -121,7 +121,7 @@
                                            Value="{x:Static enums:PermissionsEnum.Manager}" />
 
                                 <Condition Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                             Path=IsAllTrackingTasksArchived}"
+                                                             Path=IsTrackingTasksArchivedExists}"
                                            Value="False" />
                             </MultiDataTrigger.Conditions>
 
@@ -159,7 +159,7 @@
                                            Value="{x:Static enums:PermissionsEnum.Manager}" />
 
                                 <Condition Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
-                                                             Path=IsAllTrackingTasksArchived}"
+                                                             Path=IsTrackingTasksArchivedExists}"
                                            Value="False" />
                             </MultiDataTrigger.Conditions>
 

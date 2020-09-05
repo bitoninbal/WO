@@ -18,6 +18,7 @@ namespace WOServer
             services.AddScoped<ICommentsDataAccess, CommentsDataAccess>();
             services.AddScoped<ITasksDataAccess, TasksDataAccess>();
             services.AddScoped<IUserDataAccess,  UserDataAccess>();
+            services.AddScoped<IUpdatesDataAccess, UpdatesDataAccess>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

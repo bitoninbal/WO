@@ -182,6 +182,8 @@ namespace WOClient.Components.Main
                                                              LoggedInUser.Instance.Email);
                     break;
             }
+
+            //SetTimer();
         }
         private void SwitchToView(object sender, ViewsEnum args)
         {
@@ -203,9 +205,7 @@ namespace WOClient.Components.Main
         }
         private void SetTimer()
         {
-            // Create a timer with a two second interval.
             _updateTimer = new Timer(2000);
-            // Hook up the Elapsed event for the timer. 
             _updateTimer.Elapsed += _updateTimer_Elapsed;
             _updateTimer.AutoReset = true;
             _updateTimer.Enabled = true;
@@ -213,7 +213,7 @@ namespace WOClient.Components.Main
 
         private async void _updateTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            await IMainWindowViewModel.User.Update();
+            await IMainWindowViewModel.User.UpdateAsync();
         }
         #endregion
     }

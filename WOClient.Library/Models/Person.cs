@@ -194,9 +194,11 @@ namespace WOClient.Library.Models
         {
             MyTasks.Clear();
         }
-        public virtual async Task Update()
+        public virtual async Task UpdateAsync()
         {
-            await InitMyTasks();
+            var result = await Api.RequestUserUpdateAsync(PersonId);
+
+            if (result) await InitMyTasks();
         }
         #endregion
 

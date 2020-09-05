@@ -134,7 +134,14 @@ namespace WOClient.Components.MyTaskComponent
         {
             try
             {
-                var commentId = await _api.AddCommentAsync(task.TaskId, IMainWindowViewModel.User.PersonId, task.CommentMessage);
+                var userToBeUpdated = task.AssignedEmployee;
+
+                if (IMainWindowViewModel.User.PersonId == task.AssignedEmployee)
+                {
+                    userToBeUpdated = IMainWindowViewModel.User.ManagerId;
+                }
+
+                var commentId = await _api.AddCommentAsync(task.TaskId, IMainWindowViewModel.User.PersonId, userToBeUpdated, task.CommentMessage);
 
                 if (commentId == 0) return;
 

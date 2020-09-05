@@ -124,7 +124,7 @@ namespace WODataAccess.User
                             TaskId      = await reader.GetFieldValueAsync<int>(0),
                             UserId      = await reader.GetFieldValueAsync<int>(1),
                             Subject     = await reader.GetFieldValueAsync<string>(3),
-                            CreatedDate   = await reader.GetFieldValueAsync<DateTime>(4),
+                            CreatedDate = await reader.GetFieldValueAsync<DateTime>(4),
                             FinalDate   = await reader.GetFieldValueAsync<DateTime>(5),
                             Description = await reader.GetFieldValueAsync<string>(6),
                             Priority    = await reader.GetFieldValueAsync<string>(7),
@@ -136,7 +136,7 @@ namespace WODataAccess.User
                     return tasks;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }

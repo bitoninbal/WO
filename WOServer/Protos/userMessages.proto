@@ -5,13 +5,15 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 
 service Users {
-	rpc Register (RegisterInput) returns (google.protobuf.Int32Value);
-	rpc LoginRequset (LoginInput) returns (UserData);
-	rpc DeleteEmployee (PersonIdInput) returns (google.protobuf.Empty);
-	rpc GetEmployees (PersonIdInput) returns (stream UserData);
+	rpc AddUpdateEvent    (google.protobuf.Int32Value) returns (google.protobuf.Empty);
+	rpc DeleteEmployee	  (PersonIdInput) returns (google.protobuf.Empty);
+	rpc GetEmployees	  (PersonIdInput) returns (stream UserData);
+	rpc IsMailExist		  (google.protobuf.StringValue) returns (google.protobuf.BoolValue);
+	rpc LoginRequset	  (LoginInput) returns (UserData);
+	rpc Register          (RegisterInput) returns (google.protobuf.Int32Value);
+	rpc RequestUserUpdate (google.protobuf.Int32Value) returns (google.protobuf.BoolValue);
+	rpc UpdateIntField	  (UpdateIntFieldInput) returns (google.protobuf.Empty);
 	rpc UpdateStringField (UpdateStringFieldInput) returns (google.protobuf.Empty);
-	rpc UpdateIntField (UpdateIntFieldInput) returns (google.protobuf.Empty);
-	rpc IsMailExist (google.protobuf.StringValue) returns (google.protobuf.BoolValue);
 }
 
 message PersonIdInput {

@@ -13,6 +13,7 @@ namespace WOClient.Library.Api.User
         internal async Task<int> AddCommentAsync(GrpcChannel channel,
                                                  int taskId,
                                                  int senderId,
+                                                 int userIdToBeUpdated,
                                                  string comment)
         {
             var client = new Comments.CommentsClient(channel);
@@ -23,6 +24,8 @@ namespace WOClient.Library.Api.User
                 Message  = comment
             };
             var response = await client.AddCommentAsync(input);
+
+            await SendUpdateEventAsync(channel, userIdToBeUpdated);
 
             return response.Value;
         }
@@ -55,6 +58,17 @@ namespace WOClient.Library.Api.User
             }
 
             return commets;
+        }
+
+        internal async Task SendUpdateEventAsync(GrpcChannel channel, int userId)
+        {
+            var client       = new Users.UsersClient(channel);
+            var updatesInput = new Int32Value
+            {
+                Value = userId
+            };
+
+            await client.AddUpdateEventAsync(updatesInput);
         }
     }
 }
