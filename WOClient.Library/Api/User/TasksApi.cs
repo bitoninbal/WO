@@ -130,8 +130,8 @@ namespace WOClient.Library.Api.User
                 ColumnName = columnName
             };
 
-            await SendUpdateEventAsync(channel, userIdToBeUpdated);
             await client.UpdateFieldAsync(input);
+            await SendUpdateEventAsync(channel, userIdToBeUpdated);
         }
         #endregion
 
