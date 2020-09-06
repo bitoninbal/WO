@@ -61,7 +61,7 @@ namespace WOClient.Library.Api.User
             {
                 if (result.ResponseStream.Current.TaskId == 0) return tasks;
 
-                var task = new MyTask
+                var task = new MyTask(true)
                 {
                     TaskId           = result.ResponseStream.Current.TaskId,
                     Description      = result.ResponseStream.Current.Description,
@@ -73,6 +73,8 @@ namespace WOClient.Library.Api.User
                     IsCompleted      = result.ResponseStream.Current.IsCompleted,
                     AssignedEmployee = result.ResponseStream.Current.EmployeeId
                 };
+
+                task.SetInitModeFalse();
 
                 var comments = await _commentApi.GetCommentsOfTaskAsync(channel, task.TaskId);
 
@@ -98,7 +100,7 @@ namespace WOClient.Library.Api.User
             {
                 if (result.ResponseStream.Current.TaskId == 0) return tasks;
 
-                var task = new MyTask
+                var task = new MyTask(true)
                 {
                     TaskId           = result.ResponseStream.Current.TaskId,
                     Description      = result.ResponseStream.Current.Description,
@@ -111,6 +113,8 @@ namespace WOClient.Library.Api.User
                     AssignedEmployee = result.ResponseStream.Current.EmployeeId
                 };
 
+                task.SetInitModeFalse();
+
                 var comments = await _commentApi.GetCommentsOfTaskAsync(channel, task.TaskId);
 
                 task.Comments = comments;
@@ -120,7 +124,7 @@ namespace WOClient.Library.Api.User
 
             return tasks;
         }
-        internal async Task UpdateTaskFieldAsync(GrpcChannel channel, int taskId, int userIdToBeUpdated, bool value, string columnName)
+        internal async Task UpdateTaskFieldAsync(GrpcChannel channel, int taskId, bool value, string columnName)
         {
             var client = new Tasks.TasksClient(channel);
             var input  = new UpdateTaskFieldInput
@@ -131,7 +135,6 @@ namespace WOClient.Library.Api.User
             };
 
             await client.UpdateFieldAsync(input);
-            await SendUpdateEventAsync(channel, userIdToBeUpdated);
         }
         #endregion
 

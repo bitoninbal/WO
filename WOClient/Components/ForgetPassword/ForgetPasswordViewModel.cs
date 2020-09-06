@@ -10,7 +10,6 @@ namespace WOClient.Components.ForgetPassword
     {
         public ForgetPasswordViewModel()
         {
-            SendEmailCommand     = new RelayCommand(SendEmail);
             SwitchToLoginCommand = new RelayCommand(SwitchToLogin);
         }
 
@@ -18,34 +17,11 @@ namespace WOClient.Components.ForgetPassword
         public event EventHandler<ViewsEnum> SwitchViewRequested;
         #endregion
 
-        #region Fields
-        private string _email;
-        #endregion
-
-        #region Properties
-        public string Email
-        {
-            get => _email;
-            set
-            {
-                if (_email == value) return;
-
-                _email = value;
-                NotifyPropertyChanged("Email");
-            }
-        }
-        #endregion
-
         #region Commands
         public ICommand SwitchToLoginCommand { get; }
-        public ICommand SendEmailCommand { get; }
         #endregion
 
         #region Private Methods
-        private void SendEmail()
-        {
-            OnSwitchToLogin();
-        }
         private void SwitchToLogin()
         {
             OnSwitchToLogin();

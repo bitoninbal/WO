@@ -1,7 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WOClient.Library.Api.Protos;
@@ -10,7 +9,7 @@ using WOCommon.Enums;
 
 namespace WOClient.Library.Api.User
 {
-    internal class UsersApi
+    internal class UsersApi: BaseApi
     {
         #region Public Methods
         internal async Task AddUpdateEventAsync(GrpcChannel channel, int employeeId)

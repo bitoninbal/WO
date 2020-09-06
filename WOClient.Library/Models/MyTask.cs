@@ -9,17 +9,19 @@ namespace WOClient.Library.Models
 {
     public class MyTask: INotifyPropertyChanged
     {
-        public MyTask()
+        public MyTask(bool isInitMode = false)
         {
             Api             = new ClientApi();
             _comments       = new ObservableCollection<Comment>();
             _commentMessage = string.Empty;
+            _isInitMode     = isInitMode;
         }
 
         #region Fields
         private bool _isArchive;
         private bool _isCommentDialogOpen;
         private bool _isCompleted;
+        private bool _isInitMode;
         private int _taskId;
         private int _assignedEmployee;
         private string _commentMessage;
@@ -176,6 +178,13 @@ namespace WOClient.Library.Models
         }
         #endregion
 
+        #region Public Methods
+        public void SetInitModeFalse()
+        {
+            _isInitMode = false;
+        }
+        #endregion
+
         #region Private Methods
         private async Task UpdateTaskFieldAsync(MyTask task, bool value, string columnName)
         {
@@ -186,7 +195,9 @@ namespace WOClient.Library.Models
                 userToBeUpdated = LoggedInUser.Instance.DirectManager;
             }
 
-            await Api.UpdateTaskFieldAsync(task.TaskId, userToBeUpdated, value, columnName);
+            await Api.UpdateTaskFieldAsync(task.TaskId, value, columnName);
+
+            if (!_isInitMode) await Api.SendUpdateEventAsync(userToBeUpdated);
         }
         #endregion
 
