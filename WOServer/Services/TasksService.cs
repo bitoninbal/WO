@@ -29,6 +29,12 @@ namespace WOServer.Services
 
             return new Int32Value { Value = taskId };
         }
+        public override async Task<Empty> DeleteTask(Int32Value request, ServerCallContext context)
+        {
+            await _dataAccess.DeleteTaskAsync(request.Value);
+
+            return new Empty();
+        }
         public override async Task GetMyTasks(Int32Value request, IServerStreamWriter<TaskOutput> responseStream, ServerCallContext context)
         {
             var result = await _dataAccess.GetMyTasksDataAccessAsync(request.Value);
@@ -92,7 +98,13 @@ namespace WOServer.Services
             await _dataAccess.UpdateTaskFieldAsync(request.TaskId, request.NewValue, request.ColumnName);
 
             return new Empty();
-        } 
+        }
+        public override async Task<Empty> UpdateManagerId(UpdateManagerIdInput request, ServerCallContext context)
+        {
+            await _dataAccess.UpdateManagerIdAsync(request.OldManagerId, request.NewManagerId);
+
+            return new Empty();
+        }
         #endregion
     }
 }

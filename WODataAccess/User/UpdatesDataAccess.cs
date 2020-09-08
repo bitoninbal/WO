@@ -23,7 +23,7 @@ namespace WODataAccess.User
                 
                 return;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return;
             }

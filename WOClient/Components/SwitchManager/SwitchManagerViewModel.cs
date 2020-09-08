@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
+using WOClient.Library.Api;
 using WOClient.Library.Models;
 using WOClient.Resources.Commands;
 
@@ -11,16 +12,18 @@ namespace WOClient.Components.SwitchManager
 {
     public class SwitchManagerViewModel: BaseViewModel, IBaseViewModel
     {
-        public SwitchManagerViewModel(List<IPerson> employees, Manager deletedManager)
+        public SwitchManagerViewModel(List<IPerson> employees, Manager deletedManager, IClientApi api)
         {
             SwitchManagerValueCommand = new RelayCommand(SwitchManagerValue);
 
+            _api            = api;
             _deletedManager = deletedManager;
             Employees       = employees;
         }
 
         #region Fields
         private bool _isAssignedToMe;
+        private IClientApi _api;
         private Manager _deletedManager;
         private IPerson _selectedManager;
         #endregion
@@ -59,7 +62,7 @@ namespace WOClient.Components.SwitchManager
         #endregion
 
         #region Private Methods
-        private void SwitchManagerValue()
+        private async void SwitchManagerValue()
         {
             if (SelectedManager is null && !IsAssignedToMe)
             {
@@ -74,6 +77,8 @@ namespace WOClient.Components.SwitchManager
 
                 foreach (var item in _deletedManager.MyEmployees) manager.AssignedEmployee(item);
 
+                await _api.UpdateTaskManagerIdAsync(_deletedManager.PersonId, manager.PersonId);
+
                 DialogHost.CloseDialogCommand.Execute(null, null);
 
                 return;
@@ -82,6 +87,8 @@ namespace WOClient.Components.SwitchManager
             var selectedManager = SelectedManager as Manager;
 
             foreach (var item in _deletedManager.MyEmployees) selectedManager.AssignedEmployee(item);
+
+            await _api.UpdateTaskManagerIdAsync(_deletedManager.PersonId, selectedManager.PersonId);
 
             DialogHost.CloseDialogCommand.Execute(null, null);
         }

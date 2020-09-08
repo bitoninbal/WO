@@ -97,7 +97,7 @@ namespace WOClient.Components.NewTask
                                                      Priority,
                                                      Description,
                                                      Subject);
-                var newTask = new MyTask
+                var newTask = new MyTask(true)
                 {
                     Subject     = Subject,
                     Description = Description,
@@ -105,13 +105,16 @@ namespace WOClient.Components.NewTask
                     Priority    = Priority,
                     TaskId      = taskId
                 };
+
+                newTask.SetInitModeFalse();
+
                 var user = IMainWindowViewModel.User as Manager;
 
                 user.TrackingTasks.Add(newTask);
                 AddTaskToEmployee(newTask);
                 SetPropertiesToDefault();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 IMainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
             }
@@ -134,7 +137,7 @@ namespace WOClient.Components.NewTask
         {
             FinalDate   = DateTime.Now;
             Priority    = PriorityEnum.Low;
-            Description = default;
+            Description = string.Empty;
             Subject     = default;
         }
         #endregion

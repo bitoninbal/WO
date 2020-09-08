@@ -64,14 +64,14 @@ namespace WOClient.Library.Api.User
                 var task = new MyTask(true)
                 {
                     TaskId           = result.ResponseStream.Current.TaskId,
+                    AssignedEmployee = result.ResponseStream.Current.EmployeeId,
                     Description      = result.ResponseStream.Current.Description,
                     FinalDate        = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     CreatedDate      = result.ResponseStream.Current.CreatedDate.ToDateTime().ToLocalTime(),
                     Priority         = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject          = result.ResponseStream.Current.Subject,
                     IsArchive        = result.ResponseStream.Current.IsArchive,
-                    IsCompleted      = result.ResponseStream.Current.IsCompleted,
-                    AssignedEmployee = result.ResponseStream.Current.EmployeeId
+                    IsCompleted      = result.ResponseStream.Current.IsCompleted
                 };
 
                 task.SetInitModeFalse();
@@ -85,6 +85,19 @@ namespace WOClient.Library.Api.User
 
             return tasks;
         }
+
+        internal async Task DeleteTaskAsync(GrpcChannel channel, int taskId, int userIdToBeUpdated)
+        {
+            var client = new Tasks.TasksClient(channel);
+            var input  = new Int32Value
+            {
+                Value = taskId
+            };
+
+            await client.DeleteTaskAsync(input);
+            await SendUpdateEventAsync(channel, userIdToBeUpdated);
+        }
+
         internal async Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(GrpcChannel channel, int personId)
         {
             var client = new Tasks.TasksClient(channel);
@@ -103,14 +116,14 @@ namespace WOClient.Library.Api.User
                 var task = new MyTask(true)
                 {
                     TaskId           = result.ResponseStream.Current.TaskId,
+                    AssignedEmployee = result.ResponseStream.Current.EmployeeId,
                     Description      = result.ResponseStream.Current.Description,
                     FinalDate        = result.ResponseStream.Current.FinalDate.ToDateTime().ToLocalTime(),
                     CreatedDate      = result.ResponseStream.Current.CreatedDate.ToDateTime().ToLocalTime(),
                     Priority         = ConvertStringToProretyEnum(result.ResponseStream.Current.Priority),
                     Subject          = result.ResponseStream.Current.Subject,
                     IsArchive        = result.ResponseStream.Current.IsArchive,
-                    IsCompleted      = result.ResponseStream.Current.IsCompleted,
-                    AssignedEmployee = result.ResponseStream.Current.EmployeeId
+                    IsCompleted      = result.ResponseStream.Current.IsCompleted
                 };
 
                 task.SetInitModeFalse();
@@ -136,6 +149,18 @@ namespace WOClient.Library.Api.User
 
             await client.UpdateFieldAsync(input);
         }
+
+        internal async Task UpdateTaskManagerIdAsync(GrpcChannel channel, int oldManagerId, int newManagerId)
+        {
+            var client = new Tasks.TasksClient(channel);
+            var input  = new UpdateManagerIdInput
+            {
+                OldManagerId = oldManagerId,
+                NewManagerId = newManagerId
+            };
+
+            await client.UpdateManagerIdAsync(input);
+        }
         #endregion
 
         #region Private Methods
@@ -152,7 +177,7 @@ namespace WOClient.Library.Api.User
                 default:
                     return PriorityEnum.Low;
             }
-        } 
+        }
         #endregion
     }
 }

@@ -64,6 +64,13 @@ namespace WOClient.Library.Api
             await _usersApi.DeleteEmployeeAsync(channel, employeeId);
             await channel.ShutdownAsync();
         }
+        public async Task DeleteTaskAsync(int taskId, int userIdToBeUpdated)
+        {
+            var channel = GetChannel();
+
+            await _tasksApi.DeleteTaskAsync(channel, taskId, userIdToBeUpdated);
+            await channel.ShutdownAsync();
+        }
         public async Task<int> EmployeeRegisterAsync(string firstName,
                                                      string lastName,
                                                      string email,
@@ -186,6 +193,13 @@ namespace WOClient.Library.Api
             var channel = GetChannel();
 
             await _tasksApi.UpdateTaskFieldAsync(channel, taskId, value, columnName);
+            await channel.ShutdownAsync();
+        }
+        public async Task UpdateTaskManagerIdAsync(int oldManagerId, int newManagerId)
+        {
+            var channel = GetChannel();
+
+            await _tasksApi.UpdateTaskManagerIdAsync(channel, oldManagerId, newManagerId);
             await channel.ShutdownAsync();
         }
         public async Task SendUpdateEventAsync(int userId)

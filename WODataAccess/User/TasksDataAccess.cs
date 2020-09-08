@@ -50,6 +50,36 @@ namespace WODataAccess.User
                 await cnn.CloseAsync();
             }
         }
+        public async Task DeleteTaskAsync(int taskId)
+        {
+            var cnn           = new SqlConnection(ConnectionString);
+            var commentsQuery = "Delete From Comments WHERE TaskId = @TaskId";
+            var taskQuery     = "Delete From Tasks WHERE Id = @TaskId";
+            var commentsCmd   = new SqlCommand(commentsQuery, cnn);
+            var taskCmd       = new SqlCommand(taskQuery, cnn);
+
+            commentsCmd.Parameters.AddWithValue("@TaskId", taskId);
+            commentsCmd.CommandType = CommandType.Text;
+            taskCmd.Parameters.AddWithValue("@TaskId", taskId);
+            taskCmd.CommandType = CommandType.Text;
+
+            try
+            {
+                await cnn.OpenAsync();
+                await commentsCmd.ExecuteNonQueryAsync();
+                await taskCmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+            finally
+            {
+                await commentsCmd.DisposeAsync();
+                await taskCmd.DisposeAsync();
+                await cnn.CloseAsync();
+            }
+        }
         public async Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId)
         {
             var cnn = new SqlConnection(ConnectionString);
@@ -154,6 +184,31 @@ namespace WODataAccess.User
 
             cmd.Parameters.AddWithValue("@NewValue", newValue);
             cmd.Parameters.AddWithValue("@Id", id);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                await cnn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                await cmd.DisposeAsync();
+                await cnn.CloseAsync();
+            }
+        }
+        public async Task UpdateManagerIdAsync(int oldManagerId, int newManagerId)
+        {
+            var cnn   = new SqlConnection(ConnectionString);
+            var query = $"UPDATE Tasks SET ManagerId = @NewManagerId WHERE ManagerId = @OldManagerId";
+            var cmd   = new SqlCommand(query, cnn);
+
+            cmd.Parameters.AddWithValue("@OldManagerId", oldManagerId);
+            cmd.Parameters.AddWithValue("@NewManagerId", newManagerId);
             cmd.CommandType = CommandType.Text;
 
             try

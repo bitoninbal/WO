@@ -16,24 +16,42 @@ namespace WODataAccess.User
         public async Task DeleteEmployeeDataAccessAsync(int personId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "Delete From Users WHERE Id = @PersonId";
-            var cmd = new SqlCommand(query, cnn);
+            var updatesQuery = "Delete From Updates WHERE UserId = @UserId";
+            var commentsQuery = "Delete From Comments WHERE UserId = @UserId";
+            var myTasksQuery = "Delete From Tasks WHERE UserId = @UserId";
+            var usersQuery   = "Delete From Users WHERE Id = @PersonId";
+            var updatesCmd   = new SqlCommand(updatesQuery, cnn);
+            var commentsCmd = new SqlCommand(commentsQuery, cnn);
+            var myTasksCmd   = new SqlCommand(myTasksQuery, cnn);
+            var usersCmd     = new SqlCommand(usersQuery, cnn);
 
-            cmd.Parameters.AddWithValue("@PersonId", personId);
-            cmd.CommandType = CommandType.Text;
+            updatesCmd.Parameters.AddWithValue("@UserId", personId);
+            updatesCmd.CommandType = CommandType.Text;
+            commentsCmd.Parameters.AddWithValue("@UserId", personId);
+            commentsCmd.CommandType = CommandType.Text;
+            myTasksCmd.Parameters.AddWithValue("@UserId", personId);
+            myTasksCmd.CommandType = CommandType.Text;
+            usersCmd.Parameters.AddWithValue("@PersonId", personId);
+            usersCmd.CommandType = CommandType.Text;
 
             try
             {
                 await cnn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
+                await updatesCmd.ExecuteNonQueryAsync();
+                await commentsCmd.ExecuteNonQueryAsync();
+                await myTasksCmd.ExecuteNonQueryAsync();
+                await usersCmd.ExecuteNonQueryAsync();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return;
             }
             finally
             {
-                await cmd.DisposeAsync();
+                await updatesCmd.DisposeAsync();
+                await commentsCmd.DisposeAsync();
+                await myTasksCmd.DisposeAsync();
+                await usersCmd.DisposeAsync();
                 await cnn.CloseAsync();
             }
         }

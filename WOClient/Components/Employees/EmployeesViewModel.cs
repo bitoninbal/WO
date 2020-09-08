@@ -47,7 +47,7 @@ namespace WOClient.Components.Employees
         {
             var view = new SwitchManagerView
             {
-                DataContext = new SwitchManagerViewModel(collection, deletedManager)
+                DataContext = new SwitchManagerViewModel(collection, deletedManager, _api)
             };
 
             await DialogHost.Show(view, "RootDialog");
@@ -79,6 +79,8 @@ namespace WOClient.Components.Employees
             if (collection.Count == 0)
             {
                 foreach (var item in emplopyee.MyEmployees) manager.AssignedEmployee(item);
+
+                await _api.UpdateTaskManagerIdAsync(Employee.PersonId, manager.PersonId);
 
                 return;
             }

@@ -21,6 +21,7 @@ namespace WOClient.Library.Api
                                string description,
                                string subject);
         Task DeleteEmployeeAsync(int employeeId);
+        Task DeleteTaskAsync(int taskId, int userIdToBeUpdated);
         Task<int> EmployeeRegisterAsync(string firstName,
                                         string lastName,
                                         string email,
@@ -36,6 +37,7 @@ namespace WOClient.Library.Api
         Task UpdateTaskFieldAsync(int taskId, bool value, string columnName);
         Task UpdateUserFieldAsync<T>(int personId, T value, string columnName);
         Task SendUpdateEventAsync(int userId);
+        Task UpdateTaskManagerIdAsync(int oldManagerId, int newManagerId);
         #endregion
     }
 }
