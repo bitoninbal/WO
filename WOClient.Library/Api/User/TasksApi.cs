@@ -23,26 +23,28 @@ namespace WOClient.Library.Api.User
 
         #region Internal Methods
         internal async Task<int> AddTaskAsync(GrpcChannel channel,
-                                              DateTime finalDate,
-                                              int employeeId,
                                               int managerId,
-                                              PriorityEnum priority,
+                                              int assignedEmployee,
+                                              DateTime createDate,
                                               string description,
+                                              DateTime finalDate,
+                                              PriorityEnum priority,
                                               string subject)
         {
             var client = new Tasks.TasksClient(channel);
             var input  = new TaskInput
             {
-                FinalDate   = finalDate.ToTimestamp(),
-                EmployeeId  = employeeId,
-                ManagerId   = managerId,
-                Priority    = priority.ToString(),
-                Description = description,
-                Subject     = subject
+                ManagerId        = managerId,
+                AssignedEmployee = assignedEmployee,
+                CreateDate       = createDate.Date.ToUniversalTime().ToTimestamp(),
+                Description      = description,
+                FinalDate        = finalDate.Date.ToUniversalTime().ToTimestamp(),
+                Priority         = priority.ToString(),
+                Subject          = subject
             };
             var taskId = await client.AddTaskAsync(input);
 
-            await SendUpdateEventAsync(channel, employeeId);
+            await SendUpdateEventAsync(channel, assignedEmployee);
 
             return taskId.Value;
         }

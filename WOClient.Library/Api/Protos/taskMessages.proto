@@ -18,12 +18,13 @@ message CompletedFieldInput {
 }
 
 message TaskInput {
-	google.protobuf.Timestamp finalDate = 1;
-	int32 employeeId                    = 2;
-	int32 managerId                     = 3;
-	string priority                     = 4;
-	string description                  = 5;
-	string subject                      = 6;
+	int32 managerId                      = 1;
+	int32 assignedEmployee               = 2;
+	google.protobuf.Timestamp createDate = 3;
+	string description                   = 4;
+	google.protobuf.Timestamp finalDate  = 5;
+	string priority                      = 6;
+	string subject                       = 7;
 }
 
 message TaskOutput {

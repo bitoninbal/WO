@@ -10,26 +10,27 @@ namespace WODataAccess.DataAccess
 {
     public class TasksDataAccess: BaseDataAccess, ITasksDataAccess
     {
-        public async Task<int> AddTaskDataAccessAsync(DateTime finalDate,
-                                                      int employeeId,
-                                                      int managerId,
-                                                      string priority,
+        public async Task<int> AddTaskDataAccessAsync(int managerId,
+                                                      int assignedEmployee,
+                                                      DateTime createDate,
                                                       string description,
+                                                      DateTime finalDate,
+                                                      string priority,
                                                       string subject)
         {
-            var cnn = new SqlConnection(ConnectionString);
+            var cnn   = new SqlConnection(ConnectionString);
             var query = "INSERT INTO Tasks(UserId, ManagerId, Subject, FinalDate, Description, Priority, IsCompleted, CreatedDate) " +
                         "VALUES(@UserId, @ManagerId, @Subject, @FinalDate, @Description, @Priority, @IsCompleted, @CreatedDate); SELECT SCOPE_IDENTITY();";
             var cmd = new SqlCommand(query, cnn);
 
-            cmd.Parameters.AddWithValue("@UserId", employeeId);
+            cmd.Parameters.AddWithValue("@UserId", assignedEmployee);
             cmd.Parameters.AddWithValue("@ManagerId", managerId);
             cmd.Parameters.AddWithValue("@Subject", subject);
             cmd.Parameters.AddWithValue("@FinalDate", finalDate);
             cmd.Parameters.AddWithValue("@Description", description);
             cmd.Parameters.AddWithValue("@Priority", priority);
             cmd.Parameters.AddWithValue("@IsCompleted", 0);
-            cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+            cmd.Parameters.AddWithValue("@CreatedDate", createDate);
             cmd.CommandType = CommandType.Text;
 
             try

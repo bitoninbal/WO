@@ -7,11 +7,12 @@ namespace WODataAccess.Interfaces
 {
     public interface ITasksDataAccess
     {
-        Task<int> AddTaskDataAccessAsync(DateTime finalDate,
-                                         int employeeId,
-                                         int managerId,
-                                         string priority,
+        Task<int> AddTaskDataAccessAsync(int managerId,
+                                         int assignedEmployee,
+                                         DateTime createDate,
                                          string description,
+                                         DateTime finalDate,
+                                         string priority,
                                          string subject);
         Task DeleteTaskAsync(int value);
         Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId);

@@ -20,11 +20,12 @@ namespace WOServer.Services
         #region Public Methods
         public override async Task<Int32Value> AddTask(TaskInput request, ServerCallContext context)
         {
-            var taskId = await _dataAccess.AddTaskDataAccessAsync(request.FinalDate.ToDateTime(),
-                                                                  request.EmployeeId,
-                                                                  request.ManagerId,
-                                                                  request.Priority,
+            var taskId = await _dataAccess.AddTaskDataAccessAsync(request.ManagerId,
+                                                                  request.AssignedEmployee,
+                                                                  request.CreateDate.ToDateTime().ToLocalTime(),
                                                                   request.Description,
+                                                                  request.FinalDate.ToDateTime().ToLocalTime(),
+                                                                  request.Priority,
                                                                   request.Subject);
 
             return new Int32Value { Value = taskId };

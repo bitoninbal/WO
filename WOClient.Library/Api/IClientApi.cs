@@ -14,11 +14,12 @@ namespace WOClient.Library.Api
                                   int senderd,
                                   int userIdToBeUpdated,
                                   string comment);
-        Task<int> AddTaskAsync(DateTime finalDate,
-                               int employeeId,
-                               int managerId,
-                               PriorityEnum priority,
+        Task<int> AddTaskAsync(int managerId,
+                               int assignedEmployee,
+                               DateTime createDate,
                                string description,
+                               DateTime finalDate,
+                               PriorityEnum priority,
                                string subject);
         Task DeleteEmployeeAsync(int employeeId);
         Task DeleteTaskAsync(int taskId, int userIdToBeUpdated);

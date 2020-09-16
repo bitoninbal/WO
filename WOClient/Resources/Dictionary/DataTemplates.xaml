@@ -119,7 +119,8 @@
                        Text="Final Date:" />
             <TextBlock Grid.Row="1"
                        Grid.Column="1"
-                       Text="{Binding FinalDate}" />
+                       Text="{Binding Path=FinalDate,
+                                      StringFormat={}{0:dd/MM/yyyy}}" />
 
             <TextBlock Grid.Row="2"
                        Grid.Column="0"

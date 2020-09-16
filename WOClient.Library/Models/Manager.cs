@@ -206,16 +206,18 @@ namespace WOClient.Library.Models
             return true;
         }
         public async Task<bool> TryAddTaskAsync(int assignedEmployee,
+                                                DateTime createDate,
                                                 string description,
                                                 DateTime finalDate,
                                                 PriorityEnum priority,
                                                 string subject)
         {
-            var taskId = await Api.AddTaskAsync(finalDate.ToUniversalTime(),
+            var taskId = await Api.AddTaskAsync(PersonId,
                                                 assignedEmployee,
-                                                PersonId,
-                                                priority,
+                                                createDate,
                                                 description,
+                                                finalDate,
+                                                priority,
                                                 subject);
 
             if (taskId == 0) return false;
@@ -223,7 +225,7 @@ namespace WOClient.Library.Models
             var task = new MyTask(true)
             {
                 AssignedEmployee = assignedEmployee,
-                CreatedDate      = DateTime.Now,
+                CreatedDate      = DateTime.Now.Date,
                 Description      = description,
                 FinalDate        = finalDate,
                 Priority         = priority,

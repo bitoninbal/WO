@@ -18,8 +18,8 @@ namespace WOClient.Components.MyTaskComponent
         #region Fields
         private string _description;
         private string _subject;
-        private DateTime _finalDate = DateTime.Now;
         private IPerson _selectedEmployee;
+        private DateTime _finalDate    = DateTime.Now;
         private PriorityEnum _priority = PriorityEnum.Low;
         #endregion
 
@@ -89,7 +89,8 @@ namespace WOClient.Components.MyTaskComponent
                 DialogHost.CloseDialogCommand.Execute(null, null);
 
                 var loggedInManager = IMainWindowViewModel.User as Manager;
-                var result = await loggedInManager.TryAddTaskAsync(SelectedEmployee.PersonId,
+                var result          = await loggedInManager.TryAddTaskAsync(SelectedEmployee.PersonId,
+                                                                            DateTime.Now.Date,
                                                                             Description,
                                                                             FinalDate,
                                                                             Priority,
@@ -113,10 +114,10 @@ namespace WOClient.Components.MyTaskComponent
         #region Private Methods
         private void SetPropertiesToDefault()
         {
-            FinalDate = DateTime.Now;
-            Priority = PriorityEnum.Low;
+            FinalDate   = DateTime.Now;
+            Priority    = PriorityEnum.Low;
             Description = string.Empty;
-            Subject = default;
+            Subject     = default;
         }
         #endregion
     }

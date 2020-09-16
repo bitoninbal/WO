@@ -44,15 +44,23 @@ namespace WOClient.Library.Api
             await channel.ShutdownAsync();
             return commentId;
         }
-        public async Task<int> AddTaskAsync(DateTime finalDate,
-                                            int employeeId,
-                                            int managerId,
-                                            PriorityEnum priority,
+        public async Task<int> AddTaskAsync(int managerId,
+                                            int assignedEmployee,
+                                            DateTime createDate,
                                             string description,
+                                            DateTime finalDate,
+                                            PriorityEnum priority,
                                             string subject)
         {
             var channel = GetChannel();
-            var taskId  = await _tasksApi.AddTaskAsync(channel, finalDate, employeeId, managerId, priority, description, subject);
+            var taskId  = await _tasksApi.AddTaskAsync(channel,
+                                                       managerId,
+                                                       assignedEmployee,
+                                                       createDate,
+                                                       description,
+                                                       finalDate,
+                                                       priority,
+                                                       subject);
 
             await channel.ShutdownAsync();
 
