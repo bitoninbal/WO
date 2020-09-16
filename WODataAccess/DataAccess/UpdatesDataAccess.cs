@@ -2,16 +2,17 @@
 using System;
 using System.Data;
 using System.Threading.Tasks;
+using WODataAccess.Interfaces;
 
-namespace WODataAccess.User
+namespace WODataAccess.DataAccess
 {
     public class UpdatesDataAccess: BaseDataAccess, IUpdatesDataAccess
     {
         public async Task AddUpdateAsync(int employeeId)
         {
-            var cnn   = new SqlConnection(ConnectionString);
+            var cnn = new SqlConnection(ConnectionString);
             var query = "INSERT INTO Updates(UserId) VALUES(@UserId)";
-            var cmd   = new SqlCommand(query, cnn);
+            var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@UserId", employeeId);
             cmd.CommandType = CommandType.Text;
@@ -20,7 +21,7 @@ namespace WODataAccess.User
             {
                 await cnn.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
-                
+
                 return;
             }
             catch (Exception e)
@@ -36,9 +37,9 @@ namespace WODataAccess.User
 
         public async Task<bool> IsUserHasUpdateAsync(int employeeId)
         {
-            var cnn   = new SqlConnection(ConnectionString);
+            var cnn = new SqlConnection(ConnectionString);
             var query = "SELECT * FROM Updates WHERE UserId = @EmployeeId";
-            var cmd   = new SqlCommand(query, cnn);
+            var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@EmployeeId", employeeId);
             cmd.CommandType = CommandType.Text;

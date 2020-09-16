@@ -1,12 +1,12 @@
 ﻿using System.Windows;
 using WOClient.Components.Archive;
 using WOClient.Components.Comments;
+using WOClient.Components.EmployeeComponent;
 using WOClient.Components.Employees;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
 using WOClient.Components.Main;
 using WOClient.Components.MyTasks;
-using WOClient.Components.NewEmployee;
 using WOClient.Components.NewTask;
 using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;

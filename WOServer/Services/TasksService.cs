@@ -1,7 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System.Threading.Tasks;
-using WODataAccess.User;
+using WODataAccess.Interfaces;
 using WOServer.Protos;
 
 namespace WOServer.Services

@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using WODataAccess.Interfaces;
 using WODataAccess.Models;
 
-namespace WODataAccess.User
+namespace WODataAccess.DataAccess
 {
     public class CommentsDataAccess: BaseDataAccess, ICommentsDataAccess
     {
@@ -13,10 +14,10 @@ namespace WODataAccess.User
                                                          int senderId,
                                                          string comment)
         {
-            var cnn   = new SqlConnection(ConnectionString);
+            var cnn = new SqlConnection(ConnectionString);
             var query = "INSERT INTO Comments(TaskId, UserId, Comment) " +
                         "VALUES(@TaskId, @SenderId, @Comment); SELECT SCOPE_IDENTITY();";
-            var cmd   = new SqlCommand(query, cnn);
+            var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@TaskId", taskId);
             cmd.Parameters.AddWithValue("@SenderId", senderId);
@@ -27,7 +28,7 @@ namespace WODataAccess.User
             {
                 await cnn.OpenAsync();
 
-                var result    = await cmd.ExecuteScalarAsync();
+                var result = await cmd.ExecuteScalarAsync();
                 var commentId = Convert.ToInt32(result);
 
                 return commentId;
@@ -45,7 +46,7 @@ namespace WODataAccess.User
         public async Task<IEnumerable<CommentModel>> GetCommentsOfTasktDataAccessAsync(int taskId)
         {
             var cnn = new SqlConnection(ConnectionString);
-            var query = "SELECT c.Id, c.UserId, c.Comment, u.FirstName, u.LastName " + 
+            var query = "SELECT c.Id, c.UserId, c.Comment, u.FirstName, u.LastName " +
                         "FROM Comments c, Users u " +
                         "WHERE c.TaskId = @TaskId AND c.UserId = u.Id";
             var cmd = new SqlCommand(query, cnn);
@@ -67,11 +68,11 @@ namespace WODataAccess.User
                     {
                         comments.Add(new CommentModel
                         {
-                            CommentId       = await reader.GetFieldValueAsync<int>(0),
-                            SenderId        = await reader.GetFieldValueAsync<int>(1),
+                            CommentId = await reader.GetFieldValueAsync<int>(0),
+                            SenderId = await reader.GetFieldValueAsync<int>(1),
                             SenderFirstName = await reader.GetFieldValueAsync<string>(3),
-                            SenderLastName  = await reader.GetFieldValueAsync<string>(4),
-                            Message         = await reader.GetFieldValueAsync<string>(2)
+                            SenderLastName = await reader.GetFieldValueAsync<string>(4),
+                            Message = await reader.GetFieldValueAsync<string>(2)
                         });
                     }
 

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using WODataAccess.Models;
 
-namespace WODataAccess.User
+namespace WODataAccess.Interfaces
 {
     /// <summary>
     /// Interface for dealing with user data access component.

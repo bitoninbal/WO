@@ -12,9 +12,9 @@ using WOClient.Enums;
 using WOClient.Library.Models;
 using WOCommon.Enums;
 
-namespace WOClient.Components.NewEmployee
+namespace WOClient.Components.EmployeeComponent
 {
-    public class EmployeeViewModel : BaseViewModel, IEmployeeViewModel
+    public class EmployeeViewModel: BaseViewModel, IEmployeeViewModel
     {
         public EmployeeViewModel()
         {
@@ -79,8 +79,8 @@ namespace WOClient.Components.NewEmployee
         #region Public Methods
         public async Task EditEmployeeAsync(int id)
         {
-            var loggedInManager  = IMainWindowViewModel.User as Manager;
-            var selectedUser     = loggedInManager.MyEmployees.Single(user => user.PersonId == id);
+            var loggedInManager = IMainWindowViewModel.User as Manager;
+            var selectedUser = loggedInManager.MyEmployees.Single(user => user.PersonId == id);
 
             if (!Email.Equals(selectedUser.Email)) selectedUser.Email = Email;
             if (!FirstName.Equals(selectedUser.FirstName)) selectedUser.FirstName = FirstName;
@@ -101,13 +101,13 @@ namespace WOClient.Components.NewEmployee
             try
             {
                 var loggedInManager = IMainWindowViewModel.User as Manager;
-                var result          = await loggedInManager.TryAddEmployeeAsync(FirstName,
+                var result = await loggedInManager.TryAddEmployeeAsync(FirstName,
                                                                                 LastName,
                                                                                 Email,
                                                                                 Password.Copy(),
                                                                                 Permission);
 
-                if(!result)
+                if (!result)
                 {
                     MessageBox.Show("User already exist.");
 
@@ -124,17 +124,17 @@ namespace WOClient.Components.NewEmployee
         }
         public void SetProperties(IPerson employee)
         {
-            Email      = employee.Email;
-            FirstName  = employee.FirstName;
-            LastName   = employee.LastName;
+            Email = employee.Email;
+            FirstName = employee.FirstName;
+            LastName = employee.LastName;
             Permission = employee.Permission;
         }
         public void Reset()
         {
-            Email      = null;
-            Password   = null;
-            FirstName  = null;
-            LastName   = null;
+            Email = null;
+            Password = null;
+            FirstName = null;
+            LastName = null;
             Permission = PermissionsEnum.Employee;
         }
         #endregion
@@ -151,7 +151,7 @@ namespace WOClient.Components.NewEmployee
                 return;
             }
 
-            var loggedInManager   = IMainWindowViewModel.User as Manager;
+            var loggedInManager = IMainWindowViewModel.User as Manager;
             var potentialManagers = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
 
             potentialManagers.Remove(selectedUser);
@@ -180,9 +180,9 @@ namespace WOClient.Components.NewEmployee
         }
         private void SetPropertiesToDefault()
         {
-            Email     = default;
+            Email = default;
             FirstName = default;
-            LastName  = default;
+            LastName = default;
         }
         #endregion
     }

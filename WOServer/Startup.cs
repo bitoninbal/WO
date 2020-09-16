@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WODataAccess.User;
+using WODataAccess.DataAccess;
+using WODataAccess.Interfaces;
 using WOServer.Services;
 
 namespace WOServer

@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using WODataAccess.Interfaces;
 using WODataAccess.Models;
 
-namespace WODataAccess.User
+namespace WODataAccess.DataAccess
 {
     /// <summary>
     /// Data access for registering service.
@@ -15,21 +16,21 @@ namespace WODataAccess.User
         #region Public Methods
         public async Task DeleteEmployeeDataAccessAsync(int personId)
         {
-            var cnn           = new SqlConnection(ConnectionString);
-            var updatesQuery  = "Delete From Updates WHERE UserId = @UserId";
+            var cnn = new SqlConnection(ConnectionString);
+            var updatesQuery = "Delete From Updates WHERE UserId = @UserId";
             var commentsQuery = "Delete From Comments WHERE UserId = @UserId";
-            var usersQuery    = "Delete From Users WHERE Id = @PersonId";
-            var updatesCmd    = new SqlCommand(updatesQuery, cnn);
-            var commentsCmd   = new SqlCommand(commentsQuery, cnn);
-            var usersCmd      = new SqlCommand(usersQuery, cnn);
+            var usersQuery = "Delete From Users WHERE Id = @PersonId";
+            var updatesCmd = new SqlCommand(updatesQuery, cnn);
+            var commentsCmd = new SqlCommand(commentsQuery, cnn);
+            var usersCmd = new SqlCommand(usersQuery, cnn);
 
             updatesCmd.Parameters.AddWithValue("@UserId", personId);
             commentsCmd.Parameters.AddWithValue("@UserId", personId);
             usersCmd.Parameters.AddWithValue("@PersonId", personId);
 
-            updatesCmd.CommandType  = CommandType.Text;
+            updatesCmd.CommandType = CommandType.Text;
             commentsCmd.CommandType = CommandType.Text;
-            usersCmd.CommandType    = CommandType.Text;
+            usersCmd.CommandType = CommandType.Text;
 
             try
             {
@@ -207,10 +208,10 @@ namespace WODataAccess.User
                                                   string Permission,
                                                   int DirectManager)
         {
-            var cnn   = new SqlConnection(ConnectionString);
+            var cnn = new SqlConnection(ConnectionString);
             var query = "INSERT INTO Users(Email, FirstName, LastName, Password, Permission, DirectManager) " +
                         "VALUES(@Email, @FirstName, @LastName, @Password, @Permission, @DirectManager)";
-            var cmd   = new SqlCommand(query, cnn);
+            var cmd = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@Email", Email);
             cmd.Parameters.AddWithValue("@FirstName", FirstName);

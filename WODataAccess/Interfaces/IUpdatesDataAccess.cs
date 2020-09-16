@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WODataAccess.User
+namespace WODataAccess.Interfaces
 {
     public interface IUpdatesDataAccess
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WOClient.Components.NewEmployee
+namespace WOClient.Components.EmployeeComponent
 {
     public partial class NewEmployeeView : UserControl
     {
