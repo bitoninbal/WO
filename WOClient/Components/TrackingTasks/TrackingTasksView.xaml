@@ -55,7 +55,7 @@
         <ListBox Grid.Row="1"
                  Margin="0 10"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 VirtualizingPanel.IsVirtualizing="True"
+                 VirtualizingPanel.VirtualizationMode="Recycling"
                  ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                        Path=TrackingTasks}">
             <ListBox.Style>

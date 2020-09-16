@@ -99,6 +99,19 @@ namespace WOClient.Components.Reports
         public AllTasksReport AllTasksReport { get; set; }
         #endregion
 
+        #region Public Methods
+        public void Reset()
+        {
+            FromDate          = DateTime.Now;
+            ToDate            = DateTime.Now;
+            SelectedEmployee  = null;
+            ReportCollections = null;
+            SelectedReport    = ReportsEnum.AllEmployeeTasks;
+            OpenTasksReport   = new NumberOfOpenTasksReport();
+            AllTasksReport    = new AllTasksReport();
+        }
+        #endregion
+
         #region Private Methods
         private void ShowReport()
         {
@@ -128,13 +141,13 @@ namespace WOClient.Components.Reports
 
                     break;
                 case ReportsEnum.AllEmployeeTasks:
-                    var filter2 = SelectedEmployee.MyTasks.ToList()
-                                                          .Concat(manager.MyTasks.ToList())
-                                                          .Where((task) => task.CreatedDate.Date >= FromDate.Date && task.CreatedDate.Date <= ToDate.Date)
-                                                          .OrderBy((task) => task.CreatedDate)
-                                                          .ToList();
+                    var filter2 = SelectedEmployee?.MyTasks.ToList()
+                                                           .Concat(manager.MyTasks.ToList())
+                                                           .Where((task) => task.CreatedDate.Date >= FromDate.Date && task.CreatedDate.Date <= ToDate.Date)
+                                                           .OrderBy((task) => task.CreatedDate)
+                                                           .ToList();
 
-                    ReportCollections = AllTasksReport.GenerateReport(filter2, FromDate, ToDate);
+                    if (filter2 != null) ReportCollections = AllTasksReport.GenerateReport(filter2, FromDate, ToDate);
 
                     break;
             }

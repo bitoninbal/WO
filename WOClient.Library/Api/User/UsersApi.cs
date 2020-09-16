@@ -139,6 +139,17 @@ namespace WOClient.Library.Api.User
 
             return result.Value;
         }
+        internal async Task UpdateEmployeeDirectManagerAsync(GrpcChannel channel, int employeeId, int newManagerId)
+        {
+            var client = new Users.UsersClient(channel);
+            var input  = new UpdateDirectManagerInput
+            {
+                EmployeeId    = employeeId,
+                DirectManager = newManagerId
+            };
+
+            await client.UpdateDirectManagerAsync(input);
+        }
         internal async Task UpdateUserFieldAsync(GrpcChannel channel, int personId, int value, string columnName)
         {
             var client = new Users.UsersClient(channel);

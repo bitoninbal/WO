@@ -9,15 +9,15 @@
     </UserControl.Resources>
     
     <Grid VerticalAlignment="Top"
-                HorizontalAlignment="Center">
+          HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="546" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -42,7 +42,7 @@
                    Text="You have no comments.">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Setter Property="Visibility" Value="Hidden" />
 
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
@@ -65,14 +65,14 @@
                 <Style TargetType="{x:Type ListBox}"
                        BasedOn="{StaticResource MaterialDesignListBox}">
                     <Setter Property="ItemTemplate" Value="{StaticResource CommentsItemTemplate}" />
-                    <Setter Property="ItemContainerStyle" Value="{StaticResource CommetsItemContainerStyle}" />
+                    <Setter Property="ItemContainerStyle" Value="{StaticResource CommentsItemContainerStyle}" />
                     <Setter Property="Visibility" Value="Visible" />
 
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                        Path=MyTasks.Count}"
                                      Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="Visibility" Value="Hidden" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -81,14 +81,13 @@
 
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
-                   Width="556"
                    Margin="10 0 0 10"
                    HorizontalAlignment="Center"
                    FontSize="18"
                    Text="Tracking Tasks Comments">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Setter Property="Visibility" Value="Hidden" />
 
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
@@ -103,13 +102,12 @@
 
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
-                   Width="556"
                    Margin="10 0"
                    HorizontalAlignment="Center"
                    Text="You have no comments.">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Setter Property="Visibility" Value="Hidden" />
 
                     <Style.Triggers>
                         <MultiDataTrigger>
@@ -133,7 +131,6 @@
         <ListBox Grid.Row="2"
                  Grid.Column="1"
                  Margin="10 0"
-                 Width="556"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  VirtualizingPanel.IsVirtualizing="True">
             <ListBox.Style>
@@ -141,7 +138,7 @@
                        BasedOn="{StaticResource MaterialDesignListBox}">
                     <Setter Property="Visibility" Value="Visible" />
                     <Setter Property="ItemTemplate" Value="{StaticResource CommentsItemTemplate}" />
-                    <Setter Property="ItemContainerStyle" Value="{StaticResource CommetsItemContainerStyle}" />
+                    <Setter Property="ItemContainerStyle" Value="{StaticResource CommentsItemContainerStyle}" />
                     <Setter Property="ItemsSource" Value="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                                    Path=TrackingTasks}" />
                     

@@ -45,7 +45,8 @@
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   AutoGenerateColumns="False"
-                  SelectedItem="{Binding Employee}"
+                  IsReadOnly="True"
+                  SelectedItem="{Binding SelectedEmployee}"
                   ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                         Path=MyEmployees}">
             <DataGrid.Columns>
@@ -54,6 +55,15 @@
                         <DataTemplate>
                             <Button Content="Delete"
                                     Click="DeleteEmployee_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Edit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Edit"
+                                    Click="EditEmployee_Click" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -94,22 +104,9 @@
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="Permission"
-                                        Width="100">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ComboBox SelectionChanged="PermissionComboBox_SelectionChanged"
-                                      SelectedValuePath="Tag"
-                                      SelectedValue="{Binding Permission,
-                                                              Mode=OneWay}">
-                                <ComboBoxItem Content="Manager"
-                                              Tag="{Binding Source={x:Static common:PermissionsEnum.Manager}}" />
-                                <ComboBoxItem Content="Employee"
-                                              Tag="{Binding Source={x:Static common:PermissionsEnum.Employee}}" />
-                            </ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Permission"
+                                    Width="100"
+                                    Binding="{Binding Permission}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

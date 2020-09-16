@@ -10,17 +10,22 @@ namespace WOClient.Library.Models
                         int managerId,
                         string firstName,
                         string lastName,
-                        string email):
+                        string email) :
             base(permission,
                 personId,
                 managerId,
                 firstName,
                 lastName,
                 email)
-        {}
+        {
+            Task.Run(InitAsync);
+        }
 
-        #region Public Methods
-
+        #region Protected Methods
+        protected override async Task InitAsync()
+        {
+            await InitMyTasksAsync();
+        }
         #endregion
     }
 }

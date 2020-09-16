@@ -1,13 +1,12 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
 using WOClient.Components.NewEmployee;
 using WOClient.Components.SwitchManager;
-using WOClient.Library.Api;
+using WOClient.Enums;
 using WOClient.Library.Models;
 using WOCommon.Enums;
 
@@ -15,20 +14,18 @@ namespace WOClient.Components.Employees
 {
     public class EmployeesViewModel: BaseViewModel, IEmplyeesViewModel
     {
-        public EmployeesViewModel(INewEmployeeViewModel newEmployeeVm, IClientApi api)
+        public EmployeesViewModel(IEmployeeViewModel employeeVm)
         {
-            _api           = api;
-            _newEmployeeVm = newEmployeeVm;
+            _employeeVm = employeeVm;
         }
 
         #region Fields
-        private IClientApi _api;
-        private INewEmployeeViewModel _newEmployeeVm;
+        private IEmployeeViewModel _employeeVm;
         private IPerson _employee;
         #endregion
 
         #region Properties
-        public IPerson Employee
+        public IPerson SelectedEmployee
         {
             get => _employee;
             set
@@ -37,17 +34,52 @@ namespace WOClient.Components.Employees
 
                 _employee = value;
 
-                NotifyPropertyChanged(nameof(Employee));
+                NotifyPropertyChanged(nameof(SelectedEmployee));
             }
         }
         #endregion
 
         #region Private Methods
-        private async Task OpenSwitchManagerAsync(List<IPerson> collection, Manager deletedManager)
+        private async Task DeleteEmployeeAsync(IPerson employee)
+        {
+            var loggedInManager = IMainWindowViewModel.User as Manager;
+
+            await loggedInManager.RemoveEmployee(employee.PersonId);
+
+            SelectedEmployee = null;
+        }
+        private async Task HandleDeleteManagerAsync()
+        {
+            var managerToDelete = SelectedEmployee as Manager;
+
+            if (managerToDelete.MyEmployees.Count == 0)
+            {
+                await DeleteEmployeeAsync(managerToDelete);
+
+                return;
+            }
+
+            var loggedInManager = IMainWindowViewModel.User as Manager;
+            var collection      = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
+
+            collection.Remove(SelectedEmployee);
+
+            if (collection.Count == 0)
+            {
+                foreach (var employee in managerToDelete.MyEmployees) await loggedInManager.AssignedEmployee(employee);
+
+                await DeleteEmployeeAsync(managerToDelete);
+
+                return;
+            }
+
+            await OpenSwitchManagerAsync(collection, managerToDelete, SwitchingManagerMode.Delete);
+        }
+        private async Task OpenSwitchManagerAsync(List<IPerson> collection, Manager oldManager, SwitchingManagerMode mode)
         {
             var view = new SwitchManagerView
             {
-                DataContext = new SwitchManagerViewModel(collection, deletedManager, _api)
+                DataContext = new SwitchManagerViewModel(collection, oldManager, mode)
             };
 
             await DialogHost.Show(view, "RootDialog");
@@ -57,44 +89,38 @@ namespace WOClient.Components.Employees
         #region Public Methods
         public async Task DeleteEmployeeAsync()
         {
-            if (Employee is Manager) await HandleDeleteManagerAsync();
-
-            var user = (Manager)IMainWindowViewModel.User;
-
-            await _api.DeleteEmployeeAsync(Employee.PersonId);
-
-            user.MyEmployees.Remove(Employee);
-        }
-        public async Task HandleDeleteManagerAsync()
-        {
-            var emplopyee = Employee as Manager;
-
-            if (emplopyee.MyEmployees.Count == 0) return;
-
-            var manager    = IMainWindowViewModel.User as Manager;
-            var collection = manager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
-
-            collection.Remove(Employee);
-
-            if (collection.Count == 0)
+            if (SelectedEmployee is Manager)
             {
-                foreach (var item in emplopyee.MyEmployees) manager.AssignedEmployee(item);
-
-                await _api.UpdateTaskManagerIdAsync(Employee.PersonId, manager.PersonId);
-
-                return;
+                await HandleDeleteManagerAsync();
             }
+            else
+                await DeleteEmployeeAsync(SelectedEmployee);
+        }
+        public async Task OpenEditEmployeeDialogAsync()
+        {
+            _employeeVm.SetProperties(SelectedEmployee);
 
-            await OpenSwitchManagerAsync(collection, emplopyee);
+            var view = new EditEmployeeView(SelectedEmployee.PersonId)
+            {
+                DataContext = _employeeVm
+            };
+
+            await DialogHost.Show(view, "RootDialog");
         }
         public async Task OpenNewEmployeeAsync()
         {
             var view = new NewEmployeeView
             {
-                DataContext = _newEmployeeVm
+                DataContext = _employeeVm
             };
 
             await DialogHost.Show(view, "RootDialog");
+        }
+        public void Reset()
+        {
+            SelectedEmployee = null;
+
+            _employeeVm.Reset();
         }
         #endregion
     }

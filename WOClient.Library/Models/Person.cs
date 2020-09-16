@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using WOClient.Library.Api;
 using WOCommon.Enums;
-using System.Linq;
 
 namespace WOClient.Library.Models
 {
@@ -11,7 +11,7 @@ namespace WOClient.Library.Models
     {
         protected Person(PermissionsEnum permission, int personId, int managerId, string firstName, string lastName, string email)
         {
-            Api     = new ClientApi();
+            Api      = new ClientApi();
             _myTasks = new ObservableCollection<MyTask>();
 
             _permission = permission;
@@ -20,8 +20,6 @@ namespace WOClient.Library.Models
             _firstName  = firstName;
             _lastName   = lastName;
             _email      = email;
-
-            Task.Run(InitMyTasks);
         }
 
         #region Fields
@@ -169,7 +167,8 @@ namespace WOClient.Library.Models
         {
             return tasks.Any((task) => task.IsArchive);
         }
-        protected async Task InitMyTasks()
+        protected abstract Task InitAsync();
+        protected async Task InitMyTasksAsync()
         {
             var result = await Api.GetMyTasksAsync(PersonId);
 
@@ -195,11 +194,11 @@ namespace WOClient.Library.Models
         {
             MyTasks.Clear();
         }
-        public virtual async Task UpdateAsync()
+        public async Task UpdateAsync()
         {
             var result = await Api.RequestUserUpdateAsync(PersonId);
 
-            if (result) await InitMyTasks();
+            if (result) await InitAsync();
         }
         #endregion
 

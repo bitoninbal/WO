@@ -32,12 +32,12 @@ namespace WOClient
             var api             = new ClientApi();
             var archiveVm       = new ArchiveViewModel();
             var commentsVm      = new CommentsViewModel();
-            var newEmployeeVm   = new NewEmployeeViewModel(api);
-            var employeesVm     = new EmployeesViewModel(newEmployeeVm, api);
+            var newEmployeeVm   = new EmployeeViewModel();
+            var employeesVm     = new EmployeesViewModel(newEmployeeVm);
             var loginVm         = new LoginViewModel(api);
             var forgetPasswodVm = new ForgetPasswordViewModel();
             var myTasksVm       = new MyTasksViewModel();
-            var newTaskVm       = new NewTaskViewModel(api);
+            var newTaskVm       = new NewTaskViewModel();
             var trackingTasksVm = new TrackingTasksViewModel(newTaskVm);
             var reportsVm       = new ReportsViewModel();
             var mainWindowVm    = new MainWindowViewModel(archiveVm,

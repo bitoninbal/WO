@@ -4,8 +4,10 @@
                     xmlns:comments="clr-namespace:WOClient.Components.Comments"
                     xmlns:converters="clr-namespace:WOClient.Converters"
                     xmlns:emplyees="clr-namespace:WOClient.Components.Employees"
+                    xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
                     xmlns:login="clr-namespace:WOClient.Components.Login"
                     xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword"
+                    xmlns:libraryModels="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:myTask="clr-namespace:WOClient.Components.MyTaskComponent"
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -13,6 +15,7 @@
                     xmlns:trackingTasks="clr-namespace:WOClient.Components.TrackingTasks"
                     xmlns:reports="clr-namespace:WOClient.Components.Reports"
                     xmlns:validations="clr-namespace:WOClient.Validations">
+    <converters:EmployeeIdToFullNameConverter x:Key="EmployeeIdToFullNameConverter" />
     <converters:LoggedInToBooleanConverter x:Key="LoggedInToBooleanConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
@@ -85,13 +88,130 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="ReadOnlyTaskForCommentsTemplate"
+                  DataType="{x:Type models:MyTask}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       Margin="0 0 20 0"
+                       Text="Employee:" />
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       HorizontalAlignment="Stretch"
+                       Text="{Binding Path=AssignedEmployee,
+                                      Converter={StaticResource EmployeeIdToFullNameConverter}}" />
+
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Margin="0 0 20 0"
+                       Text="Final Date:" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       Text="{Binding FinalDate}" />
+
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Margin="0 0 20 0"
+                       Text="Priority:" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="1"
+                       Text="{Binding Priority}" />
+
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       Margin="0 0 20 0"
+                       Text="Description:" />
+            <TextBlock Grid.Row="3"
+                       Grid.Column="1"
+                       TextWrapping="Wrap"
+                       Text="{Binding Description}" />
+
+            <StackPanel Grid.Row="4"
+                        Grid.Column="1"
+                        Margin="0 5 0 0"
+                        HorizontalAlignment="Stretch"
+                        FlowDirection="RightToLeft"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Right"
+                        IsEnabled="False"
+                        ToolTip="Delete the task"
+                        Content="{materialDesign:PackIcon Kind=TrashCan}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}"
+                               BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                                     Path=Permission}"
+                                                   Value="{x:Static enums:PermissionsEnum.Manager}" />
+
+                                        <Condition Binding="{Binding Path=IsArchive}"
+                                                   Value="True" />
+                                    </MultiDataTrigger.Conditions>
+
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Margin="5 0 0 0"
+                        HorizontalAlignment="Right"
+                        IsEnabled="False"
+                        ToolTip="Move to Archive"
+                        Content="{materialDesign:PackIcon Kind=ArchiveArrowUp}" />
+
+                <Button Margin="5 0 0 0"
+                        HorizontalAlignment="Right"
+                        IsEnabled="False"
+                        ToolTip="Write comment"
+                        Content="{materialDesign:PackIcon Kind=CommentOutline}" />
+
+                <ToggleButton Margin="5 0 0 0"
+                              IsEnabled="False"
+                              ToolTip="Lock/Unlock"
+                              HorizontalAlignment="Right"
+                              Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
+                              IsChecked="{Binding IsCompleted}">
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}"
+                               BasedOn="{StaticResource MaterialDesignSwitchToggleButton}">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content" Value="{materialDesign:PackIcon Kind=LockOutline}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="CommentsItemTemplate"
                   DataType="{x:Type models:MyTask}">
         <DataTemplate.Resources>
             <myTask:MyTaskViewModel x:Key="Vm" />
         </DataTemplate.Resources>
 
-        <Expander Width="500"
+        <Expander Width="490"
+                  Padding="5"
                   Foreground="Black"
                   Background="#b39ddb">
             <Expander.Header>
@@ -107,11 +227,16 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
                 <ListBox Grid.Row="0"
+                         Grid.Column="0"
                          ItemsSource="{Binding Comments}" />
                 <TextBox x:Name="CommentTextBox"
                          Grid.Row="1"
+                         Grid.Column="0"
                          Margin="0 0 0 20"
                          MinLines="4"
                          MaxLines="4"
@@ -127,9 +252,10 @@
                     </TextBox.Text>
                 </TextBox>
 
-                <StackPanel Grid.Row="2"
-                            Orientation="Horizontal">
-                    <Button Width="100"
+                <DockPanel Grid.Row="2"
+                           Grid.Column="0">
+                    <Button DockPanel.Dock="Left"
+                            Width="100"
                             ToolTip="Send"
                             Content="{materialDesign:PackIcon Kind=Send}"
                             Command="{Binding Source={StaticResource Vm},
@@ -140,29 +266,38 @@
                             <Style TargetType="Button" 
                                    BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
                                 <Setter Property="IsEnabled" Value="False" />
+                                
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=CommentTextBox,
-                                                                   Path=(Validation.HasError)}"
-                                                 Value="False">
-                                        <Setter Property="IsEnabled" Value="True" />
-                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=CommentTextBox,
+                                                                         Path=(Validation.HasError)}"
+                                                       Value="False" />
 
+                                            <Condition Binding="{Binding IsCompleted}"
+                                                       Value="False" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="IsEnabled" Value="True" />
+                                    </MultiDataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
 
                     <ToggleButton x:Name="ShowTaskToggleButton"
-                                  Margin="360 0"
+                                  DockPanel.Dock="Right"
+                                  HorizontalAlignment="Right"
                                   ToolTip="Show Task"
                                   Style="{StaticResource MaterialDesignFlatPrimaryToggleButton}"
                                   Content="{materialDesign:PackIcon Kind=TextBox,
                                                                     Size=25}" />
-                </StackPanel>
+                </DockPanel>
 
                 <ContentControl Grid.Row="3"
                                 Content="{Binding Path=DataContext,
-                                                  RelativeSource={RelativeSource AncestorType=Grid}}">
+                                                  RelativeSource={RelativeSource AncestorType=Grid}}"
+                                ContentTemplate="{StaticResource ReadOnlyTaskForCommentsTemplate}">
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
                             <Setter Property="Visibility" Value="Collapsed" />

@@ -15,31 +15,27 @@ namespace WODataAccess.User
         #region Public Methods
         public async Task DeleteEmployeeDataAccessAsync(int personId)
         {
-            var cnn = new SqlConnection(ConnectionString);
-            var updatesQuery = "Delete From Updates WHERE UserId = @UserId";
+            var cnn           = new SqlConnection(ConnectionString);
+            var updatesQuery  = "Delete From Updates WHERE UserId = @UserId";
             var commentsQuery = "Delete From Comments WHERE UserId = @UserId";
-            var myTasksQuery = "Delete From Tasks WHERE UserId = @UserId";
-            var usersQuery   = "Delete From Users WHERE Id = @PersonId";
-            var updatesCmd   = new SqlCommand(updatesQuery, cnn);
-            var commentsCmd = new SqlCommand(commentsQuery, cnn);
-            var myTasksCmd   = new SqlCommand(myTasksQuery, cnn);
-            var usersCmd     = new SqlCommand(usersQuery, cnn);
+            var usersQuery    = "Delete From Users WHERE Id = @PersonId";
+            var updatesCmd    = new SqlCommand(updatesQuery, cnn);
+            var commentsCmd   = new SqlCommand(commentsQuery, cnn);
+            var usersCmd      = new SqlCommand(usersQuery, cnn);
 
             updatesCmd.Parameters.AddWithValue("@UserId", personId);
-            updatesCmd.CommandType = CommandType.Text;
             commentsCmd.Parameters.AddWithValue("@UserId", personId);
-            commentsCmd.CommandType = CommandType.Text;
-            myTasksCmd.Parameters.AddWithValue("@UserId", personId);
-            myTasksCmd.CommandType = CommandType.Text;
             usersCmd.Parameters.AddWithValue("@PersonId", personId);
-            usersCmd.CommandType = CommandType.Text;
+
+            updatesCmd.CommandType  = CommandType.Text;
+            commentsCmd.CommandType = CommandType.Text;
+            usersCmd.CommandType    = CommandType.Text;
 
             try
             {
                 await cnn.OpenAsync();
                 await updatesCmd.ExecuteNonQueryAsync();
                 await commentsCmd.ExecuteNonQueryAsync();
-                await myTasksCmd.ExecuteNonQueryAsync();
                 await usersCmd.ExecuteNonQueryAsync();
             }
             catch (Exception e)
@@ -50,7 +46,6 @@ namespace WODataAccess.User
             {
                 await updatesCmd.DisposeAsync();
                 await commentsCmd.DisposeAsync();
-                await myTasksCmd.DisposeAsync();
                 await usersCmd.DisposeAsync();
                 await cnn.CloseAsync();
             }
@@ -233,6 +228,31 @@ namespace WODataAccess.User
             catch (Exception)
             {
 
+            }
+            finally
+            {
+                await cmd.DisposeAsync();
+                await cnn.CloseAsync();
+            }
+        }
+        public async Task UpdateDirectManagerAsync(int employeeId, int newManagerId)
+        {
+            var cnn = new SqlConnection(ConnectionString);
+            var query = $"UPDATE Tasks SET ManagerId = @NewManagerId WHERE UserId = @EmployeeId";
+            var cmd = new SqlCommand(query, cnn);
+
+            cmd.Parameters.AddWithValue("@EmployeeId", employeeId);
+            cmd.Parameters.AddWithValue("@NewManagerId", newManagerId);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                await cnn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception e)
+            {
+                return;
             }
             finally
             {

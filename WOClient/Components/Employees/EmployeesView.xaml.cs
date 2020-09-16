@@ -21,39 +21,18 @@ namespace WOClient.Components.Employees
             await vm.DeleteEmployeeAsync();
         }
 
+        private async void EditEmployee_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var vm = (EmployeesViewModel)DataContext;
+
+            await vm.OpenEditEmployeeDialogAsync();
+        }
+
         private async void OpenNewEmployee_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var vm = (EmployeesViewModel)DataContext;
 
             await vm.OpenNewEmployeeAsync();
-        }
-
-        private async void PermissionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var comboBox = (ComboBox)sender;
-            var vm       = (EmployeesViewModel)DataContext;
-
-            if (vm.Employee is null) return;
-
-            var value = (PermissionsEnum)comboBox.SelectedValue;
-
-            switch (value)
-            {
-                case PermissionsEnum.Employee:
-                    await vm.HandleDeleteManagerAsync();
-
-                    vm.Employee.Permission = PermissionsEnum.Employee;
-
-                    break;
-                case PermissionsEnum.Manager:
-                    vm.Employee.Permission = PermissionsEnum.Manager;
-
-                    break;
-                default:
-                    vm.Employee.Permission = PermissionsEnum.Employee;
-
-                    break;
-            }
         }
         #endregion
     }

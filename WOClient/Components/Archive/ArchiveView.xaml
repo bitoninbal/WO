@@ -35,8 +35,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="520" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0"
@@ -99,7 +99,6 @@
 
         <TextBlock Grid.Row="1"
                    Grid.Column="1"
-                   Width="540"
                    Margin="10 0 0 10"
                    HorizontalAlignment="Center"
                    FontSize="18"
@@ -121,8 +120,7 @@
 
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
-                   Width="540"
-                   Margin="10 0"
+                   Margin="10 0 0 10"
                    HorizontalAlignment="Center"
                    Text="You have no tasks to display.">
             <TextBlock.Style>
@@ -150,8 +148,7 @@
 
         <ListBox Grid.Row="2"
                  Grid.Column="1"
-                 Width="540"
-                 Margin="10 0"
+                 Margin="10 0 0 0"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  VirtualizingPanel.IsVirtualizing="True"
                  ItemContainerStyle="{StaticResource TasksItemContainerStyle}">

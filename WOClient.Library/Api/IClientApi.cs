@@ -28,7 +28,6 @@ namespace WOClient.Library.Api
                                         SecureString password,
                                         PermissionsEnum permission,
                                         int directManager);
-        Task<ObservableCollection<Comment>> GetCommentsOfTaskAsync(int taskId);
         Task<ObservableCollection<IPerson>> GetEmployeesAsync(int managerId);
         Task<ObservableCollection<MyTask>> GetMyTasksAsync(int personId);
         Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(int personId);
@@ -37,7 +36,7 @@ namespace WOClient.Library.Api
         Task UpdateTaskFieldAsync(int taskId, bool value, string columnName);
         Task UpdateUserFieldAsync<T>(int personId, T value, string columnName);
         Task SendUpdateEventAsync(int userId);
-        Task UpdateTaskManagerIdAsync(int oldManagerId, int newManagerId);
+        Task UpdateEmployeeDirectManagerAsync(int employeeId, int newManagerId);
         #endregion
     }
 }

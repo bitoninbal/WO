@@ -99,12 +99,6 @@ namespace WOServer.Services
 
             return new Empty();
         }
-        public override async Task<Empty> UpdateManagerId(UpdateManagerIdInput request, ServerCallContext context)
-        {
-            await _dataAccess.UpdateManagerIdAsync(request.OldManagerId, request.NewManagerId);
-
-            return new Empty();
-        }
         #endregion
     }
 }

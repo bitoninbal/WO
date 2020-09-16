@@ -1,12 +1,14 @@
 ﻿<ResourceDictionary x:Class="WOClient.Components.MyTaskComponent.MyTaskDataTemplate"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:WOClient.Converters"
                     xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
                     xmlns:libraryModels="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:models="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:myTask="clr-namespace:WOClient.Components.MyTaskComponent"
                     xmlns:validations="clr-namespace:WOClient.Validations">
+    <converters:EmployeeIdToFullNameConverter x:Key="EmployeeIdToFullNameConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     
     <DataTemplate DataType="{x:Type models:MyTask}">
@@ -30,6 +32,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
@@ -37,30 +40,40 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0"
-                           Grid.Column="1"
-                           Text="{Binding FinalDate}" />
+                           Grid.Column="0"
+                           Margin="0, 0, 20, 0"
+                           Text="Employee:" />
                 <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{Binding Path=AssignedEmployee,
+                                          Converter={StaticResource EmployeeIdToFullNameConverter}}" />
+
+                <TextBlock Grid.Row="1"
                            Grid.Column="0"
                            Margin="0, 0, 20, 0"
                            Text="Final Date:" />
-
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
-                           Text="{Binding Priority}" />
-                <TextBlock Grid.Row="1"
+                           Text="{Binding FinalDate}" />
+
+                <TextBlock Grid.Row="2"
                            Grid.Column="0"
                            Margin="0, 0, 20, 0"
                            Text="Priority:" />
-
                 <TextBlock Grid.Row="2"
                            Grid.Column="1"
-                           Text="{Binding Description}" />
-                <TextBlock Grid.Row="2"
+                           Text="{Binding Priority}" />
+
+                <TextBlock Grid.Row="3"
                            Grid.Column="0"
                            Margin="0, 0, 20, 0"
                            Text="Description:" />
+                <TextBlock Grid.Row="3"
+                           Grid.Column="1"
+                           TextWrapping="Wrap"
+                           Text="{Binding Description}" />
 
-                <StackPanel Grid.Row="3"
+                <StackPanel Grid.Row="4"
                             Grid.Column="1"
                             Margin="0, 5"
                             HorizontalAlignment="Right"
@@ -88,9 +101,9 @@
                         </ToggleButton.Style>
                     </ToggleButton>
 
-                    <Button Content="{materialDesign:PackIcon Kind=CommentOutline}"
-                            Margin="5"
+                    <Button Margin="5 0 0 0"
                             ToolTip="Write comment"
+                            Content="{materialDesign:PackIcon Kind=CommentOutline}"
                             Command="{Binding Path=CommentDialogCommand,
                                               Source={StaticResource Vm}}"
                             CommandParameter="{Binding Path=DataContext,
@@ -111,7 +124,8 @@
                         </Button.Style>
                     </Button>
 
-                    <Button ToolTip="Move to Archive"
+                    <Button Margin="5 0 0 0"
+                            ToolTip="Move to Archive"
                             Content="{materialDesign:PackIcon Kind=ArchiveArrowUp}"
                             Command="{Binding Source={StaticResource Vm},
                                               Path=MoveToArchiveCommand}"
@@ -138,7 +152,8 @@
                         </Button.Style>
                     </Button>
 
-                    <Button ToolTip="Delete the task"
+                    <Button Margin="5 0 0 0"
+                            ToolTip="Delete the task"
                             Content="{materialDesign:PackIcon Kind=TrashCan}"
                             Command="{Binding Source={StaticResource Vm},
                                               Path=DeleteTaskCommand}"
@@ -168,7 +183,7 @@
                     </Button>
                 </StackPanel>
 
-                <Grid Grid.Row="4"
+                <Grid Grid.Row="5"
                       Grid.Column="0"
                       Grid.ColumnSpan="2"
                       Visibility="{Binding Path=IsCommentDialogOpen,

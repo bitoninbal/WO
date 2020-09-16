@@ -1,11 +1,12 @@
 ﻿using System.Security;
 using System.Threading.Tasks;
 using WOClient.Components.Base;
+using WOClient.Library.Models;
 using WOCommon.Enums;
 
 namespace WOClient.Components.NewEmployee
 {
-    public interface INewEmployeeViewModel : IBaseViewModel
+    public interface IEmployeeViewModel : IBaseViewModel
     {
         #region Properties
         string Email { get; }
@@ -16,7 +17,9 @@ namespace WOClient.Components.NewEmployee
         #endregion
 
         #region Methods
-        Task EmployeeRegisterAsync();
+        Task RegisterAsync();
+        void SetProperties(IPerson employee);
+        void Reset();
         #endregion
     }
 }

@@ -7,12 +7,13 @@ namespace WOClient.Components.Employees
     public interface IEmplyeesViewModel: IBaseViewModel
     {
         #region Properties
-        IPerson Employee { get; set; }
+        IPerson SelectedEmployee { get; set; }
         #endregion
 
         #region Methods
         Task DeleteEmployeeAsync();
         Task OpenNewEmployeeAsync();
+        void Reset();
         #endregion
     }
 }

@@ -154,6 +154,18 @@ namespace WOClient.Components.Main
         }
         #endregion
 
+        #region Public Methods
+        public void Reset()
+        {
+            _emplyeesVm.Reset();
+            _trackingTasksVm.Reset();
+            _reportsVm.Reset();
+
+            LoggedInUser.Instance.Reset();
+            IMainWindowViewModel.User.Reset();
+        }
+        #endregion
+
         #region Private Methods
         private void SubscribeToSwitchViewRequested()
         {
@@ -183,7 +195,7 @@ namespace WOClient.Components.Main
                     break;
             }
 
-            SetTimer();
+            //SetTimer();
         }
         private void SwitchToView(object sender, ViewsEnum args)
         {

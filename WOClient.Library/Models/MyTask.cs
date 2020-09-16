@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using WOClient.Library.Api;
 using WOCommon.Enums;
 
 namespace WOClient.Library.Models
 {
-    public class MyTask: INotifyPropertyChanged
+    public class MyTask: INotifyPropertyChanged, ICloneable
     {
         public MyTask(bool isInitMode = false)
         {
@@ -179,9 +180,63 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Public Methods
+        public object Clone()
+        {
+            var task = new MyTask(true)
+            {
+                AssignedEmployee    = this.AssignedEmployee,
+                CommentMessage      = this.CommentMessage,
+                CreatedDate         = this.CreatedDate,
+                Description         = this.Description,
+                FinalDate           = this.FinalDate,
+                IsArchive           = this.IsArchive,
+                IsCommentDialogOpen = this.IsCommentDialogOpen,
+                IsCompleted         = this.IsCompleted,
+                Priority            = this.Priority,
+                Subject             = this.Subject,
+                TaskId              = this.TaskId
+            };
+
+            task.SetInitModeFalse();
+
+            foreach (var comment in Comments) task.Comments.Add(comment);
+
+            return task;
+        }
+        public void RemoveAllCommentsByEmployeeId(int employeeId)
+        {
+            foreach (var comment in Comments.ToList())
+            {
+                if (comment.SenderId != employeeId) continue;
+
+                Comments.Remove(comment);
+            }
+        }
         public void SetInitModeFalse()
         {
             _isInitMode = false;
+        }
+        public async Task<Comment> TryAddCommentAsync(string message, int taskId, int userToBeUpdated)
+        {
+            var commentId = await Api.AddCommentAsync(taskId, LoggedInUser.Instance.Id, userToBeUpdated, message);
+
+            if (commentId == 0) return null;
+
+            var comment = new Comment
+            {
+                CommentId       = commentId,
+                Message         = message,
+                SenderId        = LoggedInUser.Instance.Id,
+                SenderFirstName = LoggedInUser.Instance.FirstName,
+                SenderLastName  = LoggedInUser.Instance.LastName
+            };
+
+            Comments.Add(comment);
+
+            CommentMessage      = string.Empty;
+            IsCommentDialogOpen = false;
+
+            return comment;
         }
         #endregion
 

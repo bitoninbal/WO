@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
-using WOClient.Library.Api;
 using WOClient.Library.Models;
 using WOClient.Resources.Commands;
 
@@ -20,12 +17,7 @@ namespace WOClient.Components.MyTaskComponent
             MoveFromArchiveCommand    = new RelayCommand<MyTask>(MoveFromArchive);
             MoveToArchiveCommand      = new RelayCommand<MyTask>(MoveToArchive);
             SendCommentCommand        = new RelayCommand<MyTask>(SendCommentAsync);
-            _api                      = new ClientApi();
         }
-
-        #region Fields
-        private readonly IClientApi _api;
-        #endregion
 
         #region ICommand
         public ICommand CloseCommentDialogCommand { get; }
@@ -37,73 +29,19 @@ namespace WOClient.Components.MyTaskComponent
         #endregion
 
         #region Private Methods
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tasks"></param>
-        /// <param name="taskId"></param>
-        /// <param name="comment"></param>
-        private void AddComment(ObservableCollection<MyTask> tasks, int taskId, Comment comment)
-        {
-            foreach (var item in tasks)
-            {
-                if (item.TaskId != taskId) continue;
-
-                item.Comments.Add(comment);
-
-                break;
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="task"></param>
-        /// <param name="comment"></param>
-        private void AddCommentToCollections(MyTask task, Comment comment)
-        {
-            if (IMainWindowViewModel.User is Employee)
-            {
-                AddComment(IMainWindowViewModel.User.MyTasks, task.TaskId, comment);
-            }
-            else 
-            {
-                var user = IMainWindowViewModel.User as Manager;
-
-                if (task.AssignedEmployee == user.PersonId)
-                {
-                    AddComment(user.MyTasks, task.TaskId, comment);
-                }
-                else
-                {
-                    var myEmployee = user.GetEmplyee(task.AssignedEmployee);
-
-                    if (myEmployee is null) return;
-
-                    AddComment(user.TrackingTasks, task.TaskId, comment);
-                    AddComment(myEmployee.MyTasks, task.TaskId, comment);
-                }
-            }
-        }
         private void CloseCommentDialog(MyTask task)
         {
             task.IsCommentDialogOpen = false;
         }
         private void CommentDialog(MyTask task)
         {
-            if (task.IsCommentDialogOpen)
-                task.IsCommentDialogOpen = false;
-            else
-                task.IsCommentDialogOpen = true;
+            task.IsCommentDialogOpen = !task.IsCommentDialogOpen;
         }
         private async void DeleteTaskAsync(MyTask task)
         {
-            await _api.DeleteTaskAsync(task.TaskId, task.AssignedEmployee);
+            var loggedInManager = IMainWindowViewModel.User as Manager;
 
-            var manager = IMainWindowViewModel.User as Manager;
-
-            manager.TrackingTasks.Remove(task);
-            manager.CheckIfAllTrackingTasksArchived();
-            manager.CheckIfAnyTrackingTasksArchived();
+            await loggedInManager.RemoveTask(task);
         }
         private void MoveFromArchive(MyTask task)
         {
@@ -130,8 +68,7 @@ namespace WOClient.Components.MyTaskComponent
 
             if (IMainWindowViewModel.User.MyTasks.Contains(task))
             {
-                IMainWindowViewModel.User.IsAllMyTasksArchived = true;
-
+                IMainWindowViewModel.User.CheckIfAllMyTasksArchived();
                 IMainWindowViewModel.User.CheckIfAnyMyTasksArchived();
             }
             else
@@ -153,23 +90,17 @@ namespace WOClient.Components.MyTaskComponent
                     userToBeUpdated = IMainWindowViewModel.User.ManagerId;
                 }
 
-                var commentId = await _api.AddCommentAsync(task.TaskId, IMainWindowViewModel.User.PersonId, userToBeUpdated, task.CommentMessage);
+                var comment = await task.TryAddCommentAsync(task.CommentMessage, task.TaskId, userToBeUpdated);
 
-                if (commentId == 0) return;
+                if (comment is null) throw new Exception();
 
-                var comment = new Comment
-                {
-                    CommentId       = commentId,
-                    Message         = task.CommentMessage,
-                    SenderId        = IMainWindowViewModel.User.PersonId,
-                    SenderFirstName = IMainWindowViewModel.User.FirstName,
-                    SenderLastName  = IMainWindowViewModel.User.LastName
-                };
+                /* Checks if the user is manager or not because if it is manager,
+                   it must insert the comment also its employee. */
+                if (IMainWindowViewModel.User is Employee) return;
 
-                task.CommentMessage      = string.Empty;
-                task.IsCommentDialogOpen = false;
+                var loggedInManager = IMainWindowViewModel.User as Manager;
 
-                AddCommentToCollections(task, comment);
+                loggedInManager.AddCommentToEmployee(task.AssignedEmployee, task.TaskId, comment);
             }
             catch (Exception)
             {

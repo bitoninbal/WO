@@ -40,7 +40,6 @@ namespace WOClient.Library.Api
                                                               comment);
 
             await channel.ShutdownAsync();
-
             return commentId;
         }
         public async Task<int> AddTaskAsync(DateTime finalDate,
@@ -91,15 +90,6 @@ namespace WOClient.Library.Api
 
             return result;
         }
-        public async Task<ObservableCollection<Comment>> GetCommentsOfTaskAsync(int taskId)
-        {
-            var channel = GetChannel();
-            var result  = await _commentApi.GetCommentsOfTaskAsync(channel, taskId);
-
-            await channel.ShutdownAsync();
-
-            return result;
-        }
         public async Task<ObservableCollection<IPerson>> GetEmployeesAsync(int personId)
         {
             var channel = GetChannel();
@@ -112,7 +102,7 @@ namespace WOClient.Library.Api
         public async Task<ObservableCollection<MyTask>> GetMyTasksAsync(int personId)
         {
             var channel = GetChannel();
-            var result  = await _tasksApi.GetMyTasksAsync(channel, personId);
+            var result = await _tasksApi.GetMyTasksAsync(channel, personId);
 
             await channel.ShutdownAsync();
 
@@ -138,11 +128,21 @@ namespace WOClient.Library.Api
         public async Task<bool> RequestUserUpdateAsync(int userId)
         {
             var channel = GetChannel();
-            var result  = await _usersApi.RequestUserUpdateAsync(channel, userId);
 
-            await channel.ShutdownAsync();
+            try
+            {
+                var result = await _usersApi.RequestUserUpdateAsync(channel, userId);
 
-            return result;
+                return result;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                await channel.ShutdownAsync();
+            }
         }
         public async Task UpdateUserFieldAsync<T>(int personId, T value, string columnName)
         {
@@ -195,11 +195,11 @@ namespace WOClient.Library.Api
             await _tasksApi.UpdateTaskFieldAsync(channel, taskId, value, columnName);
             await channel.ShutdownAsync();
         }
-        public async Task UpdateTaskManagerIdAsync(int oldManagerId, int newManagerId)
+        public async Task UpdateEmployeeDirectManagerAsync(int employeeId, int newManagerId)
         {
             var channel = GetChannel();
 
-            await _tasksApi.UpdateTaskManagerIdAsync(channel, oldManagerId, newManagerId);
+            await _usersApi.UpdateEmployeeDirectManagerAsync(channel, employeeId, newManagerId);
             await channel.ShutdownAsync();
         }
         public async Task SendUpdateEventAsync(int userId)
@@ -216,10 +216,13 @@ namespace WOClient.Library.Api
         {
             var httpClientHandler = new HttpClientHandler
             {
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
             };
             var httpClient = new HttpClient(httpClientHandler);
-            var options = new GrpcChannelOptions { HttpClient = httpClient };
+            var options = new GrpcChannelOptions
+            {
+                HttpClient = httpClient
+            };
 
             return GrpcChannel.ForAddress("https://192.168.1.234:5001", options);
         }

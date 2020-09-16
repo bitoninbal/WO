@@ -149,18 +149,6 @@ namespace WOClient.Library.Api.User
 
             await client.UpdateFieldAsync(input);
         }
-
-        internal async Task UpdateTaskManagerIdAsync(GrpcChannel channel, int oldManagerId, int newManagerId)
-        {
-            var client = new Tasks.TasksClient(channel);
-            var input  = new UpdateManagerIdInput
-            {
-                OldManagerId = oldManagerId,
-                NewManagerId = newManagerId
-            };
-
-            await client.UpdateManagerIdAsync(input);
-        }
         #endregion
 
         #region Private Methods

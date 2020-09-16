@@ -156,7 +156,7 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <TextBlock Grid.Row="3"
+        <TextBlock Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
                    HorizontalAlignment="Center"

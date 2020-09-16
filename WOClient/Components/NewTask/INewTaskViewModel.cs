@@ -7,6 +7,7 @@ namespace WOClient.Components.NewTask
     {
         #region Methods
         Task SendNewTaskAsync();
+        void Reset();
         #endregion
     }
 }

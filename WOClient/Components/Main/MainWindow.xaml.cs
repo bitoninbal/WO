@@ -21,41 +21,40 @@ namespace WOClient.Components.Main
         #region Private Methods
         private void SwitchViewClick(object sender, RoutedEventArgs e)
         {
-            var viewModel = (MainWindowViewModel)DataContext;
+            var vm     = (MainWindowViewModel)DataContext;
             var button = (Button)sender;
 
             switch (button.Name)
             {
                 case "MyTasksButton":
-                    viewModel.CurrentVm = viewModel.MyTasksVm;
+                    vm.CurrentVm = vm.MyTasksVm;
 
                     break;
                 case "TrackingTasksButton":
-                    viewModel.CurrentVm = viewModel.TrackingTasksVm;
+                    vm.CurrentVm = vm.TrackingTasksVm;
 
                     break;
                 case "CommentsButton":
-                    viewModel.CurrentVm = viewModel.CommentsVm;
+                    vm.CurrentVm = vm.CommentsVm;
 
                     break;
                 case "EmployeesButton":
-                    viewModel.CurrentVm = viewModel.EmplyeesVm;
+                    vm.CurrentVm = vm.EmplyeesVm;
 
                     break;
                 case "ReportsButton":
-                    viewModel.CurrentVm = viewModel.ReportsVm;
+                    vm.CurrentVm = vm.ReportsVm;
 
                     break;
                 case "ArchiveButton":
-                    viewModel.CurrentVm = viewModel.ArchiveVm;
+                    vm.CurrentVm = vm.ArchiveVm;
 
                     break;
                 case "LogoutButton":
-                    LoggedInUser.Instance.Reset();
-                    IMainWindowViewModel.User.Reset();
-                    DrawerHost.CloseDrawerCommand.Execute(null, null);
+                    vm.Reset();
+                    vm.CurrentVm = vm.LoginVm;
 
-                    viewModel.CurrentVm = viewModel.LoginVm;
+                    DrawerHost.CloseDrawerCommand.Execute(null, null);
 
                     break;
             }

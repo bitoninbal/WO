@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
-using WOClient.Library.Api;
 using WOClient.Library.Models;
 using WOCommon.Enums;
 
@@ -11,9 +10,8 @@ namespace WOClient.Components.NewTask
 {
     public class NewTaskViewModel: BaseViewModel, INewTaskViewModel
     {
-        public NewTaskViewModel(IClientApi api)
+        public NewTaskViewModel()
         {
-            _api         = api;
             _description = string.Empty;
         }
 
@@ -21,7 +19,6 @@ namespace WOClient.Components.NewTask
         private string       _description;
         private string       _subject;
         private DateTime     _finalDate = DateTime.Now;
-        private IClientApi   _api;
         private IPerson      _selectedEmployee;
         private PriorityEnum _priority  = PriorityEnum.Low;
         #endregion
@@ -91,27 +88,15 @@ namespace WOClient.Components.NewTask
             {
                 DialogHost.CloseDialogCommand.Execute(null, null);
 
-                var taskId = await _api.AddTaskAsync(FinalDate.Date.ToUniversalTime(),
-                                                     SelectedEmployee.PersonId,
-                                                     SelectedEmployee.ManagerId,
-                                                     Priority,
-                                                     Description,
-                                                     Subject);
-                var newTask = new MyTask(true)
-                {
-                    Subject     = Subject,
-                    Description = Description,
-                    FinalDate   = FinalDate,
-                    Priority    = Priority,
-                    TaskId      = taskId
-                };
+                var loggedInManager = IMainWindowViewModel.User as Manager;
+                var result          = await loggedInManager.TryAddTaskAsync(SelectedEmployee.PersonId,
+                                                                            Description,
+                                                                            FinalDate,
+                                                                            Priority,
+                                                                            Subject);
 
-                newTask.SetInitModeFalse();
+                if (!result) throw new Exception();
 
-                var user = IMainWindowViewModel.User as Manager;
-
-                user.TrackingTasks.Add(newTask);
-                AddTaskToEmployee(newTask);
                 SetPropertiesToDefault();
             }
             catch (Exception e)
@@ -119,20 +104,13 @@ namespace WOClient.Components.NewTask
                 IMainWindowViewModel.MessageQueue.Enqueue("Could not connect to server.", "OK", (obj) => { }, new object(), false, true, TimeSpan.FromSeconds(6));
             }
         }
+        public void Reset()
+        {
+            SetPropertiesToDefault();
+        }
         #endregion
 
         #region Private Methods
-        private void AddTaskToEmployee(MyTask newTask)
-        {
-            var user = IMainWindowViewModel.User as Manager;
-
-            foreach (var employee in user.MyEmployees)
-            {
-                if (employee.PersonId != SelectedEmployee.PersonId) continue;
-
-                employee.MyTasks.Add(newTask);
-            }
-        }
         private void SetPropertiesToDefault()
         {
             FinalDate   = DateTime.Now;

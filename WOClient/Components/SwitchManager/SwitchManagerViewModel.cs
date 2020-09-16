@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
-using WOClient.Library.Api;
+using WOClient.Enums;
 using WOClient.Library.Models;
 using WOClient.Resources.Commands;
 
@@ -12,20 +12,20 @@ namespace WOClient.Components.SwitchManager
 {
     public class SwitchManagerViewModel: BaseViewModel, IBaseViewModel
     {
-        public SwitchManagerViewModel(List<IPerson> employees, Manager deletedManager, IClientApi api)
+        public SwitchManagerViewModel(List<IPerson> employees, Manager oldManager, SwitchingManagerMode mode)
         {
             SwitchManagerValueCommand = new RelayCommand(SwitchManagerValue);
 
-            _api            = api;
-            _deletedManager = deletedManager;
-            Employees       = employees;
+            Employees   = employees;
+            _mode       = mode;
+            _oldManager = oldManager;
         }
 
         #region Fields
         private bool _isAssignedToMe;
-        private IClientApi _api;
-        private Manager _deletedManager;
+        private Manager _oldManager;
         private IPerson _selectedManager;
+        private SwitchingManagerMode _mode;
         #endregion
 
         #region ICommands
@@ -71,24 +71,25 @@ namespace WOClient.Components.SwitchManager
                 return;
             }
 
-            if (IsAssignedToMe)
+            var selectedManager = IMainWindowViewModel.User as Manager;
+
+            if (!IsAssignedToMe) selectedManager = SelectedManager as Manager;
+
+            foreach (var employee in _oldManager.MyEmployees) await selectedManager.AssignedEmployee(employee);
+
+            switch (_mode)
             {
-                var manager = IMainWindowViewModel.User as Manager;
+                case SwitchingManagerMode.Delete:
+                    var loggedInManager = IMainWindowViewModel.User as Manager;
 
-                foreach (var item in _deletedManager.MyEmployees) manager.AssignedEmployee(item);
+                    await loggedInManager.RemoveEmployee(_oldManager.PersonId);
 
-                await _api.UpdateTaskManagerIdAsync(_deletedManager.PersonId, manager.PersonId);
+                    break;
+                case SwitchingManagerMode.Edit:
+                    _oldManager.Downgrade();
 
-                DialogHost.CloseDialogCommand.Execute(null, null);
-
-                return;
+                    break;
             }
-
-            var selectedManager = SelectedManager as Manager;
-
-            foreach (var item in _deletedManager.MyEmployees) selectedManager.AssignedEmployee(item);
-
-            await _api.UpdateTaskManagerIdAsync(_deletedManager.PersonId, selectedManager.PersonId);
 
             DialogHost.CloseDialogCommand.Execute(null, null);
         }

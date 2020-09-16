@@ -201,30 +201,5 @@ namespace WODataAccess.User
                 await cnn.CloseAsync();
             }
         }
-        public async Task UpdateManagerIdAsync(int oldManagerId, int newManagerId)
-        {
-            var cnn   = new SqlConnection(ConnectionString);
-            var query = $"UPDATE Tasks SET ManagerId = @NewManagerId WHERE ManagerId = @OldManagerId";
-            var cmd   = new SqlCommand(query, cnn);
-
-            cmd.Parameters.AddWithValue("@OldManagerId", oldManagerId);
-            cmd.Parameters.AddWithValue("@NewManagerId", newManagerId);
-            cmd.CommandType = CommandType.Text;
-
-            try
-            {
-                await cnn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
-            }
-            catch (Exception)
-            {
-                return;
-            }
-            finally
-            {
-                await cmd.DisposeAsync();
-                await cnn.CloseAsync();
-            }
-        }
     }
 }
