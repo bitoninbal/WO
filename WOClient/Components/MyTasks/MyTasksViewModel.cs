@@ -2,7 +2,5 @@
 
 namespace WOClient.Components.MyTasks
 {
-    public class MyTasksViewModel: BaseViewModel, IMyTasksViewModel
-    {
-    }
+    public class MyTasksViewModel: BaseViewModel, IBaseViewModel {}
 }

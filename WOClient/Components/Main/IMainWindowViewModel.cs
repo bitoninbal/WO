@@ -1,6 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
 using WOClient.Components.Base;
-using WOClient.Components.Comments;
 using WOClient.Components.Employees;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
@@ -14,15 +13,6 @@ namespace WOClient.Components.Main
     public interface IMainWindowViewModel
     {
         #region Properties
-        IBaseViewModel CurrentVm { get; set; }
-        ICommentsViewModel CommentsVm { get; set; }
-        IEmplyeesViewModel EmplyeesVm { get; set; }
-        IForgetPasswordViewModel ForgetPasswordVm { get; set; }
-        ILoginViewModel LoginVm { get; set; }
-        IMyTasksViewModel MyTasksVm { get; set; }
-        ITrackingTasksViewModel TrackingTasksVm { get; set; }
-        IReportsViewModel ReportsVm { get; set; }
-
         static IPerson User { get; protected set; }
         static SnackbarMessageQueue MessageQueue { get; } = new SnackbarMessageQueue();
         #endregion

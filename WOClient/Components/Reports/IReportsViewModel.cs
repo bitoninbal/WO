@@ -4,6 +4,8 @@ namespace WOClient.Components.Reports
 {
     public interface IReportsViewModel: IBaseViewModel
     {
-        void Reset();
+        #region Methods
+        void Reset(); 
+        #endregion
     }
 }

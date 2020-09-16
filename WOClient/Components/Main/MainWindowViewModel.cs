@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Timers;
-using WOClient.Components.Archive;
 using WOClient.Components.Base;
-using WOClient.Components.Comments;
 using WOClient.Components.Employees;
 using WOClient.Components.ForgetPassword;
 using WOClient.Components.Login;
-using WOClient.Components.MyTasks;
 using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;
 using WOClient.Enums;
@@ -16,12 +13,12 @@ namespace WOClient.Components.Main
 {
     public class MainWindowViewModel: BaseViewModel, IMainWindowViewModel
     {
-        public MainWindowViewModel(IArchiveViewModel archiveVm,
-                                   ICommentsViewModel commentsVm,
+        public MainWindowViewModel(IBaseViewModel archiveVm,
+                                   IBaseViewModel commentsVm,
                                    IEmplyeesViewModel emplyeesVm,
                                    ILoginViewModel loginVm,
                                    IForgetPasswordViewModel forgetPasswordVm,
-                                   IMyTasksViewModel myTasksVm,
+                                   IBaseViewModel myTasksVm,
                                    IReportsViewModel reportsVm,
                                    ITrackingTasksViewModel trackingTasksVm)
         {
@@ -40,11 +37,11 @@ namespace WOClient.Components.Main
 
         #region Fields
         private static Timer             _updateTimer;
-        private IArchiveViewModel        _archiveVm;
-        private ICommentsViewModel       _commentsVm;
+        private IBaseViewModel           _archiveVm;
+        private IBaseViewModel           _commentsVm;
         private IEmplyeesViewModel       _emplyeesVm;
         private IForgetPasswordViewModel _forgetPasswordVm;
-        private IMyTasksViewModel        _myTasksVm;
+        private IBaseViewModel           _myTasksVm;
         private ILoginViewModel          _loginVm;
         private IReportsViewModel        _reportsVm;
         private ITrackingTasksViewModel  _trackingTasksVm;
@@ -63,7 +60,7 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("CurrentVm");
             }
         }
-        public IArchiveViewModel ArchiveVm
+        public IBaseViewModel ArchiveVm
         {
             get => _archiveVm;
             set
@@ -75,7 +72,7 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged(nameof(ArchiveVm));
             }
         }
-        public ICommentsViewModel CommentsVm
+        public IBaseViewModel CommentsVm
         {
             get => _commentsVm;
             set
@@ -119,7 +116,7 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("ForgetPasswordVm");
             }
         }
-        public IMyTasksViewModel MyTasksVm
+        public IBaseViewModel MyTasksVm
         {
             get => _myTasksVm;
             set
