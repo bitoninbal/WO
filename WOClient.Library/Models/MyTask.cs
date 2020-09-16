@@ -48,7 +48,7 @@ namespace WOClient.Library.Models
 
                 NotifyPropertyChanged(nameof(IsArchive));
 
-                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(this, value, nameof(IsArchive)));
+                if (TaskId != 0) Task.Run(() => UpdateFieldDbAsync(this, value, nameof(IsArchive)));
             }
         }
         public bool IsCommentDialogOpen
@@ -73,7 +73,7 @@ namespace WOClient.Library.Models
 
                 NotifyPropertyChanged(nameof(IsCompleted));
 
-                if (TaskId != 0) Task.Run(() => UpdateTaskFieldAsync(this, value, nameof(IsCompleted)));
+                if (TaskId != 0) Task.Run(() => UpdateFieldDbAsync(this, value, nameof(IsCompleted)));
             }
         }
         public int TaskId
@@ -95,7 +95,10 @@ namespace WOClient.Library.Models
                 if (_assignedEmployee == value) return;
 
                 _assignedEmployee = value;
+
                 NotifyPropertyChanged(nameof(AssignedEmployee));
+
+                if (TaskId != 0 && !_isInitMode) Task.Run(() => UpdateFieldDbAsync(this, value, "UserId"));
             }
         }
         public string CommentMessage
@@ -117,7 +120,10 @@ namespace WOClient.Library.Models
                 if (_description == value) return;
 
                 _description = value;
+
                 NotifyPropertyChanged(nameof(Description));
+
+                if (TaskId != 0 && !_isInitMode) Task.Run(() => UpdateFieldDbAsync(this, value, "Description"));
             }
         }
         public string Subject
@@ -128,7 +134,10 @@ namespace WOClient.Library.Models
                 if (_subject == value) return;
 
                 _subject = value;
+
                 NotifyPropertyChanged(nameof(Subject));
+
+                if (TaskId != 0 && !_isInitMode) Task.Run(() => UpdateFieldDbAsync(this, value, "Subject"));
             }
         }
         public DateTime CreatedDate
@@ -153,6 +162,8 @@ namespace WOClient.Library.Models
                 _finalDate = value;
 
                 NotifyPropertyChanged(nameof(FinalDate));
+
+                if (TaskId != 0 && !_isInitMode) Task.Run(() => UpdateFieldDbAsync(this, value, "FinalDate"));
             }
         }
         public ObservableCollection<Comment> Comments
@@ -174,7 +185,10 @@ namespace WOClient.Library.Models
                 if (_priority == value) return;
 
                 _priority = value;
+
                 NotifyPropertyChanged(nameof(Priority));
+
+                if (TaskId != 0 && !_isInitMode) Task.Run(() => UpdateFieldDbAsync(this, value, "Priority"));
             }
         }
         #endregion
@@ -241,7 +255,7 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Private Methods
-        private async Task UpdateTaskFieldAsync(MyTask task, bool value, string columnName)
+        private async Task UpdateFieldDbAsync<T>(MyTask task, T value, string columnName)
         {
             var userToBeUpdated = task.AssignedEmployee;
 
@@ -250,9 +264,8 @@ namespace WOClient.Library.Models
                 userToBeUpdated = LoggedInUser.Instance.DirectManager;
             }
 
-            await Api.UpdateTaskFieldAsync(task.TaskId, value, columnName);
-
-            if (!_isInitMode) await Api.SendUpdateEventAsync(userToBeUpdated);
+            await Api.UpdateTaskDbFiledAsync(task.TaskId, value, columnName);
+            await Api.SendUpdateEventAsync(userToBeUpdated);
         }
         #endregion
 

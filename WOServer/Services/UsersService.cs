@@ -99,24 +99,6 @@ namespace WOServer.Services
                 Value = result
             };
         }
-        public override async Task<Empty> UpdateDirectManager(UpdateDirectManagerInput request, ServerCallContext context)
-        {
-            await _userDataAccess.UpdateDirectManagerAsync(request.EmployeeId, request.DirectManager);
-
-            return new Empty();
-        }
-        public override async Task<Empty> UpdateIntField(UpdateIntFieldInput request, ServerCallContext context)
-        {
-            await _userDataAccess.UpdateFieldAsync(request.PersonId, request.NewValue, request.ColumnName);
-
-            return new Empty();
-        }
-        public override async Task<Empty> UpdateStringField(UpdateStringFieldInput request, ServerCallContext context)
-        {
-            await _userDataAccess.UpdateFieldAsync(request.PersonId, request.NewValue, request.ColumnName);
-
-            return new Empty();
-        }
         public override async Task<BoolValue> RequestUserUpdate(Int32Value request, ServerCallContext context)
         {
             var result = await _updatesDataAccess.IsUserHasUpdateAsync(request.Value);

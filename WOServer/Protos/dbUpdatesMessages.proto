@@ -1,0 +1,38 @@
+syntax = "proto3";
+option csharp_namespace = "WOServer.Protos";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service DbUpdates {
+	rpc UpdateBoolField		 (UpdateBoolFieldInput) returns (google.protobuf.Empty);
+	rpc UpdateIntField		 (UpdateIntFieldInput) returns (google.protobuf.Empty);
+	rpc UpdateStringField	 (UpdateStringFieldInput) returns (google.protobuf.Empty);
+	rpc UpdateTimestampField (UpdateTimestampFieldInput) returns (google.protobuf.Empty);
+}
+
+message UpdateData {
+	int32 rowId		  = 1;
+	string columnName = 2;
+	string tableName  = 3;
+}
+
+message UpdateBoolFieldInput {
+	UpdateData data = 1;
+	bool newValue   = 2;
+}
+
+message UpdateIntFieldInput {
+	UpdateData data = 1;
+	int32 newValue  = 2;
+}
+
+message UpdateStringFieldInput {
+	UpdateData data = 1;
+	string newValue = 2;
+}
+
+message UpdateTimestampFieldInput {
+	UpdateData data					   = 1;
+	google.protobuf.Timestamp newValue = 2;
+}

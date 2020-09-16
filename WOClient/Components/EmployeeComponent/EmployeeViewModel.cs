@@ -80,7 +80,7 @@ namespace WOClient.Components.EmployeeComponent
         public async Task EditEmployeeAsync(int id)
         {
             var loggedInManager = IMainWindowViewModel.User as Manager;
-            var selectedUser = loggedInManager.MyEmployees.Single(user => user.PersonId == id);
+            var selectedUser    = loggedInManager.MyEmployees.Single(user => user.PersonId == id);
 
             if (!Email.Equals(selectedUser.Email)) selectedUser.Email = Email;
             if (!FirstName.Equals(selectedUser.FirstName)) selectedUser.FirstName = FirstName;
@@ -151,7 +151,7 @@ namespace WOClient.Components.EmployeeComponent
                 return;
             }
 
-            var loggedInManager = IMainWindowViewModel.User as Manager;
+            var loggedInManager   = IMainWindowViewModel.User as Manager;
             var potentialManagers = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
 
             potentialManagers.Remove(selectedUser);

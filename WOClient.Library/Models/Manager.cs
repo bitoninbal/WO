@@ -112,7 +112,7 @@ namespace WOClient.Library.Models
             CheckIfAnyTrackingTasksArchived();
             MyEmployees.Add(employee);
 
-            await Api.UpdateEmployeeDirectManagerAsync(employee.PersonId, PersonId);
+            await UpdateEmployeeDirectManagerAsync(employee.PersonId, PersonId);
         }
         public void CheckIfAllTrackingTasksArchived()
         {
@@ -285,6 +285,12 @@ namespace WOClient.Library.Models
 
             IsAllTrackingTasksArchived    = CheckIfAllTasksArchived(TrackingTasks);
             IsTrackingTasksArchivedExists = CheckIfAnyTasksArchived(TrackingTasks);
+        }
+        private async Task UpdateEmployeeDirectManagerAsync(int employeeId, int newManagerId)
+        {
+            await Api.UpdateUserDbFiledAsync(employeeId, newManagerId, "DirectManager");
+            await Api.SendUpdateEventAsync(employeeId);
+            await Api.SendUpdateEventAsync(newManagerId);
         }
         #endregion
     }

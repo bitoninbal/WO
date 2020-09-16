@@ -1,6 +1,6 @@
 ﻿using WOClient.Components.Base;
 
-namespace WOClient.Components.NewTask
+namespace WOClient.Components.MyTaskComponent
 {
     public interface INewTaskViewModel: IBaseViewModel
     {

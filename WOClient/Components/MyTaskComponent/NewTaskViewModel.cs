@@ -6,7 +6,7 @@ using WOClient.Components.Main;
 using WOClient.Library.Models;
 using WOCommon.Enums;
 
-namespace WOClient.Components.NewTask
+namespace WOClient.Components.MyTaskComponent
 {
     public class NewTaskViewModel: BaseViewModel, INewTaskViewModel
     {
@@ -16,11 +16,11 @@ namespace WOClient.Components.NewTask
         }
 
         #region Fields
-        private string       _description;
-        private string       _subject;
-        private DateTime     _finalDate = DateTime.Now;
-        private IPerson      _selectedEmployee;
-        private PriorityEnum _priority  = PriorityEnum.Low;
+        private string _description;
+        private string _subject;
+        private DateTime _finalDate = DateTime.Now;
+        private IPerson _selectedEmployee;
+        private PriorityEnum _priority = PriorityEnum.Low;
         #endregion
 
         #region Properties
@@ -89,7 +89,7 @@ namespace WOClient.Components.NewTask
                 DialogHost.CloseDialogCommand.Execute(null, null);
 
                 var loggedInManager = IMainWindowViewModel.User as Manager;
-                var result          = await loggedInManager.TryAddTaskAsync(SelectedEmployee.PersonId,
+                var result = await loggedInManager.TryAddTaskAsync(SelectedEmployee.PersonId,
                                                                             Description,
                                                                             FinalDate,
                                                                             Priority,
@@ -113,10 +113,10 @@ namespace WOClient.Components.NewTask
         #region Private Methods
         private void SetPropertiesToDefault()
         {
-            FinalDate   = DateTime.Now;
-            Priority    = PriorityEnum.Low;
+            FinalDate = DateTime.Now;
+            Priority = PriorityEnum.Low;
             Description = string.Empty;
-            Subject     = default;
+            Subject = default;
         }
         #endregion
     }

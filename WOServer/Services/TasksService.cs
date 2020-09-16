@@ -93,12 +93,6 @@ namespace WOServer.Services
                 await responseStream.WriteAsync(task);
             }
         }
-        public override async Task<Empty> UpdateField(UpdateTaskFieldInput request, ServerCallContext context)
-        {
-            await _dataAccess.UpdateTaskFieldAsync(request.TaskId, request.NewValue, request.ColumnName);
-
-            return new Empty();
-        }
         #endregion
     }
 }

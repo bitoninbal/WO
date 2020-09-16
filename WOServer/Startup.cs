@@ -35,6 +35,7 @@ namespace WOServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<CommntsService>();
+                endpoints.MapGrpcService<DbUpdatesService>();
                 endpoints.MapGrpcService<TasksService>();
                 endpoints.MapGrpcService<UsersService>();
 

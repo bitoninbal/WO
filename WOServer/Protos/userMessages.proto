@@ -12,9 +12,6 @@ service Users {
 	rpc LoginRequset	  (LoginInput) returns (UserData);
 	rpc Register          (RegisterInput) returns (google.protobuf.Int32Value);
 	rpc RequestUserUpdate (google.protobuf.Int32Value) returns (google.protobuf.BoolValue);
-	rpc UpdateDirectManager (UpdateDirectManagerInput) returns (google.protobuf.Empty);
-	rpc UpdateIntField	  (UpdateIntFieldInput) returns (google.protobuf.Empty);
-	rpc UpdateStringField (UpdateStringFieldInput) returns (google.protobuf.Empty);
 }
 
 message PersonIdInput {
@@ -42,21 +39,4 @@ message UserData {
 	string lastName     = 4;
 	string permission   = 5;
 	int32 directManager = 6;
-}
-
-message UpdateDirectManagerInput {
-	int32 employeeId    = 1;
-	int32 directManager = 2;
-}
-
-message UpdateStringFieldInput {
-	int32 personId    = 1;
-	string newValue   = 2;
-	string columnName = 3;
-}
-
-message UpdateIntFieldInput {
-	int32 personId    = 1;
-	int32 newValue    = 2;
-	string columnName = 3;
 }

@@ -1,7 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System.Windows.Input;
 using WOClient.Components.Base;
-using WOClient.Components.NewTask;
+using WOClient.Components.MyTaskComponent;
 using WOClient.Resources.Commands;
 
 namespace WOClient.Components.TrackingTasks

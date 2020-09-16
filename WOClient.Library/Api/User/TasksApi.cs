@@ -85,7 +85,6 @@ namespace WOClient.Library.Api.User
 
             return tasks;
         }
-
         internal async Task DeleteTaskAsync(GrpcChannel channel, int taskId, int userIdToBeUpdated)
         {
             var client = new Tasks.TasksClient(channel);
@@ -97,7 +96,6 @@ namespace WOClient.Library.Api.User
             await client.DeleteTaskAsync(input);
             await SendUpdateEventAsync(channel, userIdToBeUpdated);
         }
-
         internal async Task<ObservableCollection<MyTask>> GetTrackingTasksAsync(GrpcChannel channel, int personId)
         {
             var client = new Tasks.TasksClient(channel);
@@ -136,18 +134,6 @@ namespace WOClient.Library.Api.User
             }
 
             return tasks;
-        }
-        internal async Task UpdateTaskFieldAsync(GrpcChannel channel, int taskId, bool value, string columnName)
-        {
-            var client = new Tasks.TasksClient(channel);
-            var input  = new UpdateTaskFieldInput
-            {
-                TaskId     = taskId,
-                NewValue   = value,
-                ColumnName = columnName
-            };
-
-            await client.UpdateFieldAsync(input);
         }
         #endregion
 

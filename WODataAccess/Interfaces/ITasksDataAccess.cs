@@ -13,9 +13,8 @@ namespace WODataAccess.Interfaces
                                          string priority,
                                          string description,
                                          string subject);
+        Task DeleteTaskAsync(int value);
         Task<IEnumerable<TaskModel>> GetMyTasksDataAccessAsync(int personId);
         Task<IEnumerable<TaskModel>> GetTrackingTasksDataAccessAsync(int personId);
-        Task UpdateTaskFieldAsync(int id, bool newValue, string columnName);
-        Task DeleteTaskAsync(int value);
     }
 }

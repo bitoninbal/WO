@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WOClient.Components.NewTask
+namespace WOClient.Components.MyTaskComponent
 {
     /// <summary>
     /// Interaction logic for NewTaskView.xaml

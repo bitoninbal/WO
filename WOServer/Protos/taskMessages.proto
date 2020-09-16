@@ -10,7 +10,6 @@ service Tasks {
 	rpc DeleteTask (google.protobuf.Int32Value) returns (google.protobuf.Empty);
 	rpc GetMyTasks (google.protobuf.Int32Value) returns (stream TaskOutput);
 	rpc GetTrackingTasks (google.protobuf.Int32Value) returns (stream TaskOutput);
-	rpc UpdateField (UpdateTaskFieldInput) returns (google.protobuf.Empty);
 }
 
 message CompletedFieldInput {
@@ -37,10 +36,4 @@ message TaskOutput {
 	bool   IsArchive					  = 7;
 	int32  employeeId					  = 8;
 	google.protobuf.Timestamp createdDate = 9;
-}
-
-message UpdateTaskFieldInput {
-	int32 taskId      = 1;
-	bool newValue     = 2;
-	string columnName = 3;
 }

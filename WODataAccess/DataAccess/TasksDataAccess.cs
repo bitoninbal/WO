@@ -177,30 +177,5 @@ namespace WODataAccess.DataAccess
                 await cnn.CloseAsync();
             }
         }
-        public async Task UpdateTaskFieldAsync(int id, bool newValue, string columnName)
-        {
-            var cnn = new SqlConnection(ConnectionString);
-            var query = $"UPDATE Tasks SET {columnName} = @NewValue WHERE Id = @Id";
-            var cmd = new SqlCommand(query, cnn);
-
-            cmd.Parameters.AddWithValue("@NewValue", newValue);
-            cmd.Parameters.AddWithValue("@Id", id);
-            cmd.CommandType = CommandType.Text;
-
-            try
-            {
-                await cnn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
-            }
-            catch (Exception)
-            {
-                return;
-            }
-            finally
-            {
-                await cmd.DisposeAsync();
-                await cnn.CloseAsync();
-            }
-        }
     }
 }

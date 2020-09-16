@@ -15,15 +15,17 @@ namespace WOClient.Library.Api
     {
         public ClientApi()
         {
-            _commentApi = new CommentApi();
-            _tasksApi   = new TasksApi(_commentApi);
-            _usersApi   = new UsersApi();
+            _commentApi   = new CommentApi();
+            _dbUpdatesApi = new DbUpdatesApi();
+            _tasksApi     = new TasksApi(_commentApi);
+            _usersApi     = new UsersApi();
         }
 
         #region Fields
-        private readonly CommentApi _commentApi;
-        private readonly TasksApi _tasksApi;
-        private readonly UsersApi _usersApi;
+        private readonly CommentApi   _commentApi;
+        private readonly DbUpdatesApi _dbUpdatesApi;
+        private readonly TasksApi     _tasksApi;
+        private readonly UsersApi     _usersApi;
         #endregion
 
         #region Public Methods
@@ -144,63 +146,13 @@ namespace WOClient.Library.Api
                 await channel.ShutdownAsync();
             }
         }
-        public async Task UpdateUserFieldAsync<T>(int personId, T value, string columnName)
+        public async Task UpdateTaskDbFiledAsync<T>(int personId, T value, string columnName)
         {
-            int intValue = 0;
-            string stringValue = string.Empty;
-            Type type;
-            var channel = GetChannel();
-
-            switch (value)
-            {
-                case int number:
-                    type = typeof(int);
-                    intValue = number;
-
-                    break;
-                case PermissionsEnum permission:
-                    type = typeof(string);
-                    stringValue = permission.ToString();
-
-                    break;
-                case string str:
-                    type = typeof(string);
-                    stringValue = str;
-
-                    break;
-                default:
-                    return;
-            }
-
-            switch (type.Name)
-            {
-                case "Int32":
-                    await _usersApi.UpdateUserFieldAsync(channel, personId, intValue, columnName);
-
-                    break;
-                case "String":
-                    await _usersApi.UpdateUserFieldAsync(channel, personId, stringValue, columnName);
-
-                    break;
-                default:
-                    return;
-            }
-
-            await channel.ShutdownAsync();
+            await UpdateDbFiledAsync(personId, columnName, DbTables.Tasks, value);
         }
-        public async Task UpdateTaskFieldAsync(int taskId, bool value, string columnName)
+        public async Task UpdateUserDbFiledAsync<T>(int personId, T value, string columnName)
         {
-            var channel = GetChannel();
-
-            await _tasksApi.UpdateTaskFieldAsync(channel, taskId, value, columnName);
-            await channel.ShutdownAsync();
-        }
-        public async Task UpdateEmployeeDirectManagerAsync(int employeeId, int newManagerId)
-        {
-            var channel = GetChannel();
-
-            await _usersApi.UpdateEmployeeDirectManagerAsync(channel, employeeId, newManagerId);
-            await channel.ShutdownAsync();
+            await UpdateDbFiledAsync(personId, columnName, DbTables.Users, value);
         }
         public async Task SendUpdateEventAsync(int userId)
         {
@@ -225,6 +177,75 @@ namespace WOClient.Library.Api
             };
 
             return GrpcChannel.ForAddress("https://192.168.1.234:5001", options);
+        }
+        private async Task UpdateDbFiledAsync<T>(int personId, string columnName, DbTables tableName, T value)
+        {
+            Type type;
+            bool boolValue     = false;
+            int intValue       = 0;
+            DateTime dateValue = DateTime.Now;
+            string stringValue = string.Empty;
+            var channel        = GetChannel();
+
+            switch (value)
+            {
+                case bool boolean:
+                    type      = typeof(bool);
+                    boolValue = boolean;
+
+                    break;
+                case int number:
+                    type     = typeof(int);
+                    intValue = number;
+
+                    break;
+                case DateTime date:
+                    type      = typeof(DateTime);
+                    dateValue = date.ToUniversalTime();
+
+                    break;
+                case PermissionsEnum permission:
+                    type        = typeof(string);
+                    stringValue = permission.ToString();
+
+                    break;
+                case PriorityEnum priority:
+                    type        = typeof(string);
+                    stringValue = priority.ToString();
+
+                    break;
+                case string str:
+                    type        = typeof(string);
+                    stringValue = str;
+
+                    break;
+                default:
+                    return;
+            }
+
+            switch (type.Name)
+            {
+                case "Boolean":
+                    await _dbUpdatesApi.UpdateFieldAsync(channel, personId, columnName, tableName, boolValue);
+
+                    break;
+                case "DateTime":
+                    await _dbUpdatesApi.UpdateFieldAsync(channel, personId, columnName, tableName, dateValue);
+
+                    break;
+                case "Int32":
+                    await _dbUpdatesApi.UpdateFieldAsync(channel, personId, columnName, tableName, intValue);
+
+                    break;
+                case "String":
+                    await _dbUpdatesApi.UpdateFieldAsync(channel, personId, columnName, tableName, stringValue);
+
+                    break;
+                default:
+                    return;
+            }
+
+            await channel.ShutdownAsync();
         }
         #endregion
     }

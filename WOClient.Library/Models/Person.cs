@@ -57,7 +57,7 @@ namespace WOClient.Library.Models
                 _permission = value;
 
                 NotifyPropertyChanged(nameof(Permission));
-                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "Permission"));
+                Task.Run(() => UpdateFieldDbAsync(PersonId, value, "Permission"));
             }
         }
         public bool IsMyTasksArchivedExists
@@ -93,8 +93,9 @@ namespace WOClient.Library.Models
 
                 _firstName = value;
 
-                NotifyPropertyChanged("FirstName");
-                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "FirstName"));
+                NotifyPropertyChanged(nameof(FirstName));
+
+                Task.Run(() => UpdateFieldDbAsync(PersonId, value, "FirstName"));
             }
         }
         public string LastName
@@ -106,8 +107,9 @@ namespace WOClient.Library.Models
 
                 _lastName = value;
 
-                NotifyPropertyChanged("LastName");
-                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "LastName"));
+                NotifyPropertyChanged(nameof(LastName));
+                
+                Task.Run(() => UpdateFieldDbAsync(PersonId, value, "LastName"));
             }
         }
         public string Email
@@ -120,7 +122,7 @@ namespace WOClient.Library.Models
                 _email = value;
 
                 NotifyPropertyChanged(nameof(Email));
-                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, nameof(Email)));
+                Task.Run(() => UpdateFieldDbAsync(PersonId, value, nameof(Email)));
             }
         }
         public int PersonId
@@ -144,7 +146,7 @@ namespace WOClient.Library.Models
                 _managerId = value;
 
                 NotifyPropertyChanged(nameof(ManagerId));
-                Task.Run(() => UpdateFieldInDbAsync(PersonId, value, "DirectManager"));
+                Task.Run(() => UpdateFieldDbAsync(PersonId, value, "DirectManager"));
             }
         }
 
@@ -152,9 +154,9 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Private Methods
-        private async Task UpdateFieldInDbAsync<T>(int personId, T value, string columnName)
+        private async Task UpdateFieldDbAsync<T>(int personId, T value, string columnName)
         {
-            await Api.UpdateUserFieldAsync(personId, value, columnName);
+            await Api.UpdateUserDbFiledAsync(personId, value, columnName);
         }
         #endregion
 

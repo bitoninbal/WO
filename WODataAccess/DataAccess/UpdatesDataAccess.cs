@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Threading.Tasks;
+using WOCommon.Enums;
 using WODataAccess.Interfaces;
 
 namespace WODataAccess.DataAccess
@@ -68,6 +69,33 @@ namespace WODataAccess.DataAccess
             }
         }
 
+        public async Task UpdateFieldAsync<T>(int rowId, string columnName, DbTables tableName, T newValue)
+        {
+            var cnn = new SqlConnection(ConnectionString);
+            var query = $"UPDATE {tableName} SET {columnName} = @NewValue WHERE Id = @Id";
+            var cmd = new SqlCommand(query, cnn);
+
+            cmd.Parameters.AddWithValue("@NewValue", newValue);
+            cmd.Parameters.AddWithValue("@Id", rowId);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                await cnn.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                await cmd.DisposeAsync();
+                await cnn.CloseAsync();
+            }
+        }
+
+        #region Private Methods
         private async Task DeleteUserUpdatesRowsAsync(int employeeId)
         {
             var cnn = new SqlConnection(ConnectionString);
@@ -92,5 +120,6 @@ namespace WODataAccess.DataAccess
                 await cnn.CloseAsync();
             }
         }
+        #endregion
     }
 }

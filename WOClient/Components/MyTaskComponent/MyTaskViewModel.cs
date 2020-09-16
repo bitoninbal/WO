@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Windows.Input;
 using WOClient.Components.Base;
 using WOClient.Components.Main;
@@ -16,6 +17,7 @@ namespace WOClient.Components.MyTaskComponent
             DeleteTaskCommand         = new RelayCommand<MyTask>(DeleteTaskAsync);
             MoveFromArchiveCommand    = new RelayCommand<MyTask>(MoveFromArchive);
             MoveToArchiveCommand      = new RelayCommand<MyTask>(MoveToArchive);
+            OpenEditTaskDialogCommand = new RelayCommand<MyTask>(OpenEditTaskDialogAsync);
             SendCommentCommand        = new RelayCommand<MyTask>(SendCommentAsync);
         }
 
@@ -25,6 +27,7 @@ namespace WOClient.Components.MyTaskComponent
         public ICommand DeleteTaskCommand { get; }
         public ICommand MoveFromArchiveCommand { get; }
         public ICommand MoveToArchiveCommand { get; }
+        public ICommand OpenEditTaskDialogCommand { get; }
         public ICommand SendCommentCommand { get; }
         #endregion
 
@@ -78,6 +81,15 @@ namespace WOClient.Components.MyTaskComponent
                 user.CheckIfAllTrackingTasksArchived();
                 user.CheckIfAnyTrackingTasksArchived();
             }
+        }
+        private async void OpenEditTaskDialogAsync(MyTask task)
+        {
+            var view = new EditTaskView()
+            {
+                DataContext = new EditTaskViewModel(task)
+            };
+
+            await DialogHost.Show(view, "RootDialog");
         }
         private async void SendCommentAsync(MyTask task)
         {

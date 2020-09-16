@@ -125,6 +125,29 @@
                     </Button>
 
                     <Button Margin="5 0 0 0"
+                            ToolTip="Edit task"
+                            Content="{materialDesign:PackIcon Kind=PencilBoxMultiple}"
+                            Command="{Binding Source={StaticResource Vm},
+                                              Path=OpenEditTaskDialogCommand}"
+                            CommandParameter="{Binding Path=DataContext,
+                                                       RelativeSource={RelativeSource AncestorType=Grid}}">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                                                   Path=Permission}"
+                                                 Value="{x:Static enums:PermissionsEnum.Manager}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button Margin="5 0 0 0"
                             ToolTip="Move to Archive"
                             Content="{materialDesign:PackIcon Kind=ArchiveArrowUp}"
                             Command="{Binding Source={StaticResource Vm},
