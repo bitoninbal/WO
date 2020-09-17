@@ -71,6 +71,7 @@ namespace WOClient.Components.SwitchManager
                 return;
             }
 
+            var loggedInManager = IMainWindowViewModel.User as Manager;
             var selectedManager = IMainWindowViewModel.User as Manager;
 
             if (!IsAssignedToMe) selectedManager = SelectedManager as Manager;
@@ -80,13 +81,11 @@ namespace WOClient.Components.SwitchManager
             switch (_mode)
             {
                 case SwitchingManagerMode.Delete:
-                    var loggedInManager = IMainWindowViewModel.User as Manager;
-
                     await loggedInManager.RemoveEmployeeAsync(_oldManager.PersonId);
 
                     break;
                 case SwitchingManagerMode.Edit:
-                    _oldManager.Downgrade();
+                    loggedInManager.Downgrade(_oldManager);
 
                     break;
             }

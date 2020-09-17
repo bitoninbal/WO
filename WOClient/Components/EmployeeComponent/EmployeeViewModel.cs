@@ -143,15 +143,15 @@ namespace WOClient.Components.EmployeeComponent
         private async Task HandleSwitchingManagerAsync(IPerson selectedUser)
         {
             var managerToDowngrade = selectedUser as Manager;
+            var loggedInManager    = IMainWindowViewModel.User as Manager;
 
             if (managerToDowngrade.MyEmployees.Count == 0)
             {
-                managerToDowngrade.Downgrade();
+                loggedInManager.Downgrade(managerToDowngrade);
 
                 return;
             }
 
-            var loggedInManager   = IMainWindowViewModel.User as Manager;
             var potentialManagers = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
 
             potentialManagers.Remove(selectedUser);
@@ -160,7 +160,7 @@ namespace WOClient.Components.EmployeeComponent
             {
                 foreach (var employee in managerToDowngrade.MyEmployees) await loggedInManager.AssignedEmployeeAsync(employee);
 
-                managerToDowngrade.Downgrade();
+                loggedInManager.Downgrade(managerToDowngrade);
 
                 return;
             }

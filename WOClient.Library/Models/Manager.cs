@@ -93,14 +93,11 @@ namespace WOClient.Library.Models
 
             if (myEmployee is null) return;
 
-            foreach (var employeeTask in myEmployee.MyTasks)
-            {
-                if (employeeTask.TaskId != taskId) continue;
+            var employeeTask = myEmployee.MyTasks.SingleOrDefault(task => task.TaskId == taskId);
 
-                employeeTask.Comments.Add(comment);
+            if (employeeTask is null) return;
 
-                break;
-            }
+            employeeTask.Comments.Add(comment);
         }
         public async Task AssignedEmployeeAsync(IPerson employee)
         {
@@ -139,23 +136,23 @@ namespace WOClient.Library.Models
         {
             IsTrackingTasksArchivedExists = TrackingTasks.Any((task) => task.IsArchive);
         }
-        public void Downgrade()
+        public void Downgrade(IPerson managerToDowngrade)
         {
-            Permission = PermissionsEnum.Employee;
+            managerToDowngrade.Permission = PermissionsEnum.Employee;
 
-            MyEmployees.Clear();
-            TrackingTasks.Clear();
+            var employee = new Employee(PermissionsEnum.Employee,
+                                        managerToDowngrade.PersonId,
+                                        managerToDowngrade.ManagerId,
+                                        managerToDowngrade.FirstName,
+                                        managerToDowngrade.LastName,
+                                        managerToDowngrade.Email);
+
+            MyEmployees.Remove(managerToDowngrade);
+            MyEmployees.Add(employee);
         }
         public IPerson GetEmplyee(int id)
         {
-            foreach (var emplyee in MyEmployees)
-            {
-                if (emplyee.PersonId != id) continue;
-
-                return emplyee;
-            }
-
-            return null;
+            return MyEmployees.SingleOrDefault(employee => employee.PersonId == id);
         }
         public async Task RemoveEmployeeAsync(int employeeId)
         {
