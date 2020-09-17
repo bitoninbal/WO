@@ -103,8 +103,8 @@ namespace WOClient.Components.MyTaskComponent
             Description      = _task.Description;
             FinalDate        = _task.FinalDate;
             Priority         = _task.Priority;
-            SelectedEmployee = loggedInManager.GetEmplyee(_task.AssignedEmployee);
             Subject          = _task.Subject;
+            SelectedEmployee = loggedInManager.GetEmplyee(_task.AssignedEmployee);
         }
         private void EditTask()
         {
@@ -113,8 +113,8 @@ namespace WOClient.Components.MyTaskComponent
             if (!Description.Equals(_task.Description)) _task.Description = Description;
             if (FinalDate.Date != _task.FinalDate.Date) _task.FinalDate = FinalDate;
             if (Priority != _task.Priority) _task.Priority = Priority;
-            if (SelectedEmployee.PersonId != _task.AssignedEmployee) _task.AssignedEmployee = SelectedEmployee.PersonId;
             if (!Subject.Equals(_task.Subject)) _task.Subject = Subject;
+            if (SelectedEmployee.PersonId != _task.AssignedEmployee) loggedInManager.AssignedTaskToEmployee(_task, SelectedEmployee.PersonId);
 
             DialogHost.CloseDialogCommand.Execute(null, null);
         }

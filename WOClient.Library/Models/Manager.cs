@@ -114,6 +114,23 @@ namespace WOClient.Library.Models
 
             await UpdateEmployeeDirectManagerAsync(employee.PersonId, PersonId);
         }
+        public void AssignedTaskToEmployee(MyTask task, int personId)
+        {
+            var currentEmployee = MyEmployees.SingleOrDefault(item => item.PersonId == task.AssignedEmployee);
+
+            if (currentEmployee is null) return;
+
+            var currentEmployeeTask = currentEmployee.MyTasks.SingleOrDefault(item => item.TaskId == task.TaskId);
+            var newEmployee         = MyEmployees.SingleOrDefault(item => item.PersonId == personId);
+
+            if (newEmployee is null || currentEmployeeTask is null) return;
+
+            currentEmployeeTask.AssignedEmployee = personId;
+            task.AssignedEmployee                = personId;
+
+            currentEmployee.MyTasks.Remove(currentEmployeeTask);
+            newEmployee.MyTasks.Add(currentEmployeeTask);
+        }
         public void CheckIfAllTrackingTasksArchived()
         {
             IsAllTrackingTasksArchived = TrackingTasks.All((task) => task.IsArchive);
@@ -121,14 +138,6 @@ namespace WOClient.Library.Models
         public void CheckIfAnyTrackingTasksArchived()
         {
             IsTrackingTasksArchivedExists = TrackingTasks.Any((task) => task.IsArchive);
-        }
-        public int CountAllTasks()
-        {
-            return TrackingTasks.Count((task) => !task.IsArchive);
-        }
-        public int CountOpenTasks()
-        {
-            return TrackingTasks.Count((task) => task.IsCompleted);
         }
         public void Downgrade()
         {
@@ -152,8 +161,6 @@ namespace WOClient.Library.Models
         {
             var employee = MyEmployees.Single(myEmployee => myEmployee.PersonId == employeeId);
 
-            MyEmployees.Remove(employee);
-
             foreach (var task in TrackingTasks.ToList())
             {
                 task.RemoveAllCommentsByEmployeeId(employeeId);
@@ -162,6 +169,8 @@ namespace WOClient.Library.Models
 
                 await RemoveTask(task);
             }
+
+            MyEmployees.Remove(employee);
 
             await Api.DeleteEmployeeAsync(employeeId);
         }
@@ -185,7 +194,11 @@ namespace WOClient.Library.Models
             TrackingTasks.Clear();
             MyEmployees.Clear();
         }
-        public async Task<bool> TryAddEmployeeAsync(string firstName, string lastName, string email, SecureString password, PermissionsEnum permission)
+        public async Task<bool> TryAddEmployeeAsync(string firstName,
+                                                    string lastName,
+                                                    string email,
+                                                    SecureString password,
+                                                    PermissionsEnum permission)
         {
             var employeeId = await Api.EmployeeRegisterAsync(firstName, lastName, email, password, permission, PersonId);
 
