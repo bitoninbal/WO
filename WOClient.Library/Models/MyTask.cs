@@ -252,6 +252,10 @@ namespace WOClient.Library.Models
 
             return comment;
         }
+        public async Task UpdateTaskCreaterIdAsync(int id)
+        {
+            await UpdateFieldDbAsync(this, id, "ManagerId");
+        }
         #endregion
 
         #region Private Methods

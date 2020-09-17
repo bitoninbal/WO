@@ -87,6 +87,10 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Public Methods
+        public async Task AssignedAllEmployeesAsync(Manager oldManager)
+        {
+            foreach (var employee in oldManager.MyEmployees) await AssignedEmployeeAsync(employee);
+        }
         public void AddCommentToEmployeeTask(int employeeId, int taskId, Comment comment)
         {
             var myEmployee = GetEmplyee(employeeId);
@@ -98,18 +102,6 @@ namespace WOClient.Library.Models
             if (employeeTask is null) return;
 
             employeeTask.Comments.Add(comment);
-        }
-        public async Task AssignedEmployeeAsync(IPerson employee)
-        {
-            employee.ManagerId = PersonId;
-
-            foreach (var task in employee.MyTasks) TrackingTasks.Add(task);
-
-            CheckIfAllTrackingTasksArchived();
-            CheckIfAnyTrackingTasksArchived();
-            MyEmployees.Add(employee);
-
-            await UpdateEmployeeDirectManagerAsync(employee.PersonId, PersonId);
         }
         public void AssignedTaskToEmployee(MyTask task, int personId)
         {
@@ -136,19 +128,17 @@ namespace WOClient.Library.Models
         {
             IsTrackingTasksArchivedExists = TrackingTasks.Any((task) => task.IsArchive);
         }
-        public void Downgrade(IPerson managerToDowngrade)
+        public async Task DowngradeAsync(Manager managerToDowngrade)
         {
-            managerToDowngrade.Permission = PermissionsEnum.Employee;
+            await AssignedAllEmployeesAsync(managerToDowngrade);
 
-            var employee = new Employee(PermissionsEnum.Employee,
-                                        managerToDowngrade.PersonId,
-                                        managerToDowngrade.ManagerId,
-                                        managerToDowngrade.FirstName,
-                                        managerToDowngrade.LastName,
-                                        managerToDowngrade.Email);
+            Downgrade(managerToDowngrade);
+        }
+        public async Task DowngradeAsync(Manager managerToDowngrade, Manager replacerManager)
+        {
+            await replacerManager.AssignedAllEmployeesAsync(managerToDowngrade);
 
-            MyEmployees.Remove(managerToDowngrade);
-            MyEmployees.Add(employee);
+            Downgrade(managerToDowngrade);
         }
         public IPerson GetEmplyee(int id)
         {
@@ -264,6 +254,24 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Private Methods
+        private async Task AssignedEmployeeAsync(IPerson employee)
+        {
+            employee.ManagerId = PersonId;
+
+            foreach (var task in employee.MyTasks.ToList())
+            {
+                TrackingTasks.Add(task);
+                employee.MyTasks.Remove(task);
+
+                await task.UpdateTaskCreaterIdAsync(PersonId);
+            }
+
+            CheckIfAllTrackingTasksArchived();
+            CheckIfAnyTrackingTasksArchived();
+            MyEmployees.Add(employee);
+
+            await UpdateEmployeeDirectManagerAsync(employee.PersonId, PersonId);
+        }
         private void AssignedTaskToEmployee(MyTask task)
         {
             foreach (var myEmployee in MyEmployees)
@@ -278,6 +286,20 @@ namespace WOClient.Library.Models
 
                 break;
             }
+        }
+        private void Downgrade(Manager managerToDowngrade)
+        {
+            managerToDowngrade.Permission = PermissionsEnum.Employee;
+
+            var newEmployee = new Employee(PermissionsEnum.Employee,
+                                           managerToDowngrade.PersonId,
+                                           managerToDowngrade.ManagerId,
+                                           managerToDowngrade.FirstName,
+                                           managerToDowngrade.LastName,
+                                           managerToDowngrade.Email);
+
+            MyEmployees.Remove(managerToDowngrade);
+            MyEmployees.Add(newEmployee);
         }
         private async Task InitMyEmployeesAsync()
         {

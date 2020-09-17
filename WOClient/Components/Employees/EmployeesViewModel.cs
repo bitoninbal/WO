@@ -59,21 +59,20 @@ namespace WOClient.Components.Employees
                 return;
             }
 
-            var loggedInManager = IMainWindowViewModel.User as Manager;
-            var collection      = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
+            var loggedInManager   = IMainWindowViewModel.User as Manager;
+            var potentialManagers = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
 
-            collection.Remove(SelectedEmployee);
+            potentialManagers.Remove(SelectedEmployee);
 
-            if (collection.Count == 0)
+            if (potentialManagers.Count == 0)
             {
-                foreach (var employee in managerToDelete.MyEmployees) await loggedInManager.AssignedEmployeeAsync(employee);
-
+                await loggedInManager.AssignedAllEmployeesAsync(managerToDelete);
                 await DeleteEmployeeAsync(managerToDelete);
 
                 return;
             }
 
-            await OpenSwitchManagerAsync(collection, managerToDelete, SwitchingManagerMode.Delete);
+            await OpenSwitchManagerAsync(potentialManagers, managerToDelete, SwitchingManagerMode.Delete);
         }
         private async Task OpenSwitchManagerAsync(List<IPerson> collection, Manager oldManager, SwitchingManagerMode mode)
         {

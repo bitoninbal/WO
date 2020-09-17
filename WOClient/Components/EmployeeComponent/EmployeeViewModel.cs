@@ -144,23 +144,13 @@ namespace WOClient.Components.EmployeeComponent
         {
             var managerToDowngrade = selectedUser as Manager;
             var loggedInManager    = IMainWindowViewModel.User as Manager;
-
-            if (managerToDowngrade.MyEmployees.Count == 0)
-            {
-                loggedInManager.Downgrade(managerToDowngrade);
-
-                return;
-            }
-
-            var potentialManagers = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
+            var potentialManagers  = loggedInManager.MyEmployees.Where((employee) => employee.Permission == PermissionsEnum.Manager).ToList();
 
             potentialManagers.Remove(selectedUser);
 
-            if (potentialManagers.Count == 0)
+            if (managerToDowngrade.MyEmployees.Count == 0 || potentialManagers.Count == 0)
             {
-                foreach (var employee in managerToDowngrade.MyEmployees) await loggedInManager.AssignedEmployeeAsync(employee);
-
-                loggedInManager.Downgrade(managerToDowngrade);
+                await loggedInManager.DowngradeAsync(managerToDowngrade);
 
                 return;
             }
