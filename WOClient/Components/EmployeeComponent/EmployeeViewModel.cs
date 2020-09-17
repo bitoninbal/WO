@@ -87,10 +87,17 @@ namespace WOClient.Components.EmployeeComponent
             if (!LastName.Equals(selectedUser.LastName)) selectedUser.LastName = LastName;
             if (Permission != selectedUser.Permission)
             {
-                if (Permission == PermissionsEnum.Employee)
-                    await HandleSwitchingManagerAsync(selectedUser);
-                else
-                    selectedUser.Permission = Permission;
+                switch (Permission)
+                {
+                    case PermissionsEnum.Manager:
+                        loggedInManager.Upgrade(selectedUser);
+
+                        break;
+                    case PermissionsEnum.Employee:
+                        await HandleSwitchingManagerAsync(selectedUser);
+
+                        break;
+                }
             }
 
             SetPropertiesToDefault();

@@ -242,6 +242,20 @@ namespace WOClient.Library.Models
 
             return true;
         }
+        public void Upgrade(IPerson employeeToUpgrade)
+        {
+            employeeToUpgrade.Permission = PermissionsEnum.Manager;
+
+            var newManager = new Manager(PermissionsEnum.Manager,
+                                         employeeToUpgrade.PersonId,
+                                         employeeToUpgrade.ManagerId,
+                                         employeeToUpgrade.FirstName,
+                                         employeeToUpgrade.LastName,
+                                         employeeToUpgrade.Email);
+
+            MyEmployees.Remove(employeeToUpgrade);
+            MyEmployees.Add(newManager);
+        }
         #endregion
 
         #region Protected Methods
