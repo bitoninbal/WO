@@ -2,13 +2,12 @@
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:WOClient.Converters"
-                    xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
-                    xmlns:libraryModels="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:models="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:myTask="clr-namespace:WOClient.Components.MyTaskComponent"
                     xmlns:validations="clr-namespace:WOClient.Validations">
     <converters:EmployeeIdToFullNameConverter x:Key="EmployeeIdToFullNameConverter" />
+    <converters:LoggedInToBooleanConverter x:Key="LoggedInToBooleanConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     
     <DataTemplate DataType="{x:Type models:MyTask}">
@@ -138,9 +137,9 @@
                                 <Setter Property="Visibility" Value="Collapsed" />
 
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
-                                                                   Path=Permission}"
-                                                 Value="{x:Static enums:PermissionsEnum.Manager}">
+                                    <DataTrigger Binding="{Binding AssignedEmployee,
+                                                                   Converter={StaticResource LoggedInToBooleanConverter}}"
+                                                 Value="False">
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -191,9 +190,9 @@
                                 <Style.Triggers>
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
-                                                                         Path=Permission}"
-                                                       Value="{x:Static enums:PermissionsEnum.Manager}" />
+                                            <Condition Binding="{Binding AssignedEmployee,
+                                                                         Converter={StaticResource LoggedInToBooleanConverter}}"
+                                                       Value="False" />
 
                                             <Condition Binding="{Binding Path=IsArchive}"
                                                        Value="True" />

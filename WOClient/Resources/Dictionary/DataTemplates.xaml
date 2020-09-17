@@ -4,10 +4,8 @@
                     xmlns:comments="clr-namespace:WOClient.Components.Comments"
                     xmlns:converters="clr-namespace:WOClient.Converters"
                     xmlns:emplyees="clr-namespace:WOClient.Components.Employees"
-                    xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
                     xmlns:login="clr-namespace:WOClient.Components.Login"
                     xmlns:forgetPassword="clr-namespace:WOClient.Components.ForgetPassword"
-                    xmlns:libraryModels="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
                     xmlns:myTask="clr-namespace:WOClient.Components.MyTaskComponent"
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -157,9 +155,9 @@
                             <Style.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
-                                                                     Path=Permission}"
-                                                   Value="{x:Static enums:PermissionsEnum.Manager}" />
+                                        <Condition Binding="{Binding AssignedEmployee,
+                                                                     Converter={StaticResource LoggedInToBooleanConverter}}"
+                                                   Value="False" />
 
                                         <Condition Binding="{Binding Path=IsArchive}"
                                                    Value="True" />
@@ -180,6 +178,7 @@
 
                 <Button Margin="5 0 0 0"
                         ToolTip="Edit task"
+                        IsEnabled="False"
                         Content="{materialDesign:PackIcon Kind=PencilBoxMultiple}">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}"
@@ -187,9 +186,9 @@
                             <Setter Property="Visibility" Value="Collapsed" />
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
-                                                               Path=Permission}"
-                                             Value="{x:Static enums:PermissionsEnum.Manager}">
+                                <DataTrigger Binding="{Binding AssignedEmployee,
+                                                               Converter={StaticResource LoggedInToBooleanConverter}}"
+                                             Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -324,7 +323,7 @@
 
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=IsChecked,
-                                                                ElementName=ShowTaskToggleButton}"
+                                                               ElementName=ShowTaskToggleButton}"
                                                 Value="True">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
