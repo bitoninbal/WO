@@ -44,7 +44,7 @@ namespace WOClient.Components.MyTaskComponent
         {
             var loggedInManager = IMainWindowViewModel.User as Manager;
 
-            await loggedInManager.RemoveTask(task);
+            await loggedInManager.RemoveTaskAsync(task);
         }
         private void MoveFromArchive(MyTask task)
         {
@@ -112,7 +112,7 @@ namespace WOClient.Components.MyTaskComponent
 
                 var loggedInManager = IMainWindowViewModel.User as Manager;
 
-                loggedInManager.AddCommentToEmployee(task.AssignedEmployee, task.TaskId, comment);
+                loggedInManager.AddCommentToEmployeeTask(task.AssignedEmployee, task.TaskId, comment);
             }
             catch (Exception)
             {

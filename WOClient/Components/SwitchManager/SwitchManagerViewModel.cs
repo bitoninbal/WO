@@ -75,14 +75,14 @@ namespace WOClient.Components.SwitchManager
 
             if (!IsAssignedToMe) selectedManager = SelectedManager as Manager;
 
-            foreach (var employee in _oldManager.MyEmployees) await selectedManager.AssignedEmployee(employee);
+            foreach (var employee in _oldManager.MyEmployees) await selectedManager.AssignedEmployeeAsync(employee);
 
             switch (_mode)
             {
                 case SwitchingManagerMode.Delete:
                     var loggedInManager = IMainWindowViewModel.User as Manager;
 
-                    await loggedInManager.RemoveEmployee(_oldManager.PersonId);
+                    await loggedInManager.RemoveEmployeeAsync(_oldManager.PersonId);
 
                     break;
                 case SwitchingManagerMode.Edit:

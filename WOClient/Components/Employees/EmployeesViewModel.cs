@@ -44,7 +44,7 @@ namespace WOClient.Components.Employees
         {
             var loggedInManager = IMainWindowViewModel.User as Manager;
 
-            await loggedInManager.RemoveEmployee(employee.PersonId);
+            await loggedInManager.RemoveEmployeeAsync(employee.PersonId);
 
             SelectedEmployee = null;
         }
@@ -66,7 +66,7 @@ namespace WOClient.Components.Employees
 
             if (collection.Count == 0)
             {
-                foreach (var employee in managerToDelete.MyEmployees) await loggedInManager.AssignedEmployee(employee);
+                foreach (var employee in managerToDelete.MyEmployees) await loggedInManager.AssignedEmployeeAsync(employee);
 
                 await DeleteEmployeeAsync(managerToDelete);
 

@@ -158,7 +158,7 @@ namespace WOClient.Components.EmployeeComponent
 
             if (potentialManagers.Count == 0)
             {
-                foreach (var employee in managerToDowngrade.MyEmployees) await loggedInManager.AssignedEmployee(employee);
+                foreach (var employee in managerToDowngrade.MyEmployees) await loggedInManager.AssignedEmployeeAsync(employee);
 
                 managerToDowngrade.Downgrade();
 

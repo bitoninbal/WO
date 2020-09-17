@@ -87,7 +87,7 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Public Methods
-        public void AddCommentToEmployee(int employeeId, int taskId, Comment comment)
+        public void AddCommentToEmployeeTask(int employeeId, int taskId, Comment comment)
         {
             var myEmployee = GetEmplyee(employeeId);
 
@@ -102,7 +102,7 @@ namespace WOClient.Library.Models
                 break;
             }
         }
-        public async Task AssignedEmployee(IPerson employee)
+        public async Task AssignedEmployeeAsync(IPerson employee)
         {
             employee.ManagerId = PersonId;
 
@@ -157,7 +157,7 @@ namespace WOClient.Library.Models
 
             return null;
         }
-        public async Task RemoveEmployee(int employeeId)
+        public async Task RemoveEmployeeAsync(int employeeId)
         {
             var employee = MyEmployees.Single(myEmployee => myEmployee.PersonId == employeeId);
 
@@ -167,14 +167,14 @@ namespace WOClient.Library.Models
 
                 if (task.AssignedEmployee != employeeId) continue;
 
-                await RemoveTask(task);
+                await RemoveTaskAsync(task);
             }
 
             MyEmployees.Remove(employee);
 
             await Api.DeleteEmployeeAsync(employeeId);
         }
-        public async Task RemoveTask(MyTask task)
+        public async Task RemoveTaskAsync(MyTask task)
         {
             TrackingTasks.Remove(task);
 
