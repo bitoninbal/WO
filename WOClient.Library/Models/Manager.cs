@@ -148,13 +148,7 @@ namespace WOClient.Library.Models
         {
             if (task.AssignedEmployee == PersonId)
             {
-                if (!task.IsArchive) return;
-                if (task.IsCompleted) return;
-
-                task.IsArchive = false;
-
-                CheckIfAllMyTasksArchived();
-                CheckIfAnyMyTasksArchived();
+                LockTaskAction(task);
 
                 return;
             }
@@ -172,14 +166,12 @@ namespace WOClient.Library.Models
             if (!task.IsArchive) return;
             if (task.IsCompleted) return;
 
-            task.IsArchive         = false;
-            employeeTask.IsArchive = false;
+            myEmployee.MoveMyTaskFromArchive(employeeTask);
+
+            task.IsArchive = false;
 
             CheckIfAllTrackingTasksArchived();
             CheckIfAnyTrackingTasksArchived();
-
-            myEmployee.CheckIfAllMyTasksArchived();
-            myEmployee.CheckIfAnyMyTasksArchived();
         }
         public override void MoveTaskToArchive(MyTask task)
         {

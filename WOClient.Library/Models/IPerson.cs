@@ -23,6 +23,7 @@ namespace WOClient.Library.Models
         void CheckIfAllMyTasksArchived();
         void CheckIfAnyMyTasksArchived();
         void LockTask(MyTask task);
+        void MoveMyTaskFromArchive(MyTask task);
         void MoveTaskToArchive(MyTask task);
         void Reset();
         Task UpdateAsync();

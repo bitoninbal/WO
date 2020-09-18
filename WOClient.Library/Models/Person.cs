@@ -181,6 +181,13 @@ namespace WOClient.Library.Models
             IsMyTasksArchivedExists = CheckIfAnyTasksArchived(MyTasks);
             IsAllMyTasksArchived    = CheckIfAllTasksArchived(MyTasks);
         }
+        protected void LockTaskAction(MyTask task)
+        {
+            if (!task.IsArchive) return;
+            if (task.IsCompleted) return;
+
+            MoveMyTaskFromArchive(task);
+        }
         #endregion
 
         #region Public Methods
@@ -193,6 +200,13 @@ namespace WOClient.Library.Models
             IsMyTasksArchivedExists = MyTasks.Any((task) => task.IsArchive);
         }
         public abstract void LockTask(MyTask task);
+        public void MoveMyTaskFromArchive(MyTask task)
+        {
+            task.IsArchive = false;
+
+            CheckIfAllMyTasksArchived();
+            CheckIfAnyMyTasksArchived();
+        }
         public abstract void MoveTaskToArchive(MyTask task);
         public virtual void Reset()
         {

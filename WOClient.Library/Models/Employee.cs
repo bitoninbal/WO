@@ -24,13 +24,7 @@ namespace WOClient.Library.Models
         #region Public Methods
         public override void LockTask(MyTask task)
         {
-            if (!task.IsArchive) return;
-            if (task.IsCompleted) return;
-
-            task.IsArchive   = false;
-
-            CheckIfAllMyTasksArchived();
-            CheckIfAnyMyTasksArchived();
+            LockTaskAction(task);
         }
         public override void MoveTaskToArchive(MyTask task)
         {
