@@ -192,6 +192,8 @@ namespace WOClient.Library.Models
         {
             IsMyTasksArchivedExists = MyTasks.Any((task) => task.IsArchive);
         }
+        public abstract void LockTask(MyTask task);
+        public abstract void MoveTaskToArchive(MyTask task);
         public virtual void Reset()
         {
             MyTasks.Clear();

@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -79,8 +80,18 @@ namespace WOClient.Components.SwitchManager
             switch (_mode)
             {
                 case SwitchingManagerMode.Delete:
-                    await selectedManager.AssignedAllEmployeesAsync(_oldManager);
-                    await loggedInManager.RemoveEmployeeAsync(_oldManager.PersonId);
+                    var result = await loggedInManager.TryRemoveEmployeeAsync(_oldManager);
+
+                    if (!result)
+                    {
+                        IMainWindowViewModel.MessageQueue.Enqueue("You can't delete this employees until his all tasks will be closed or re-assigned.",
+                                                                  "OK",
+                                                                  (obj) => { },
+                                                                  new object(),
+                                                                  false,
+                                                                  true,
+                                                                  TimeSpan.FromSeconds(6));
+                    }
 
                     break;
                 case SwitchingManagerMode.Edit:

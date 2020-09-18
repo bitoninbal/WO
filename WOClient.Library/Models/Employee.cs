@@ -21,6 +21,26 @@ namespace WOClient.Library.Models
             Task.Run(InitAsync);
         }
 
+        #region Public Methods
+        public override void LockTask(MyTask task)
+        {
+            if (!task.IsArchive) return;
+            if (task.IsCompleted) return;
+
+            task.IsArchive   = false;
+
+            CheckIfAllMyTasksArchived();
+            CheckIfAnyMyTasksArchived();
+        }
+        public override void MoveTaskToArchive(MyTask task)
+        {
+            task.IsArchive = true;
+
+            CheckIfAllMyTasksArchived();
+            CheckIfAnyMyTasksArchived();
+        }
+        #endregion
+
         #region Protected Methods
         protected override async Task InitAsync()
         {

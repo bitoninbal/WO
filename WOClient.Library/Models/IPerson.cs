@@ -22,6 +22,8 @@ namespace WOClient.Library.Models
         #region Methods
         void CheckIfAllMyTasksArchived();
         void CheckIfAnyMyTasksArchived();
+        void LockTask(MyTask task);
+        void MoveTaskToArchive(MyTask task);
         void Reset();
         Task UpdateAsync();
         #endregion

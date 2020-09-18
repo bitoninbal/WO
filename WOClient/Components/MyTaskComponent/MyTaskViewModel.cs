@@ -15,7 +15,7 @@ namespace WOClient.Components.MyTaskComponent
             CloseCommentDialogCommand = new RelayCommand<MyTask>(CloseCommentDialog);
             CommentDialogCommand      = new RelayCommand<MyTask>(CommentDialog);
             DeleteTaskCommand         = new RelayCommand<MyTask>(DeleteTaskAsync);
-            MoveFromArchiveCommand    = new RelayCommand<MyTask>(MoveFromArchive);
+            LockTaskCommand           = new RelayCommand<MyTask>(LockTask);
             MoveToArchiveCommand      = new RelayCommand<MyTask>(MoveToArchive);
             OpenEditTaskDialogCommand = new RelayCommand<MyTask>(OpenEditTaskDialogAsync);
             SendCommentCommand        = new RelayCommand<MyTask>(SendCommentAsync);
@@ -25,7 +25,7 @@ namespace WOClient.Components.MyTaskComponent
         public ICommand CloseCommentDialogCommand { get; }
         public ICommand CommentDialogCommand { get; }
         public ICommand DeleteTaskCommand { get; }
-        public ICommand MoveFromArchiveCommand { get; }
+        public ICommand LockTaskCommand { get; }
         public ICommand MoveToArchiveCommand { get; }
         public ICommand OpenEditTaskDialogCommand { get; }
         public ICommand SendCommentCommand { get; }
@@ -46,41 +46,13 @@ namespace WOClient.Components.MyTaskComponent
 
             await loggedInManager.RemoveTaskAsync(task);
         }
-        private void MoveFromArchive(MyTask task)
+        private void LockTask(MyTask task)
         {
-            task.IsArchive = false;
-
-            if (IMainWindowViewModel.User.MyTasks.Contains(task))
-            {
-                IMainWindowViewModel.User.IsAllMyTasksArchived = false;
-
-                IMainWindowViewModel.User.CheckIfAnyMyTasksArchived();
-            }
-            else
-            {
-                var user = IMainWindowViewModel.User as Manager;
-
-                user.IsAllTrackingTasksArchived = false;
-
-                user.CheckIfAnyTrackingTasksArchived();
-            }  
+            IMainWindowViewModel.User.LockTask(task);
         }
         private void MoveToArchive(MyTask task)
         {
-            task.IsArchive = true;
-
-            if (IMainWindowViewModel.User.MyTasks.Contains(task))
-            {
-                IMainWindowViewModel.User.CheckIfAllMyTasksArchived();
-                IMainWindowViewModel.User.CheckIfAnyMyTasksArchived();
-            }
-            else
-            {
-                var user = IMainWindowViewModel.User as Manager;
-
-                user.CheckIfAllTrackingTasksArchived();
-                user.CheckIfAnyTrackingTasksArchived();
-            }
+            IMainWindowViewModel.User.MoveTaskToArchive(task);
         }
         private async void OpenEditTaskDialogAsync(MyTask task)
         {

@@ -87,25 +87,17 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Public Methods
-        public async Task AssignedAllEmployeesAsync(Manager oldManager)
-        {
-            foreach (var employee in oldManager.MyEmployees) await AssignedEmployeeAsync(employee);
-        }
         public void AddCommentToEmployeeTask(int employeeId, int taskId, Comment comment)
         {
-            var myEmployee = GetEmplyee(employeeId);
+            var task = GetTaskOfEmployee(employeeId, taskId);
 
-            if (myEmployee is null) return;
+            if (task is null) return;
 
-            var employeeTask = myEmployee.MyTasks.SingleOrDefault(task => task.TaskId == taskId);
-
-            if (employeeTask is null) return;
-
-            employeeTask.Comments.Add(comment);
+            task.Comments.Add(comment);
         }
         public void AssignedTaskToEmployee(MyTask task, int personId)
         {
-            var currentEmployee = MyEmployees.SingleOrDefault(item => item.PersonId == task.AssignedEmployee);
+            var currentEmployee = GetEmplyee(task.AssignedEmployee);
 
             if (currentEmployee is null) return;
 
@@ -144,22 +136,72 @@ namespace WOClient.Library.Models
         {
             return MyEmployees.SingleOrDefault(employee => employee.PersonId == id);
         }
-        public async Task RemoveEmployeeAsync(int employeeId)
+        public MyTask GetTaskOfEmployee(int employeeId, int taskId)
         {
-            var employee = MyEmployees.Single(myEmployee => myEmployee.PersonId == employeeId);
+            var myEmployee = GetEmplyee(employeeId);
 
-            foreach (var task in TrackingTasks.ToList())
+            if (myEmployee is null) return null;
+
+            return myEmployee.MyTasks.SingleOrDefault(myTask => myTask.TaskId == taskId);
+        }
+        public override void LockTask(MyTask task)
+        {
+            if (task.AssignedEmployee == PersonId)
             {
-                task.RemoveAllCommentsByEmployeeId(employeeId);
+                if (!task.IsArchive) return;
+                if (task.IsCompleted) return;
 
-                if (task.AssignedEmployee != employeeId) continue;
+                task.IsArchive = false;
 
-                await RemoveTaskAsync(task);
+                CheckIfAllMyTasksArchived();
+                CheckIfAnyMyTasksArchived();
+
+                return;
             }
 
-            MyEmployees.Remove(employee);
+            var myEmployee = GetEmplyee(task.AssignedEmployee);
 
-            await Api.DeleteEmployeeAsync(employeeId);
+            if (myEmployee is null) return;
+
+            var employeeTask = myEmployee.MyTasks.SingleOrDefault(myTask => myTask.TaskId == task.TaskId);
+
+            if (employeeTask is null) return;
+
+            employeeTask.IsCompleted = task.IsCompleted;
+
+            if (!task.IsArchive) return;
+            if (task.IsCompleted) return;
+
+            task.IsArchive         = false;
+            employeeTask.IsArchive = false;
+
+            CheckIfAllTrackingTasksArchived();
+            CheckIfAnyTrackingTasksArchived();
+
+            myEmployee.CheckIfAllMyTasksArchived();
+            myEmployee.CheckIfAnyMyTasksArchived();
+        }
+        public override void MoveTaskToArchive(MyTask task)
+        {
+            task.IsArchive = true;
+
+            CheckIfAllTrackingTasksArchived();
+            CheckIfAnyTrackingTasksArchived();
+
+            if (task.AssignedEmployee == PersonId) return;
+
+            var myEmployee = GetEmplyee(task.AssignedEmployee);
+
+            if (myEmployee is null) return;
+
+            var employeeTask = myEmployee.MyTasks.SingleOrDefault(myTask => myTask.TaskId == task.TaskId);
+
+            if (employeeTask is null) return;
+
+            employeeTask.IsArchive = true;
+
+            myEmployee.CheckIfAllMyTasksArchived();
+            myEmployee.CheckIfAnyMyTasksArchived();
         }
         public async Task RemoveTaskAsync(MyTask task)
         {
@@ -242,6 +284,25 @@ namespace WOClient.Library.Models
 
             return true;
         }
+        public async Task<bool> TryRemoveEmployeeAsync(IPerson employeeToDelete)
+        {
+            await AssignedAllEmployeesAsync(employeeToDelete);
+
+            foreach (var task in TrackingTasks.ToList())
+            {
+                task.RemoveAllCommentsByEmployeeId(employeeToDelete.PersonId);
+
+                if (task.AssignedEmployee != employeeToDelete.PersonId) continue;
+
+                await RemoveTaskAsync(task);
+            }
+
+            MyEmployees.Remove(employeeToDelete);
+
+            await Api.DeleteEmployeeAsync(employeeToDelete.PersonId);
+
+            return true;
+        }
         public void Upgrade(IPerson employeeToUpgrade)
         {
             employeeToUpgrade.Permission = PermissionsEnum.Manager;
@@ -268,6 +329,14 @@ namespace WOClient.Library.Models
         #endregion
 
         #region Private Methods
+        private async Task AssignedAllEmployeesAsync(IPerson oldManager)
+        {
+            if (!(oldManager is Manager)) return;
+
+            var manager = oldManager as Manager;
+
+            foreach (var employee in manager.MyEmployees) await AssignedEmployeeAsync(employee);
+        }
         private async Task AssignedEmployeeAsync(IPerson employee)
         {
             employee.ManagerId = PersonId;
@@ -288,18 +357,15 @@ namespace WOClient.Library.Models
         }
         private void AssignedTaskToEmployee(MyTask task)
         {
-            foreach (var myEmployee in MyEmployees)
-            {
-                if (myEmployee.PersonId != task.AssignedEmployee) continue;
+            var employee = GetEmplyee(task.AssignedEmployee);
 
-                var clonedTask = (MyTask)task.Clone();
+            if (employee is null) return;
 
-                myEmployee.MyTasks.Add(clonedTask);
-                myEmployee.CheckIfAllMyTasksArchived();
-                myEmployee.CheckIfAnyMyTasksArchived();
+            var clonedTask = (MyTask)task.Clone();
 
-                break;
-            }
+            employee.MyTasks.Add(clonedTask);
+            employee.CheckIfAllMyTasksArchived();
+            employee.CheckIfAnyMyTasksArchived();
         }
         private void Downgrade(Manager managerToDowngrade)
         {
@@ -333,6 +399,12 @@ namespace WOClient.Library.Models
 
             IsAllTrackingTasksArchived    = CheckIfAllTasksArchived(TrackingTasks);
             IsTrackingTasksArchivedExists = CheckIfAnyTasksArchived(TrackingTasks);
+        }
+        private bool IsEmployeeHasOpenTasks(IPerson employee)
+        {
+            foreach (var task in employee.MyTasks) if (!task.IsCompleted) return true;
+
+            return false;
         }
         private async Task UpdateEmployeeDirectManagerAsync(int employeeId, int newManagerId)
         {

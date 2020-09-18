@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,10 +44,22 @@ namespace WOClient.Components.Employees
         private async Task DeleteEmployeeAsync(IPerson employee)
         {
             var loggedInManager = IMainWindowViewModel.User as Manager;
+            var result          = await loggedInManager.TryRemoveEmployeeAsync(employee);
 
-            await loggedInManager.RemoveEmployeeAsync(employee.PersonId);
+            if (result)
+            {
+                SelectedEmployee = null;
 
-            SelectedEmployee = null;
+                return;
+            }
+
+            IMainWindowViewModel.MessageQueue.Enqueue("You can't delete this employees until his all tasks will be closed or re-assigned.",
+                                                      "OK",
+                                                      (obj) => { },
+                                                      new object(),
+                                                      false,
+                                                      true,
+                                                      TimeSpan.FromSeconds(6));
         }
         private async Task HandleDeleteManagerAsync()
         {
@@ -66,7 +79,6 @@ namespace WOClient.Components.Employees
 
             if (potentialManagers.Count == 0)
             {
-                await loggedInManager.AssignedAllEmployeesAsync(managerToDelete);
                 await DeleteEmployeeAsync(managerToDelete);
 
                 return;

@@ -80,22 +80,21 @@
                             Orientation="Horizontal">
                     <ToggleButton x:Name="LockToggleButton"
                                   ToolTip="Lock/Unlock"
-                                  Content="{materialDesign:PackIcon Kind=LockOpenVariantOutline}"
-                                  IsChecked="{Binding IsCompleted}"
                                   PreviewMouseLeftButtonUp="LockToggleButton_Click"
+                                  IsChecked="{Binding Path=IsCompleted}"
+                                  Command="{Binding Source={StaticResource Vm},
+                                                    Path=LockTaskCommand}"
                                   CommandParameter="{Binding Path=DataContext,
                                                              RelativeSource={RelativeSource AncestorType=Grid}}">
                         <ToggleButton.Style>
                             <Style TargetType="{x:Type ToggleButton}"
                                    BasedOn="{StaticResource MaterialDesignSwitchToggleButton}">
-                                <Setter Property="Command" Value="{Binding Source={StaticResource Vm},
-                                                                           Path=MoveFromArchiveCommand}" />
+                                <Setter Property="Content" Value="{materialDesign:PackIcon Kind=LockOutline}" />
 
                                 <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=LockOutline}" />
-                                        <Setter Property="Command" Value="{x:Null}" />
-                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsCompleted}" Value="False">
+                                        <Setter Property="Content" Value="{materialDesign:PackIcon Kind=LockOpenVariantOutline}" />
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </ToggleButton.Style>

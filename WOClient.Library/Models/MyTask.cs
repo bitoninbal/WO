@@ -48,7 +48,7 @@ namespace WOClient.Library.Models
 
                 NotifyPropertyChanged(nameof(IsArchive));
 
-                if (TaskId != 0) Task.Run(() => UpdateFieldDbAsync(this, value, nameof(IsArchive)));
+                if (TaskId != 0 && !_isInitMode) Task.Run(() => UpdateFieldDbAsync(this, value, nameof(IsArchive)));
             }
         }
         public bool IsCommentDialogOpen
@@ -59,6 +59,7 @@ namespace WOClient.Library.Models
                 if (_isCommentDialogOpen == value) return;
 
                 _isCommentDialogOpen = value;
+
                 NotifyPropertyChanged(nameof(IsCommentDialogOpen));
             }
         }
@@ -73,7 +74,7 @@ namespace WOClient.Library.Models
 
                 NotifyPropertyChanged(nameof(IsCompleted));
 
-                if (TaskId != 0) Task.Run(() => UpdateFieldDbAsync(this, value, nameof(IsCompleted)));
+                if (TaskId != 0 && !_isInitMode) Task.Run(() => UpdateFieldDbAsync(this, value, nameof(IsCompleted)));
             }
         }
         public int TaskId
@@ -84,6 +85,7 @@ namespace WOClient.Library.Models
                 if (_taskId == value) return;
 
                 _taskId = value;
+
                 NotifyPropertyChanged(nameof(TaskId));
             }
         }
@@ -109,6 +111,7 @@ namespace WOClient.Library.Models
                 if (_commentMessage == value) return;
 
                 _commentMessage = value;
+
                 NotifyPropertyChanged(nameof(CommentMessage));
             }
         }
@@ -174,6 +177,7 @@ namespace WOClient.Library.Models
                 if (_comments == value) return;
 
                 _comments = value;
+
                 NotifyPropertyChanged(nameof(Comments));
             }
         }

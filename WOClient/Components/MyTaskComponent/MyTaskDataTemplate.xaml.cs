@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using WOClient.Library.Models;
 
 namespace WOClient.Components.MyTaskComponent
 {
     public partial class MyTaskDataTemplate: ResourceDictionary
     {
-        private void LockToggleButton_Click(object sender, RoutedEventArgs e)
+        private void LockToggleButton_Click(object sender, MouseButtonEventArgs e)
         {
             var control = sender as ToggleButton;
 
@@ -17,9 +18,7 @@ namespace WOClient.Components.MyTaskComponent
                     {
                         control.IsChecked = false;
 
-                        var task = control.CommandParameter as MyTask;
-
-                        if (task.IsArchive) control.Command.Execute(control.CommandParameter);
+                        control.Command.Execute(control.CommandParameter);
                     }
 
                     break;
@@ -27,6 +26,8 @@ namespace WOClient.Components.MyTaskComponent
                     if (MessageBox.Show("Are you sure you want to close the task?", "Warning", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         control.IsChecked = true;
+
+                        control.Command.Execute(control.CommandParameter);
                     }
 
                     break;
