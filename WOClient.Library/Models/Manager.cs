@@ -278,6 +278,8 @@ namespace WOClient.Library.Models
         }
         public async Task<bool> TryRemoveEmployeeAsync(IPerson employeeToDelete)
         {
+            if (IsEmployeeHasOpenTasks(employeeToDelete)) return false;
+
             await AssignedAllEmployeesAsync(employeeToDelete);
 
             foreach (var task in TrackingTasks.ToList())
@@ -336,7 +338,6 @@ namespace WOClient.Library.Models
             foreach (var task in employee.MyTasks.ToList())
             {
                 TrackingTasks.Add(task);
-                employee.MyTasks.Remove(task);
 
                 await task.UpdateTaskCreaterIdAsync(PersonId);
             }
