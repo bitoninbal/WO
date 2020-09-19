@@ -14,8 +14,8 @@ namespace WOClient.Converters
 
             var id = (int)value;
 
-            if (id == LoggedInUser.Instance.Id)
-                return $"{LoggedInUser.Instance.FirstName} {LoggedInUser.Instance.LastName}";
+            if (id == IMainWindowViewModel.User.PersonId)
+                return $"{IMainWindowViewModel.User.FirstName} {IMainWindowViewModel.User.LastName}";
             else
             {
                 if (IMainWindowViewModel.User is Manager)

@@ -105,7 +105,7 @@ namespace WOClient.Library.Api.User
 
             return employees;
         }
-        internal async Task LoginAsync(GrpcChannel channel, string userName, string password)
+        internal async Task<bool> LoginAsync(GrpcChannel channel, string userName, string password)
         {
             var client = new Users.UsersClient(channel);
             var input  = new LoginInput
@@ -115,18 +115,20 @@ namespace WOClient.Library.Api.User
             };
             var result = await client.LoginRequsetAsync(input);
 
-            if (result.Id == 0) return;
+            if (result.Id == 0) return false;
 
-            LoggedInUser.Instance.Id = result.Id;
-            LoggedInUser.Instance.FirstName = result.FirstName;
-            LoggedInUser.Instance.LastName = result.LastName;
-            LoggedInUser.Instance.Email = result.Email;
+            LoggedInUser.Instance.Id            = result.Id;
+            LoggedInUser.Instance.FirstName     = result.FirstName;
+            LoggedInUser.Instance.LastName      = result.LastName;
+            LoggedInUser.Instance.Email         = result.Email;
             LoggedInUser.Instance.DirectManager = result.DirectManager;
 
-            if (result.Permission.Equals("Employee"))
+            if (result.Permission.Equals(System.Enum.GetName(typeof(PermissionsEnum), PermissionsEnum.Employee)))
                 LoggedInUser.Instance.Permission = PermissionsEnum.Employee;
             else
                 LoggedInUser.Instance.Permission = PermissionsEnum.Manager;
+
+            return true;
         }
         internal async Task<bool> RequestUserUpdateAsync(GrpcChannel channel, int userId)
         {

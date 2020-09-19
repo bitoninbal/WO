@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using WOClient.Library.Models;
+using WOClient.Components.Main;
 
 namespace WOClient.Converters
 {
@@ -17,7 +17,7 @@ namespace WOClient.Converters
 
             var id = (int)value;
 
-            if (id == LoggedInUser.Instance.Id)
+            if (id == IMainWindowViewModel.User.PersonId)
                 return true;
             else
                 return false;

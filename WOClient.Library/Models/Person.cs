@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 using WOClient.Library.Api;
 using WOCommon.Enums;
@@ -211,6 +212,16 @@ namespace WOClient.Library.Models
         public virtual void Reset()
         {
             MyTasks.Clear();
+        }
+        public async Task<bool> TryChangePasswordAsync(string email, SecureString oldPassword, string newPassword)
+        {
+            var result = await Api.LoginAsync(email, oldPassword);
+
+            if (!result) return false;
+
+            await Api.UpdateUserDbFiledAsync(LoggedInUser.Instance.Id, newPassword, "Password");
+
+            return true;
         }
         public async Task UpdateAsync()
         {

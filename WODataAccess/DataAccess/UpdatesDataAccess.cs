@@ -71,9 +71,9 @@ namespace WODataAccess.DataAccess
 
         public async Task UpdateFieldAsync<T>(int rowId, string columnName, DbTables tableName, T newValue)
         {
-            var cnn = new SqlConnection(ConnectionString);
+            var cnn   = new SqlConnection(ConnectionString);
             var query = $"UPDATE {tableName} SET {columnName} = @NewValue WHERE Id = @Id";
-            var cmd = new SqlCommand(query, cnn);
+            var cmd   = new SqlCommand(query, cnn);
 
             cmd.Parameters.AddWithValue("@NewValue", newValue);
             cmd.Parameters.AddWithValue("@Id", rowId);

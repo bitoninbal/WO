@@ -68,9 +68,7 @@
                 <StackPanel Grid.Row="1"
                             Grid.Column="2">
                     <PasswordBox x:Name="PassBox"
-                             Grid.Row="1"
-                             Grid.Column="2"
-                             PasswordChanged="PassBox_PasswordChanged">
+                                 PasswordChanged="PassBox_PasswordChanged">
                         <PasswordBox.Style>
                             <Style TargetType="PasswordBox" 
                                    BasedOn="{StaticResource MaterialDesignPasswordBox}">

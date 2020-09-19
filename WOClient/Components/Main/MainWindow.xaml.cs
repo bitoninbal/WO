@@ -50,6 +50,10 @@ namespace WOClient.Components.Main
                     vm.CurrentVm = vm.ArchiveVm;
 
                     break;
+                case "ProfileButton":
+                    vm.CurrentVm = vm.ProfileVm;
+
+                    break;
                 case "LogoutButton":
                     vm.Reset();
                     vm.CurrentVm = vm.LoginVm;

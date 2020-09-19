@@ -127,13 +127,16 @@ namespace WOClient.Library.Api
 
             return result;
         }
-        public async Task LoginAsync(string userName, SecureString password)
+        public async Task<bool> LoginAsync(string userName, SecureString password)
         {
             var channel        = GetChannel();
             var hashedPassword = password.HashValue();
 
-            await _usersApi.LoginAsync(channel, userName, hashedPassword);
+            var result = await _usersApi.LoginAsync(channel, userName, hashedPassword);
+
             await channel.ShutdownAsync();
+
+            return result;
         }
         public async Task<bool> RequestUserUpdateAsync(int userId)
         {

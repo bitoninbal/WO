@@ -19,6 +19,7 @@ namespace WOClient.Components.Main
                                    ILoginViewModel loginVm,
                                    IForgetPasswordViewModel forgetPasswordVm,
                                    IBaseViewModel myTasksVm,
+                                   IBaseViewModel profileVm,
                                    IReportsViewModel reportsVm,
                                    ITrackingTasksViewModel trackingTasksVm)
         {
@@ -26,9 +27,10 @@ namespace WOClient.Components.Main
             _currentVm        = loginVm;
             _commentsVm       = commentsVm;
             _emplyeesVm       = emplyeesVm;
-            _loginVm          = loginVm;
             _forgetPasswordVm = forgetPasswordVm;
+            _loginVm          = loginVm;
             _myTasksVm        = myTasksVm;
+            _profileVm        = profileVm;
             _reportsVm        = reportsVm;
             _trackingTasksVm  = trackingTasksVm;
 
@@ -43,6 +45,7 @@ namespace WOClient.Components.Main
         private IForgetPasswordViewModel _forgetPasswordVm;
         private IBaseViewModel           _myTasksVm;
         private ILoginViewModel          _loginVm;
+        private IBaseViewModel           _profileVm;
         private IReportsViewModel        _reportsVm;
         private ITrackingTasksViewModel  _trackingTasksVm;
         private IBaseViewModel           _currentVm;
@@ -94,17 +97,6 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("EmplyeesVm");
             }
         }
-        public ILoginViewModel LoginVm
-        {
-            get => _loginVm;
-            set
-            {
-                if (_loginVm == value) return;
-
-                _loginVm = value;
-                NotifyPropertyChanged("LoginVm");
-            }
-        }
         public IForgetPasswordViewModel ForgetPasswordVm
         {
             get => _forgetPasswordVm;
@@ -116,6 +108,17 @@ namespace WOClient.Components.Main
                 NotifyPropertyChanged("ForgetPasswordVm");
             }
         }
+        public ILoginViewModel LoginVm
+        {
+            get => _loginVm;
+            set
+            {
+                if (_loginVm == value) return;
+
+                _loginVm = value;
+                NotifyPropertyChanged("LoginVm");
+            }
+        }
         public IBaseViewModel MyTasksVm
         {
             get => _myTasksVm;
@@ -125,6 +128,18 @@ namespace WOClient.Components.Main
 
                 _myTasksVm = value;
                 NotifyPropertyChanged("MyTasksVm");
+            }
+        }
+        public IBaseViewModel ProfileVm
+        {
+            get => _profileVm;
+            set
+            {
+                if (_profileVm == value) return;
+
+                _profileVm = value;
+
+                NotifyPropertyChanged(nameof(ProfileVm));
             }
         }
         public IReportsViewModel ReportsVm

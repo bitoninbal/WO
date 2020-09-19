@@ -131,17 +131,17 @@ namespace WOClient.Components.EmployeeComponent
         }
         public void SetProperties(IPerson employee)
         {
-            Email = employee.Email;
-            FirstName = employee.FirstName;
-            LastName = employee.LastName;
+            Email      = employee.Email;
+            FirstName  = employee.FirstName;
+            LastName   = employee.LastName;
             Permission = employee.Permission;
         }
         public void Reset()
         {
-            Email = null;
-            Password = null;
-            FirstName = null;
-            LastName = null;
+            Email      = null;
+            Password   = null;
+            FirstName  = null;
+            LastName   = null;
             Permission = PermissionsEnum.Employee;
         }
         #endregion

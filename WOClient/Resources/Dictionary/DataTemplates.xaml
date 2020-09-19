@@ -10,8 +10,9 @@
                     xmlns:myTasks="clr-namespace:WOClient.Components.MyTasks"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:models="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
-                    xmlns:trackingTasks="clr-namespace:WOClient.Components.TrackingTasks"
+                    xmlns:profile="clr-namespace:WOClient.Components.Profile"
                     xmlns:reports="clr-namespace:WOClient.Components.Reports"
+                    xmlns:trackingTasks="clr-namespace:WOClient.Components.TrackingTasks"
                     xmlns:validations="clr-namespace:WOClient.Validations">
     <converters:EmployeeIdToFullNameConverter x:Key="EmployeeIdToFullNameConverter" />
     <converters:LoggedInToBooleanConverter x:Key="LoggedInToBooleanConverter" />
@@ -43,6 +44,10 @@
 
     <DataTemplate DataType="{x:Type myTasks:MyTasksViewModel}">
         <myTasks:MyTasksView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type profile:ProfileViewModel}">
+        <profile:ProfileView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type trackingTasks:TrackingTasksViewModel}">

@@ -8,6 +8,7 @@ using WOClient.Components.Login;
 using WOClient.Components.Main;
 using WOClient.Components.MyTaskComponent;
 using WOClient.Components.MyTasks;
+using WOClient.Components.Profile;
 using WOClient.Components.Reports;
 using WOClient.Components.TrackingTasks;
 using WOClient.Library.Api;
@@ -38,6 +39,7 @@ namespace WOClient
             var forgetPasswodVm = new ForgetPasswordViewModel();
             var myTasksVm       = new MyTasksViewModel();
             var newTaskVm       = new NewTaskViewModel();
+            var profileVm       = new ProfileViewModel();
             var trackingTasksVm = new TrackingTasksViewModel(newTaskVm);
             var reportsVm       = new ReportsViewModel();
             var mainWindowVm    = new MainWindowViewModel(archiveVm,
@@ -46,6 +48,7 @@ namespace WOClient
                                                           loginVm,
                                                           forgetPasswodVm,
                                                           myTasksVm,
+                                                          profileVm,
                                                           reportsVm,
                                                           trackingTasksVm);
 

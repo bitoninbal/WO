@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Security;
 using System.Threading.Tasks;
 using WOCommon.Enums;
 
@@ -26,6 +27,7 @@ namespace WOClient.Library.Models
         void MoveMyTaskFromArchive(MyTask task);
         void MoveTaskToArchive(MyTask task);
         void Reset();
+        Task<bool> TryChangePasswordAsync(string email, SecureString oldPassword, string newPassword);
         Task UpdateAsync();
         #endregion
     }

@@ -32,6 +32,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -57,7 +58,7 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="FormatListBulletedSquare"
-                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                                   Path=Permission,
                                                                   Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="TrackingTasksButton"
@@ -70,7 +71,7 @@
                             FontSize="16"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                  Path=Permission,
                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
 
@@ -93,7 +94,7 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="AccountGroupOutline"
-                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                                   Path=Permission,
                                                                   Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="EmployeesButton"
@@ -106,7 +107,7 @@
                             Foreground="White"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                  Path=Permission,
                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
 
@@ -114,7 +115,7 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="Bookshelf"
-                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                                   Path=Permission,
                                                                   Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="ReportsButton"
@@ -127,7 +128,7 @@
                             Foreground="White"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                  Path=Permission,
                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
 
@@ -149,9 +150,24 @@
                     <materialDesign:PackIcon Grid.Row="6"
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
+                                             Kind="AccountBox" />
+                    <Button x:Name="ProfileButton"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Content="Profile"
+                            Margin="0, 5"
+                            Foreground="White"
+                            FontFamily="Segoe UI Light"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Click="SwitchViewClick" />
+
+                    <materialDesign:PackIcon Grid.Row="7"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
                                              Kind="Logout" />
                     <Button x:Name="LogoutButton"
-                            Grid.Row="6"
+                            Grid.Row="7"
                             Grid.Column="1"
                             Content="Logout"
                             Margin="0, 5"

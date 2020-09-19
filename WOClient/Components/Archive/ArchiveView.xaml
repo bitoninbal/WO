@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="WOClient.Components.Archive.ArchiveView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:enums="clr-namespace:WOCommon.Enums;assembly=WOCommon"
-             xmlns:libraryModels="clr-namespace:WOClient.Library.Models;assembly=WOClient.Library"
              xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <UserControl.Resources>
@@ -28,7 +27,7 @@
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Top"
-                HorizontalAlignment="Center">
+          HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -108,7 +107,7 @@
                     <Setter Property="Visibility" Value="Collapsed" />
 
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                        <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                        Path=Permission}"
                                      Value="{x:Static enums:PermissionsEnum.Manager}">
                             <Setter Property="Visibility" Value="Visible" />
@@ -130,7 +129,7 @@
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                <Condition Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                              Path=Permission}"
                                            Value="{x:Static enums:PermissionsEnum.Manager}" />
 
@@ -160,7 +159,7 @@
                                                                    Path=TrackingTasks}" />
 
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                        <DataTrigger Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                        Path=Permission}"
                                      Value="{x:Static enums:PermissionsEnum.Employee}">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -169,7 +168,7 @@
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
+                                <Condition Binding="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                              Path=Permission}"
                                            Value="{x:Static enums:PermissionsEnum.Manager}" />
 
