@@ -58,7 +58,7 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="FormatListBulletedSquare"
-                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                                   Path=Permission,
                                                                   Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="TrackingTasksButton"
@@ -71,7 +71,7 @@
                             FontSize="16"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                  Path=Permission,
                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
 
@@ -94,7 +94,7 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="AccountGroupOutline"
-                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                                   Path=Permission,
                                                                   Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="EmployeesButton"
@@ -107,7 +107,7 @@
                             Foreground="White"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                  Path=Permission,
                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
 
@@ -115,7 +115,7 @@
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Kind="Bookshelf"
-                                             Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                                             Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                                   Path=Permission,
                                                                   Converter={StaticResource PremissionToVisibilityConverter}}" />
                     <Button x:Name="ReportsButton"
@@ -126,9 +126,9 @@
                             FontFamily="Segoe UI Light"
                             FontSize="16"
                             Foreground="White"
-                            Style="{StaticResource MaterialDesignFlatButton}"
                             Click="SwitchViewClick"
-                            Visibility="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Visibility="{Binding Source={x:Static libraryModels:LoggedInUser.Instance},
                                                  Path=Permission,
                                                  Converter={StaticResource PremissionToVisibilityConverter}}" />
 

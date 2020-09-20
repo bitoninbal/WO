@@ -1,8 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System;
 using System.Windows;
 using System.Windows.Controls;
-using WOClient.Library.Models;
 
 namespace WOClient.Components.Main
 {
