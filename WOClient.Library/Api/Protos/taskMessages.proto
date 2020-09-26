@@ -12,11 +12,6 @@ service Tasks {
     rpc GetTrackingTasks (google.protobuf.Int32Value) returns (stream TaskOutput);
 }
 
-message CompletedFieldInput {
-	int32 taskId  = 1;
-	bool newValue = 2;
-}
-
 message TaskInput {
 	int32 managerId                      = 1;
 	int32 assignedEmployee               = 2;
