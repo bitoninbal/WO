@@ -5,26 +5,20 @@
              xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Resources/Dictionary/Style.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+        <Style x:Key="TasksItemContainerStyle"
+               TargetType="{x:Type ListBoxItem}"
+               BasedOn="{StaticResource MaterialDesignListBoxItem}">
+            <Setter Property="Background" Value="#b39ddb" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Visibility" Value="Visible" />
 
-            <Style x:Key="TasksItemContainerStyle"
-                   TargetType="{x:Type ListBoxItem}"
-                   BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                <Setter Property="Background" Value="#b39ddb" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="Visibility" Value="Visible" />
-
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsArchive}"
-                                 Value="False">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </ResourceDictionary>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsArchive}"
+                             Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid VerticalAlignment="Top"
