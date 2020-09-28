@@ -2,5 +2,5 @@
 
 namespace WOClient.Components.Archive
 {
-    public class ArchiveViewModel: BaseViewModel, IBaseViewModel {}
+    public class ArchiveViewModel: BaseViewModel {}
 }

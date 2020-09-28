@@ -9,7 +9,7 @@ using WOCommon.Enums;
 
 namespace WOClient.Components.MyTaskComponent
 {
-    public class EditTaskViewModel: BaseViewModel, IBaseViewModel
+    public class EditTaskViewModel: BaseViewModel
     {
         public EditTaskViewModel(MyTask task)
         {

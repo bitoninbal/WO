@@ -5,7 +5,12 @@
              xmlns:mainComponent="clr-namespace:WOClient.Components.Main"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <UserControl.Resources>
-        <ResourceDictionary Source="../../Resources/Dictionary/Style.xaml" />
+        <Style x:Key="CommentsItemContainerStyle"
+               TargetType="{x:Type ListBoxItem}"
+               BasedOn="{StaticResource MaterialDesignListBoxItem}">
+            <Setter Property="Background" Value="#b39ddb" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
     </UserControl.Resources>
     
     <Grid VerticalAlignment="Top"
@@ -59,13 +64,13 @@
                  Grid.Column="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  VirtualizingPanel.IsVirtualizing="True"
+                 ItemTemplate="{StaticResource CommentsItemTemplate}"
+                 ItemContainerStyle="{StaticResource CommentsItemContainerStyle}"
                  ItemsSource="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                        Path=MyTasks}">
             <ListBox.Style>
                 <Style TargetType="{x:Type ListBox}"
                        BasedOn="{StaticResource MaterialDesignListBox}">
-                    <Setter Property="ItemTemplate" Value="{StaticResource CommentsItemTemplate}" />
-                    <Setter Property="ItemContainerStyle" Value="{StaticResource CommentsItemContainerStyle}" />
                     <Setter Property="Visibility" Value="Visible" />
 
                     <Style.Triggers>
@@ -132,13 +137,13 @@
                  Grid.Column="1"
                  Margin="10 0 0 0"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 VirtualizingPanel.IsVirtualizing="True">
+                 VirtualizingPanel.IsVirtualizing="True"
+                 ItemContainerStyle="{StaticResource CommentsItemContainerStyle}">
             <ListBox.Style>
                 <Style TargetType="{x:Type ListBox}"
                        BasedOn="{StaticResource MaterialDesignListBox}">
                     <Setter Property="Visibility" Value="Visible" />
                     <Setter Property="ItemTemplate" Value="{StaticResource CommentsItemTemplate}" />
-                    <Setter Property="ItemContainerStyle" Value="{StaticResource CommentsItemContainerStyle}" />
                     <Setter Property="ItemsSource" Value="{Binding Source={x:Static mainComponent:IMainWindowViewModel.User},
                                                                    Path=TrackingTasks}" />
                     

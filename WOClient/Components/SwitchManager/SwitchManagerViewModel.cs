@@ -11,11 +11,11 @@ using WOClient.Resources.Commands;
 
 namespace WOClient.Components.SwitchManager
 {
-    public class SwitchManagerViewModel: BaseViewModel, IBaseViewModel
+    public class SwitchManagerViewModel: BaseViewModel
     {
         public SwitchManagerViewModel(List<IPerson> employees, Manager oldManager, SwitchingManagerMode mode)
         {
-            SwitchManagerValueCommand = new RelayCommand(SwitchManagerValue);
+            SwitchManagerValueCommand = new RelayCommand(SwitchManagerValueAsync);
 
             Employees   = employees;
             _mode       = mode;
@@ -63,7 +63,7 @@ namespace WOClient.Components.SwitchManager
         #endregion
 
         #region Private Methods
-        private async void SwitchManagerValue()
+        private async void SwitchManagerValueAsync()
         {
             if (SelectedManager is null && !IsAssignedToMe)
             {

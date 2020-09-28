@@ -2,5 +2,5 @@
 
 namespace WOClient.Components.Comments
 {
-    public class CommentsViewModel: BaseViewModel, IBaseViewModel {}
+    public class CommentsViewModel: BaseViewModel {}
 }

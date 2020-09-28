@@ -10,7 +10,7 @@ namespace WOClient.Components.TrackingTasks
     {
         public TrackingTasksViewModel(INewTaskViewModel newTaskVm)
         {
-            OpenNewTaskCommand = new RelayCommand(OpenNewTask);
+            OpenNewTaskCommand = new RelayCommand(OpenNewTaskAsync);
 
             _newTaskVm         = newTaskVm;
         }
@@ -46,7 +46,7 @@ namespace WOClient.Components.TrackingTasks
         #endregion
 
         #region Private Methods
-        private async void OpenNewTask()
+        private async void OpenNewTaskAsync()
         {
             var view = new NewTaskView
             {

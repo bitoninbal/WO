@@ -7,9 +7,8 @@ using WOCommon.Extensions;
 
 namespace WOClient.Components.Profile
 {
-    public class ProfileViewModel: BaseViewModel, IBaseViewModel
+    public class ProfileViewModel: BaseViewModel
     {
-
         #region Properties
         public SecureString CurrentPassword { get; set; }
         public SecureString NewPassword { get; set; }
@@ -62,10 +61,6 @@ namespace WOClient.Components.Profile
             NewPassword.Clear();
             RepeatPassword.Clear();
         }
-        #endregion
-
-        #region Private Methods
-
         #endregion
     }
 }

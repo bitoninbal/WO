@@ -8,7 +8,7 @@ using WOClient.Resources.Commands;
 
 namespace WOClient.Components.MyTaskComponent
 {
-    public class MyTaskViewModel: BaseViewModel, IBaseViewModel
+    public class MyTaskViewModel: BaseViewModel
     {
         public MyTaskViewModel()
         {
