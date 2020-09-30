@@ -4,7 +4,7 @@ using System.Text;
 namespace WOCommon.Utilities
 {
     /// <summary>
-    /// Help methods for Cryptography in ChatNET application.
+    /// Help methods for Cryptography in WO application.
     /// </summary>
     public abstract class CryptographyUtility
     {
